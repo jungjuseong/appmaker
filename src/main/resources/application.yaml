@@ -1,0 +1,30 @@
+server:
+  address: localhost
+  port: 8080
+spring.datasource:
+  platform: mysql
+  schema-username: root
+  schema-password: clbeegood1234
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/appmaker?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+  username: root
+  password: clbeegood1234
+  hikari:
+    auto-commit: false
+    maximum-pool-size: 5
+    minimum-idle: 2
+    leak-detection-threshold: 20000
+
+spring.data:
+  jpa.repositories.enabled: true
+
+spring.jpa:
+  database: mysql
+  database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  show.sql: true
+  generate-ddl: true
+  hibernate:
+    format_sql: true
+
+spring.flyway:
+    locations: classpath:db/migration
