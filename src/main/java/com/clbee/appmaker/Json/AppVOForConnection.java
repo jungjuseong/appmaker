@@ -1,6 +1,6 @@
 package com.clbee.appmaker.Json;
 
-import com.clbee.appmaker.dao.App;
+import com.clbee.appmaker.model.App;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;

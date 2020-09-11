@@ -1,13 +1,12 @@
 package com.clbee.appmaker.util;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-@Repository
 public class ShaPassword {
-	public String changeSHA256(String str){
+	public static String changeSHA256(String str){
 		String SHA = ""; 
 		try{
 			MessageDigest sh = MessageDigest.getInstance("SHA-256"); 

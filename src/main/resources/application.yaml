@@ -26,5 +26,24 @@ spring.jpa:
   hibernate:
     format_sql: true
 
+spring.mvc.view:
+  prefix: /WEB-INF/jsp/
+  suffix: .jsp
+
+spring.thymeleaf:
+  prefix: classpath:/templates/
+  suffix: .html
+  cache: false
+  view-names: thymeleaf/*
+
 spring.flyway:
     locations: classpath:db/migration
+
+spring.mail:
+  host: smtp.gmail.com
+  port: 587
+  username: jungjuseong@gmail.com
+  password: jsjung!@3
+  properties.mail.smtp:
+    auth: true
+    starttls.enable: true

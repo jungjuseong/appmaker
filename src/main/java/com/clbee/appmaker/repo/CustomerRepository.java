@@ -1,5 +1,5 @@
 package com.clbee.appmaker.repo;
-import com.clbee.appmaker.dao.Customer;
+import com.clbee.appmaker.model.Customer;
 
 import java.util.List;
 
