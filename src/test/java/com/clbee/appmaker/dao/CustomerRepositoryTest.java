@@ -1,6 +1,5 @@
-package com.clbee.appmaker.jpa;
+package com.clbee.appmaker.dao;
 
-import com.clbee.appmaker.dao.Customer;
 import com.clbee.appmaker.repo.CustomerRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;

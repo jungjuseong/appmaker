@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name="tb_app_sub", catalog="appmaker")
+@Table(name="tb_app_sub")
 public class Appsub implements Serializable {
 
 	private static final long serialVersionUID = 1L;

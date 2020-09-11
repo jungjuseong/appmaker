@@ -31,7 +31,7 @@ import org.hibernate.annotations.NotFoundAction;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "tb_app", catalog = "appmaker")
+@Table(name = "tb_app")
 public class App implements Serializable {
     private static final long serialVersionUID = 1L;
     

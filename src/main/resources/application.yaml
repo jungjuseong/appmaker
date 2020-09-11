@@ -6,7 +6,7 @@ spring.datasource:
   schema-username: root
   schema-password: clbeegood1234
   driver-class-name: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://localhost:3306/appmaker?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+  url: jdbc:mysql://localhost:3306/pbcms_new?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
   username: root
   password: clbeegood1234
   hikari:

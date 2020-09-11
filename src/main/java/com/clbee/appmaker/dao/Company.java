@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="tb_company", catalog="appmaker")
+@Table(name="tb_company")
 public class Company implements Serializable {
 	private static final long serialVersionUID = 1L;
 
