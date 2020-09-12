@@ -6,9 +6,9 @@
 	//------------------------------------------------------------------------------
 	// 즐겨찾기
 	//------------------------------------------------------------------------------
-	$.fn.fnAddFvr = function( pUrl, pTit ) {
-		if ( pUrl != "" ) {
-			window.external.AddFavorite( pUrl, pTit );
+	$.fn.fnAddFvr = function(pUrl, pTit ) {
+		if (pUrl != "" ) {
+			window.external.AddFavorite(pUrl, pTit );
 		}
 	}
 
@@ -19,7 +19,7 @@
 
 		var bTf = false;
 
-		if ( $.trim(this.val()) == "" ) bTf = false;
+		if ($.trim(this.val()) == "" ) bTf = false;
 		else bTf = true;
 
 		return bTf;
@@ -31,7 +31,7 @@
 	//------------------------------------------------------------------------------
 	$.fn.fnEntKey = function(pFunc) {
 
-		if ( window.event && window.event.keyCode == 13 ) {
+		if (window.event && window.event.keyCode == 13 ) {
 			eval(pFunc);
 		}
 
@@ -44,7 +44,7 @@
 
 		var bTf = false;
 
-		if ( $("input[name='" + this.attr("name") + "']").is(":checked") ) bTf = true;
+		if ($("input[name='" + this.attr("name") + "']").is(":checked") ) bTf = true;
 		else bTf = false;
 
 		return bTf;
@@ -52,11 +52,11 @@
 	};
 
 	$.fnBrowser = {
-		version: (userAgent.match( /.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/ ) || [])[1],
-		safari: /webkit/.test( userAgent ),
-		opera: /opera/.test( userAgent ),
-		msie: /msie/.test( userAgent ) && !/opera/.test( userAgent ),
-		mozilla: /mozilla/.test( userAgent ) && !/(compatible|webkit)/.test( userAgent )
+		version: (userAgent.match(/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/ ) || [])[1],
+		safari: /webkit/.test(userAgent ),
+		opera: /opera/.test(userAgent ),
+		msie: /msie/.test(userAgent ) && !/opera/.test(userAgent ),
+		mozilla: /mozilla/.test(userAgent ) && !/(compatible|webkit)/.test(userAgent )
 	};
 
 	//------------------------------------------------------------------------------
@@ -152,19 +152,19 @@
 	//------------------------------------------------------------------------------
 	// 페이징 이동 함수
 	//------------------------------------------------------------------------------
-	$.fn.fnPageMove = function( pGo ) {
+	$.fn.fnPageMove = function(pGo ) {
 		var oFrmNm = $(this);
 
-		oFrmNm.attr( "target", "" );
-		oFrmNm.find( "input[name='shPageNo']" ).val(pGo);
+		oFrmNm.attr("target", "" );
+		oFrmNm.find("input[name='shPageNo']" ).val(pGo);
 		oFrmNm.submit();
 	};
 
 	//------------------------------------------------------------------------------
 	// 검색
 	//------------------------------------------------------------------------------
-	$.fn.fnSearch = function( pPath ) {
-		$("input[name='shPageNo']").val( "1" );
+	$.fn.fnSearch = function(pPath ) {
+		$("input[name='shPageNo']").val("1" );
 
 		$("#frmMove").attr("method", "post"); //method
 		$("#frmMove").attr("target", "_self"); //target 지정
@@ -174,20 +174,20 @@
 	//------------------------------------------------------------------------------
 	// 파일다운로드
 	//------------------------------------------------------------------------------
-	$.fn.fnFlDn = function( pVal ) {
+	$.fn.fnFlDn = function(pVal ) {
 		var frmDn = $(this);
 
-		frmDn.find("input[name='arrFileNm']").val( pVal ); 
-		frmDn.attr( "target", "frProc" ); 
-		frmDn.attr( "method", "post" ); 
-		frmDn.attr( "action", "/include/function/Lib_FileDown.asp" ); 
+		frmDn.find("input[name='arrFileNm']").val(pVal );
+		frmDn.attr("target", "frProc" );
+		frmDn.attr("method", "post" );
+		frmDn.attr("action", "/include/function/Lib_FileDown.asp" );
 		frmDn.submit();
 	};
 
 	//------------------------------------------------------------------------------
 	// SelectBox 전체 체크
 	//------------------------------------------------------------------------------
-	$.fn.fnSelBoxAll = function( pNm ) {
+	$.fn.fnSelBoxAll = function(pNm ) {
 		var fCkTf = $(this).is(":checked");
 
 		$("input:checkbox[name=" + pNm + "]").each(function(){
@@ -198,13 +198,13 @@
 	//------------------------------------------------------------------------------
 	// 아이디 저장 쿠키
 	//------------------------------------------------------------------------------
-	$.fn.fnIdSvCook = function( pObj ) {
+	$.fn.fnIdSvCook = function(pObj ) {
 		var fCkTf = $(this).is(":checked");
 alert(fCkTf)
 		// 쿠키 저장
-		if ( fCkTf ) {
-			$.cookie( "ID_CHK_YN", true );
-			$.cookie( "USER_ID", pObj.val() );
+		if (fCkTf ) {
+			$.cookie("ID_CHK_YN", true );
+			$.cookie("USER_ID", pObj.val() );
 		}
 		// 쿠키 삭제
 		else {
@@ -212,9 +212,9 @@ alert(fCkTf)
 			$.removeCookie("USER_ID");
 		}
 
-		if ( fCkTf ) {
-			if ( $.cookie("USER_ID") != null && $.cookie("USER_ID") != "" ) {
-				pObj.val( $.cookie("USER_ID") );
+		if (fCkTf ) {
+			if ($.cookie("USER_ID") != null && $.cookie("USER_ID") != "" ) {
+				pObj.val($.cookie("USER_ID") );
 				$(this).prop("checekd", fCkTf);
 			}
 		}
@@ -224,13 +224,13 @@ alert(fCkTf)
 	//------------------------------------------------------------------------------
 	// 이메일 저장 쿠키
 	//------------------------------------------------------------------------------
-	$.fn.fnEmailSvCook = function( pObj ) {
+	$.fn.fnEmailSvCook = function(pObj ) {
 		var fCkTf = $(this).is(":checked");
 
 		// 쿠키 저장
-		if ( fCkTf ) {
-			$.cookie( "EMAIL_CHK_YN", true );
-			$.cookie( "STU_EMAIL", pObj.val() );
+		if (fCkTf ) {
+			$.cookie("EMAIL_CHK_YN", true );
+			$.cookie("STU_EMAIL", pObj.val() );
 		}
 		// 쿠키 삭제
 		else {
@@ -238,9 +238,9 @@ alert(fCkTf)
 			$.removeCookie("STU_EMAIL");
 		}
 
-		if ( fCkTf ) {
-			if ( $.cookie("STU_EMAIL") != null && $.cookie("STU_EMAIL") != "" ) {
-				pObj.val( $.cookie("STU_EMAIL") );
+		if (fCkTf ) {
+			if ($.cookie("STU_EMAIL") != null && $.cookie("STU_EMAIL") != "" ) {
+				pObj.val($.cookie("STU_EMAIL") );
 				$(this).prop("checekd", fCkTf);
 			}
 		}
@@ -255,7 +255,7 @@ alert(fCkTf)
 //------------------------------------------------------------------------------
 $(function(){
 	var date = new Date();
-	var dates = $( ".nlDate" ).datepicker({
+	var dates = $(".nlDate" ).datepicker({
 		regional:'ko',
 		dateFormat:"yy-mm-dd",
 		changeMonth: true,
@@ -263,7 +263,7 @@ $(function(){
 		showOtherMonths: true // 전월, 익월 표시
 	});
 
-	var dates = $( ".btDate" ).datepicker({
+	var dates = $(".btDate" ).datepicker({
 		regional:'ko',
 		dateFormat:"yy-mm-dd",
 		changeMonth: true,
@@ -272,73 +272,73 @@ $(function(){
 		showOtherMonths: true // 전월, 익월 표시
 	});
 
-	$( ".fmDate1" ).datepicker({
+	$(".fmDate1" ).datepicker({
 		regional:'ko',
 		dateFormat:"yy-mm-dd",
 		changeMonth: true,
 		changeYear: true,
 		showOtherMonths: true, // 전월, 익월 표시
-		onClose: function( selectedDate ) {
-			$( ".toDate1" ).datepicker( "option", "minDate", selectedDate );
+		onClose: function(selectedDate ) {
+			$(".toDate1" ).datepicker("option", "minDate", selectedDate );
 		}
 	});
 
-	$( ".toDate1" ).datepicker({
+	$(".toDate1" ).datepicker({
 		regional:'ko',
 		dateFormat:"yy-mm-dd",
 		changeMonth: true,
 		changeYear: true,
 		showOtherMonths: true, // 전월, 익월 표시
-		onClose: function( selectedDate ) {
-			$( ".fmDate1" ).datepicker( "option", "maxDate", selectedDate );
+		onClose: function(selectedDate ) {
+			$(".fmDate1" ).datepicker("option", "maxDate", selectedDate );
 		}
 	});
 
-	$( ".fmDate2" ).datepicker({
+	$(".fmDate2" ).datepicker({
 		regional:'ko',
 		dateFormat:"yy-mm-dd",
 		changeMonth: true,
 		changeYear: true,
 		showOtherMonths: true, // 전월, 익월 표시
-		onClose: function( selectedDate ) {
-			$( ".toDate2" ).datepicker( "option", "minDate", selectedDate );
+		onClose: function(selectedDate ) {
+			$(".toDate2" ).datepicker("option", "minDate", selectedDate );
 		}
 	});
 
-	$( ".toDate2" ).datepicker({
+	$(".toDate2" ).datepicker({
 		regional:'ko',
 		dateFormat:"yy-mm-dd",
 		changeMonth: true,
 		changeYear: true,
 		showOtherMonths: true, // 전월, 익월 표시
-		onClose: function( selectedDate ) {
-			$( ".fmDate2" ).datepicker( "option", "maxDate", selectedDate );
+		onClose: function(selectedDate ) {
+			$(".fmDate2" ).datepicker("option", "maxDate", selectedDate );
 		}
 	});
 
-	$( ".fmDate3" ).datepicker({
+	$(".fmDate3" ).datepicker({
 		regional:'ko',
 		dateFormat:"yy-mm-dd",
 		changeMonth: true,
 		changeYear: true,
 		showOtherMonths: true, // 전월, 익월 표시
-		onClose: function( selectedDate ) {
-			$( ".toDate3" ).datepicker( "option", "minDate", selectedDate );
+		onClose: function(selectedDate ) {
+			$(".toDate3" ).datepicker("option", "minDate", selectedDate );
 		}
 	});
 
-	$( ".toDate3" ).datepicker({
+	$(".toDate3" ).datepicker({
 		regional:'ko',
 		dateFormat:"yy-mm-dd",
 		changeMonth: true,
 		changeYear: true,
 		showOtherMonths: true, // 전월, 익월 표시
-		onClose: function( selectedDate ) {
-			$( ".fmDate3" ).datepicker( "option", "maxDate", selectedDate );
+		onClose: function(selectedDate ) {
+			$(".fmDate3" ).datepicker("option", "maxDate", selectedDate );
 		}
 	});
 	
-	$( ".coDate1" ).datepicker({
+	$(".coDate1" ).datepicker({
 		regional:'ko',
 		dateFormat:"yy-mm-dd",
 		changeMonth: true,
@@ -370,7 +370,7 @@ $(function(){
 //------------------------------------------------------------------------------
 // 리턴 : 팝업 창 중앙 JS
 //------------------------------------------------------------------------------
-function fnPopWinDrt( pUrl, pTitle, pW, pH, pScrlYn ) {
+function fnPopWinDrt(pUrl, pTitle, pW, pH, pScrlYn ) {
 	var lsWinOption;
 	var sSYN;
 
@@ -444,7 +444,7 @@ function fnMovPly(sUrl, sW, sH, sMode) {
 //------------------------------------------------------------------------------
 // SNS 연동
 //------------------------------------------------------------------------------
-function fnSnsSend( pTy, pVal, pUrl) {
+function fnSnsSend(pTy, pVal, pUrl) {
 	var href = "";
 	var stat = "";
 	switch(pTy)
@@ -492,7 +492,7 @@ function fnSnsSend( pTy, pVal, pUrl) {
 		}
 	},	
 	 errorPlacement: function(error, element) {
-		error.appendTo( element.parent("td") );
+		error.appendTo(element.parent("td") );
 	},
 	validClass:"success"
 }

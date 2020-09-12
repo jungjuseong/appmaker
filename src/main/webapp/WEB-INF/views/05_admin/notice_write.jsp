@@ -13,7 +13,7 @@ $(document).ready(function(){
 	$("#use_app_pop").hide();
 	
 	
-	$("[name=useUserGb]").change( function(){
+	$("[name=useUserGb]").change(function(){
 
 		if($(this).val() == '1'){
 			$("#fixDiv1").css("margin","10px 0px");
@@ -24,7 +24,7 @@ $(document).ready(function(){
 		}
 	});
 
-	$("[name=appGb]").change( function(){
+	$("[name=appGb]").change(function(){
 		if($(this).val() == '1'){
 			$("#fixDiv2").css("margin","10px 0px");
 			$("#use_app_pop").hide();
@@ -71,7 +71,7 @@ $(document).ready(function(){
 		},
 		
 		errorPlacement: function(error, element) {
-			error.appendTo( element.parent("td") );
+			error.appendTo(element.parent("td") );
 		} 
 	}); 
 	
@@ -83,7 +83,7 @@ $(document).ready(function(){
 		}
 	});
 
-	$("#d_SDATE").change( function(){
+	$("#d_SDATE").change(function(){
 
 		$("[name=tempStartDt]").val($(this).val());
 		//현재 시간
@@ -116,14 +116,14 @@ $(document).ready(function(){
 			curr_date = "0"+curr_date
 		}
 
-		/* if( curr_year < inputYear ){
-		}else if( curr_year == inputYear ){
-			if( curr_month < inputmonth ){
-				if( curr_date <= inputdate ){
+		/* if(curr_year < inputYear ){
+		}else if(curr_year == inputYear ){
+			if(curr_month < inputmonth ){
+				if(curr_date <= inputdate ){
 					
 				}
-			}else if( curr_month == inputmonth ){
-				if( curr_date <= inputdate ){
+			}else if(curr_month == inputmonth ){
+				if(curr_date <= inputdate ){
 					
 				}else{
 					var inputValue = curr_year +"-"+(curr_month)+"-"+curr_date;
@@ -155,8 +155,8 @@ $(document).ready(function(){
 	
 	$("#registBtn").click(function(e){
 		
-		if( $("[name=useUserGb]:checked").val() == '1') {
-			if( $("[name=appGb]:checked").val() == '1'){
+		if($("[name=useUserGb]:checked").val() == '1') {
+			if($("[name=appGb]:checked").val() == '1'){
 				if($("#preventSubmit").val() == 0){
 					$("#notice_write_f").submit();
 					$("#preventSubmit").val("1");
@@ -183,7 +183,7 @@ $(document).ready(function(){
 			$("#preventSubmit").val("0");
 			alert("<spring:message code='extend.local.022' />");
 		}else{
-			if( $("[name=appGb]:checked").val() == '1'){
+			if($("[name=appGb]:checked").val() == '1'){
 				if($("#preventSubmit").val() == 0){
 
 					$("#notice_write_f").submit();
@@ -208,13 +208,13 @@ $(document).ready(function(){
 		}
 	});
 	
-	$("#use_user_pop").click( function(){
+	$("#use_user_pop").click(function(){
 		var target_ = "userPop";
 		var useS = $("#useS").val();
 	  	window.open("/assignment/user.html?useS="+useS,target_,"width=985, height=450, top=100, left=100, resizable=no, menubar=no, scrollbars=no");
 	});
 	
-	$("#use_app_pop").click( function(){
+	$("#use_app_pop").click(function(){
 		var target_ = "userPop";
 		var appSeq = $("#appSeq").val();
 		var inappSeq = $("#inappSeq").val();

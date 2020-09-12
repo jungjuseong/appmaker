@@ -1,6 +1,7 @@
 package com.clbee.appmaker.controller;
 
 import com.clbee.appmaker.model.*;
+import com.clbee.appmaker.model.list.LicenseList;
 import com.clbee.appmaker.service.*;
 import com.clbee.appmaker.util.ResourceNotFoundException;
 import com.clbee.appmaker.security.MyUserDetails;
@@ -28,7 +29,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @Controller
-@RequestMapping("/*.html")
 public class MemberController {
 	
 	@Autowired
@@ -58,7 +58,7 @@ public class MemberController {
 	LicenseService licenseService;
 
 	@RequestMapping(value = "member/join/ok.html", method = RequestMethod.GET)
-	public ModelAndView memberJoinOk( HttpServletRequest request ) {		
+	public ModelAndView memberJoinOk(HttpServletRequest request ) {
 		ModelAndView mav = new ModelAndView();	
 		Random random = new Random();
 		
@@ -75,7 +75,7 @@ public class MemberController {
 			return mav;
 		}
 		int permitUser = memberService.selectCountWithPermisionUserByCompanySeq(member.getCompanySeq());
-		if( permitUser >= limitUser ){
+		if(permitUser >= limitUser ){
 			mav.setViewName("07_member/member_join_ok");
 			mav.addObject("emailChk", false);
 			return mav;
@@ -120,7 +120,7 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "member/join.html", method = RequestMethod.GET)
-	public ModelAndView home( HttpServletRequest request ) {
+	public ModelAndView home(HttpServletRequest request ) {
 		ModelAndView mav = new ModelAndView();
 		
 		List<GroupUser> groupList = groupService.getSelectListGroup(0);
@@ -165,93 +165,38 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value={"/member/userIdValidation.html"}, method=RequestMethod.POST)
-	public @ResponseBody int userIdValidation( String inputUserId ){
+	public @ResponseBody int userIdValidation(String inputUserId ){
 		return memberService.verifyIfExists("userId", inputUserId);
 	}
 	
 	
 	@RequestMapping(value={"/member/emailValidation.html"}, method=RequestMethod.POST)
-	public @ResponseBody int emailValidation( String inputEmail ){
+	public @ResponseBody int emailValidation(String inputEmail ){
 		return memberService.verifyIfExists("email", inputEmail);
 	}
 	
 	@RequestMapping(value={"/userStatusValid.html"}, method=RequestMethod.POST)
-	public @ResponseBody int userStatusValid( String userId, String userPw ){
-		
-	/*case 1 : 
-		//message : Ż���� �����Դϴ�.
-		alert("<spring:message code='page.index.009' />");
-		return;
-		break;
-	case 2 :
-		//message : �̿� ������ �����Դϴ�.
-		alert("<spring:message code='page.index.010' />");
-		return;
-		break;
-	case 3 : 
-		//message : ���� Ż��� �����Դϴ�.
-		alert("<spring:message code='page.index.011' />");
-		return;
-		break;
-	case 4 :
-		$('#log_f').submit();
-		return;
-		break;
-	case 5 :
-		//message : ���� ������ ��� �����մϴ�.
-		alert("<spring:message code='page.index.012' />");
-		return;
-		break;
-	case 6 :
-		//message : ���̵� �Ǵ� ��й�ȣ�� �ٽ� Ȯ���ϼ���.
-		alert("<spring:message code='page.index.013' />");
-		return;
-		break;
-		//message : ��ȿ�Ⱓ�� ���� �����Դϴ�.
-	case 7:
-		alert("<spring:message code='page.index.016' />");
-		break;*/
-		
+	public @ResponseBody int userStatusValid(String userId, String userPw ){
 		
 		Member member = memberService.findByUserName(userId);
 		if(member == null) {
-			/*	���̵� �Ǵ� ��й�ȣ�� �ٽ� Ȯ���ϼ���.*/
-			
 			return 6;
 		}else if(!"".equals(userId) && !"".equals(userPw)) {
 			int loginResult = memberService.logInVerify(userId, changeSHA256(userPw));
-			if( loginResult < 0) return 6;
-			else if( loginResult == 1){
+			if(loginResult < 0) return 6;
+			else if(loginResult == 1){
 				if("4".equals(member.getUserStatus())) {
-					/*if("1".equals(member.getLoginStatus())){
-						
-						if(!"CMS".equals(member.getLoginDeviceuuid())){
-							return 8;
-						}else{
-							Member updated = new Member();
-							updated.setLoginDt(new Date());
-							updated.setUserStartDt(member.getUserStartDt());
-							updated.setUserEndDt(member.getUserEndDt());
-							updated.setLoginDeviceuuid("CMS");
-							updated.setLoginStatus("1");
-							memberService.updateMemberInfo(updated, member.getUserSeq());
-							return 4;
-						}
-						
-					}*/
 					Member updated = new Member();
 					updated.setLoginDt(new Date());
 					updated.setUserStartDt(member.getUserStartDt());
 					updated.setUserEndDt(member.getUserEndDt());
-					//updated.setLoginDeviceuuid("CMS");
-					//updated.setLoginStatus("1");
 					memberService.updateMemberInfo(updated, member.getUserSeq());
 					return 4;
 				}	
 				else {
 					return Integer.parseInt(member.getUserStatus());
 				}
-			}else if( loginResult == 2) {
+			}else if(loginResult == 2) {
 				return 7;
 			}else {
 				return Integer.parseInt(member.getUserStatus());
@@ -262,10 +207,9 @@ public class MemberController {
 	}
 
 	@RequestMapping(value="mypage/password.html", method=RequestMethod.GET)
-	public ModelAndView mypagePasswordGET( String userId ){
+	public ModelAndView mypagePasswordGET(String userId ){
 		ModelAndView modelAndView = new ModelAndView();
 		
-		//20180516 : lsy - temp if/else
 		MyUserDetails activeUser = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication authentication = context.getAuthentication();
@@ -277,17 +221,14 @@ public class MemberController {
 				menuList = groupViewMenuService.selectViewMenu(activeUser.getMember().getGroupName(), menuList);
 				
 				modelAndView.addObject("menuLarge", menuList.get("menuLarge"));
-				//20180515 : lsy - GroupViewMenu Util Create - end
 			}
 		}
-		//20180516 : lsy - temp if/else - end
-		
 		modelAndView.setViewName("06_mypage/mypage_password");
 		return modelAndView;
 	}
 
 	@RequestMapping(value="mypage/modify.html", method=RequestMethod.POST)
-	public ModelAndView mypageModifyPOST( HttpServletRequest request,  Member form, Company formCom, String modify_gb ){
+	public ModelAndView mypageModifyPOST(HttpServletRequest request,  Member form, Company formCom, String modify_gb ){
 		ModelAndView modelAndView = new ModelAndView();
 		
 		MyUserDetails activeUser = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -295,7 +236,7 @@ public class MemberController {
 		if("modify_password".equals(modify_gb)){	
 			if(activeUser.getPassword().equals(changeSHA256(form.getUserPw()))){
 				/*modelAndView.addObject("ReConfirmPassword", userPw);*/
-				Member dbPassword  = memberService.findByCustomInfo( "userId", activeUser.getUsername() );
+				Member dbPassword  = memberService.findByCustomInfo("userId", activeUser.getUsername() );
 				Company company = companyService.findByCustomInfo("companySeq", activeUser.getMember().getCompanySeq());
 				modelAndView.addObject("company", company);
 				modelAndView.addObject("member", dbPassword);
@@ -331,9 +272,9 @@ public class MemberController {
 			System.out.println("formCom.zipCode : " + formCom.getZipcode());
 			form.setChgDt(new Date());
 			form.setChgIp(request.getRemoteAddr());
-			memberService.updateMemberInfo( form, form.getUserSeq());
+			memberService.updateMemberInfo(form, form.getUserSeq());
 			
-			Member dbModify = memberService.findByCustomInfo( "userId", form.getUserId() );
+			Member dbModify = memberService.findByCustomInfo("userId", form.getUserId() );
 			companyService.updateCompanyInfo(formCom, dbModify.getCompanySeq());
 			Company dbComModify = companyService.findByCustomInfo("companySeq", dbModify.getCompanySeq());
 			modelAndView.addObject("modifySuccess", true);
@@ -342,7 +283,6 @@ public class MemberController {
 			modelAndView.setViewName("06_mypage/mypage_modify");
 		}
 		
-		//20180516 : lsy - temp if/else
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication authentication = context.getAuthentication();
 		
@@ -362,7 +302,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="mypage/modifyCustom.html", method=RequestMethod.POST)
-	public @ResponseBody String mypaOST( String userPw ){
+	public @ResponseBody String mypaOST(String userPw ){
 		MyUserDetails activeUser = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		return activeUser.getMember().getEmail();
@@ -370,7 +310,7 @@ public class MemberController {
 	
 	//??
 	@RequestMapping(value="mypage/modify.html", method=RequestMethod.GET)
-	public String mypagePOST( String userPw ){
+	public String mypagePOST(String userPw ){
 		/* �ùٸ��� ���� �����Դϴ�. */
 		
 		throw new ResourceNotFoundException();
@@ -379,7 +319,7 @@ public class MemberController {
 
 	//??
 	@RequestMapping(value="mypage/withDrawal.html", method=RequestMethod.GET)
-	public String mypageWithDrawal( String userPw ){
+	public String mypageWithDrawal(String userPw ){
 		/* �ùٸ��� ���� �����Դϴ�. */
 		
 		return "06_mypage/mypage_withdrawal";
@@ -387,7 +327,7 @@ public class MemberController {
 	}
 
 	@RequestMapping(value="mypage/withDrawal.html", method=RequestMethod.POST)
-	public @ResponseBody int mypageWithDrawalPOST( String userSeq, String companySeq ){
+	public @ResponseBody int mypageWithDrawalPOST(String userSeq, String companySeq ){
 		
 		int intUserSeq = Integer.parseInt(userSeq);
 		int intCompanySeq = Integer.parseInt(companySeq);
@@ -433,7 +373,7 @@ public class MemberController {
 	}	
 	
 	@RequestMapping(value = "/findid.html", method = RequestMethod.POST)
-	public @ResponseBody String findId( Member member, HttpServletRequest request ) {
+	public @ResponseBody String findId(Member member, HttpServletRequest request ) {
 		
 		String firstName = request.getParameter("fm_first_name");
 		String lastName  = request.getParameter("fm_last_name");
@@ -451,10 +391,8 @@ public class MemberController {
 		
 		if(memCnt == 1){			
 			String from=messageSource.getMessage("send.email.ID", null, localeResolver.resolveLocale(request));
-			//message : ��û�Ͻ� ���̵� �Դϴ�.
-			String subject=messageSource.getMessage("member.control.001", null, localeResolver.resolveLocale(request));			
-			//Random random = new Random();
-			//random.nextInt();
+			String subject=messageSource.getMessage("member.control.001", null, localeResolver.resolveLocale(request));
+
 			try {
 				MimeMessage message = mailSender.createMimeMessage();
 				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
@@ -475,10 +413,9 @@ public class MemberController {
 			return "successFalse";
 		}		
 	}
-	
-	
+
 	@RequestMapping(value = "/findpwd.html", method = RequestMethod.POST)
-	public @ResponseBody String findPwd( Member member, HttpServletRequest request ) {
+	public @ResponseBody String findPwd(Member member, HttpServletRequest request ) {
 		String ranStr   = null;
 		String userId  = request.getParameter("fm_user_id");
 		String email    = request.getParameter("fm_email2");
@@ -499,8 +436,7 @@ public class MemberController {
 		memCnt = memberService.selectMemberCount_(member);	
 		memberRow = memberService.selectMemberSuccessYn_(member);
 		
-		//System.out.println(memCnt+"=====");
-		if(memCnt == 1){			
+		if(memCnt == 1){
 			String from=messageSource.getMessage("send.email.ID", null, localeResolver.resolveLocale(request));
 			//message : ��û�Ͻ� ��й�ȣ �Դϴ�.
 			String subject=messageSource.getMessage("member.control.004", null, localeResolver.resolveLocale(request));
@@ -509,8 +445,6 @@ public class MemberController {
 				MimeMessage message = mailSender.createMimeMessage();
 				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 				messageHelper.setTo(memberRow.getEmail());
-				//message : ���� ��û�Ͻ� ��й�ȣ��
-				//message : �Դϴ�. �����մϴ�.
 				messageHelper.setText(memberRow.getLastName()+memberRow.getFirstName()+messageSource.getMessage("member.control.005", null, localeResolver.resolveLocale(request))+ranStr+messageSource.getMessage("member.control.006", null, localeResolver.resolveLocale(request)) );
 				messageHelper.setFrom(from);
 				messageHelper.setSubject(subject); 
@@ -519,7 +453,6 @@ public class MemberController {
 			} catch(Exception e){
 				System.out.println(e);
 			}
-			// ���� ������
 			return "True!";
 		} else {
 			// ���� ������
@@ -569,17 +502,17 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="my/deleteLicenseUseDevice.html", method=RequestMethod.POST)
-	public @ResponseBody int mypageDeleteLicenseUseDevicePost( HttpServletRequest request, HttpSession session ){
+	public @ResponseBody int mypageDeleteLicenseUseDevicePost(HttpServletRequest request, HttpSession session ){
 		return licenseService.deleteLicenseUseDevice(Integer.parseInt(request.getParameter("licensesubSeq")));
 	}
 
 	@RequestMapping(value="my/licenseRegistCheck.html", method=RequestMethod.POST)
-	public @ResponseBody int mypageLicenseRegistCheck( HttpServletRequest request, HttpSession session ){
+	public @ResponseBody int mypageLicenseRegistCheck(HttpServletRequest request, HttpSession session ){
 		return licenseService.licenseRegistCheck(request.getParameter("licenseNum"));
 	}
 
 	@RequestMapping(value="my/licenseRegist.html", method=RequestMethod.POST)
-	public ModelAndView mypageLicenseRegist( HttpServletRequest request, HttpSession session ){
+	public ModelAndView mypageLicenseRegist(HttpServletRequest request, HttpSession session ){
 		ModelAndView modelAndView = new ModelAndView();
 		
 		try {
@@ -610,7 +543,7 @@ public class MemberController {
 	}
 
 	@RequestMapping(value="my/licenseRenew.html", method=RequestMethod.GET)
-	public ModelAndView mypageLicenseRenewGet( HttpServletRequest request, HttpSession session ){
+	public ModelAndView mypageLicenseRenewGet(HttpServletRequest request, HttpSession session ){
 		ModelAndView modelAndView = new ModelAndView();
 		
 		try {

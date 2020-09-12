@@ -162,15 +162,15 @@ function Modify(companySeq, depth){
 		  //$('#categorySeq'+depth).val(departmentSeq);
 		  $('#depth').val(depth);
 		  
-		  for( var j=0; j< data.length; j++){
+		  for(var j=0; j< data.length; j++){
 			  
 			  $('#selCateVal'+data[j].departmentSeq).remove();
 		  }
-		  for( var i =0; i< data.length ; i++){
+		  for(var i =0; i< data.length ; i++){
 
-			  if( data[i].useGb == '1'){
+			  if(data[i].useGb == '1'){
 				  $('#selCate'+depth).append("<option alt='1'"+ (($.browser.safari == true ) ? "style='font-size:13px;'" : "") + " value='"+data[i].departmentSeq+"' id='selCateVal"+data[i].departmentSeq+"'>" +(($.browser.safari == true ) ? "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" : "")+ data[i].departmentName+"</option>");  
-			  }else if( data[i].useGb == '2'){
+			  }else if(data[i].useGb == '2'){
 				  $('#selCate'+depth).append("<option alt='2'"+ (($.browser.safari == true ) ? "style='font-size:13px;color:red;'" : "style='color:red;'") + "value='"+data[i].departmentSeq+"' id='selCateVal"+data[i].departmentSeq+"'>" +(($.browser.safari == true ) ? "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" : "")+data[i].departmentName+"</option>");
 			  } 
 		  }
@@ -206,15 +206,15 @@ function Cease(companySeq, depth){
 		  //$('#categorySeq'+depth).val(departmentSeq);
 		  $('#depth').val(depth);
 		  
-		  for( var j=0; j< data.length; j++){
+		  for(var j=0; j< data.length; j++){
 			  $('#selCateVal'+data[j].departmentSeq).remove();
 		  }
 		  
-		  for( var i =0; i< data.length ; i++){
+		  for(var i =0; i< data.length ; i++){
 
-			  if( data[i].useGb == '1'){
+			  if(data[i].useGb == '1'){
 				  $('#selCate'+depth).append("<option alt='1'"+ (($.browser.safari == true ) ? "style='font-size:13px;'" : "") + " value='"+data[i].departmentSeq+"' id='selCateVal"+data[i].departmentSeq+"'>" +(($.browser.safari == true ) ? "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" : "")+ data[i].departmentName+"</option>");  
-			  }else if( data[i].useGb == '2'){
+			  }else if(data[i].useGb == '2'){
 				  $('#selCate'+depth).append("<option alt='2'"+ (($.browser.safari == true ) ? "style='font-size:13px;color:red;'" : "style='color:red;'") + "value='"+data[i].departmentSeq+"' id='selCateVal"+data[i].departmentSeq+"'>" +(($.browser.safari == true ) ? "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" : "")+data[i].departmentName+"</option>");
 			  } 
 		  }

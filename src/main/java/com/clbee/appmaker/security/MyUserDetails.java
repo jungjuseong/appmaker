@@ -23,6 +23,7 @@ public class MyUserDetails implements UserDetails {
 						 Collection<? extends GrantedAuthority> authorities,
 						 Member member, boolean isEnabled, boolean isBook) {
 		super();
+
 		this.username = username;
 		this.password = password;
 		this.authorities = authorities;
@@ -33,37 +34,31 @@ public class MyUserDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
 		return this.authorities;
 	}
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return this.password;
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
 		return this.username;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -73,7 +68,6 @@ public class MyUserDetails implements UserDetails {
 	
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return isEnabled;
 	}
 }

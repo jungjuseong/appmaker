@@ -12,20 +12,20 @@ $(document).ready(function(){
 	</sec:authorize>
 
 	//20180327 - lsy : develop version managemenet
-	if('${contentVO.completGb}' == '1'){
+	if('${content.completGb}' == '1'){
 //		$("[name=completGb]").eq(1).attr("disabled", true);
 		textItemDisabled();
 		$("[name=useGb]").attr('disabled', 'disabled');
-	}else if('${contentVO.completGb}' == '2' || '${contentVO.completGb}' == '4'){//테스트중 + 배로 반려(반려 내역 관리 기능)
-		if('${contentVO.completGb}' == '2'){
+	}else if('${content.completGb}' == '2' || '${content.completGb}' == '4'){//테스트중 + 배로 반려(반려 내역 관리 기능)
+		if('${content.completGb}' == '2'){
 			$("[name=useGb]").prop('checked', false).attr('disabled', 'disabled');
-		}else if('${contentVO.completGb}' == '4'){
+		}else if('${content.completGb}' == '4'){
 			$("[name=useGb]").attr('disabled', 'disabled');
 		}
 		distributeCouponDisabled();
-	}else if('${contentVO.completGb}' == '3'){//배포 요청중
+	}else if('${content.completGb}' == '3'){//배포 요청중
 		textItemDisabled();
-		if('${contentVO.distrGb}' == null || '${contentVO.distrGb}' == ''){
+		if('${content.distrGb}' == null || '${content.distrGb}' == ''){
 			distributeCouponDefault();
 		}
 		$("[name=page]").attr('value', "1");
@@ -35,9 +35,9 @@ $(document).ready(function(){
 
 	$("#appSearch").click(function(){
 		//20180409 : lsy - contents complet, not modify relateAppName 
-		if('${contentVO.completGb}' == '2' || '${contentVO.completGb}' == '4'){
+		if('${content.completGb}' == '2' || '${content.completGb}' == '4'){
 		 	window.open("/contents/write/popUpContents.html","","width=680, height=333, top=100, left=100, resizable= yes");
-		}else if('${contentVO.completGb}' == '1'){
+		}else if('${content.completGb}' == '1'){
 			//message : 콘텐츠 완성 후 수정할 수 없습니다.
 			alert("<spring:message code='contents.modify.047' />");			
 		}
@@ -51,7 +51,7 @@ $(document).ready(function(){
 
 	$('[name=relatedAppName], #appSearch').focus(function(){
 		//20180409 : lsy - contents complet, not modify relateAppName 
-		if('${contentVO.completGb}' == '2'){
+		if('${content.completGb}' == '2'){
 			$('#appSearch').focus().click();
 		}
 	});
@@ -65,7 +65,7 @@ $(document).ready(function(){
 			var imgCnt = $(this).parent().find('span').size();
 			
 			if(maxImgCnt==imgCnt){
-				if('${contentVO.completGb}' == '1'){
+				if('${content.completGb}' == '1'){
 					//message : 콘텐츠 완성 후 수정할 수 없습니다.
 					alert("<spring:message code='contents.modify.047' />");
 				}else{
@@ -230,7 +230,7 @@ $(document).ready(function(){
 		} 
 	});
 
-	$("#c_SDATE").change( function(){
+	$("#c_SDATE").change(function(){
 
 		//현재 시간
 		var d = new Date();
@@ -261,7 +261,7 @@ $(document).ready(function(){
 		}
 	});
 
-	$("#d_SDATE").change( function(){
+	$("#d_SDATE").change(function(){
 
 		//현재 시간
 		var d = new Date();
@@ -361,7 +361,7 @@ $(document).ready(function(){
 	    	},
 		},
 		errorPlacement : function(error, element) {
-			error.appendTo( element.parent("td, div") );
+			error.appendTo(element.parent("td, div") );
 		}
 	});
 	/*	20180411 : lsy - complet_gb radio delete
@@ -389,7 +389,7 @@ $(document).ready(function(){
 	/* completFunction();
 	distrFunction(); */
 /*	20180411 : lsy - complet_gb radio delete
-	$("[name = completGb]").change( function(){
+	$("[name = completGb]").change(function(){
 		completFunction();
 	});
 */	
@@ -412,7 +412,7 @@ $(document).ready(function(){
 	initialize();
 });
 /*	20180411 : lsy - no use source
-function contentsFileAppend( fileName ){
+function contentsFileAppend(fileName ){
 	if($("#contentsFile").val() != ""){
 		// $("#contentsFile").val("");
 // 		var html= "";
@@ -627,35 +627,35 @@ function couponFunction(){
 
 function initialize(){
 // 	$("[name = couponNum]").attr('disabled', true);
-	if("${contentVO.distrGb}" == "1"){
+	if("${content.distrGb}" == "1"){
 		$("#m1").prop("checked",true);
-	}else if("${contentVO.distrGb}" == "2"){
+	}else if("${content.distrGb}" == "2"){
 		$("#m2").prop("checked", true);
 	}
 	
-	if("${contentVO.memDownGb}" == "1"){
+	if("${content.memDownGb}" == "1"){
 		$("#d1").prop("checked",true);
 		$("#memDownStartDt").attr("readonly", true);
 		$("#memDownEndDt").attr("readonly", true);
 	}
 	
-	if("${contentVO.couponGb}"== "1"){
+	if("${content.couponGb}"== "1"){
 		$("[name = couponNum]").attr('disabled', true);
 	}else{
 		$("#nonmemDownGb").attr('disabled', false);
 		$("#nonmemDownGb").attr('checked', false);
 	}
 	
-	if("${contentVO.nonmemDownGb}" =="2"){
+	if("${content.nonmemDownGb}" =="2"){
 		$("#nonmemDownAmt").attr("readonly", true);
 		$("#nonmemDownAmt").val("");
-		var starDt =  "${contentVO.nonmemDownStarDt}".substring(0,10);
-		var endDt =  "${contentVO.nonmemDownEndDt}".substring(0,10);
+		var starDt =  "${content.nonmemDownStarDt}".substring(0,10);
+		var endDt =  "${content.nonmemDownEndDt}".substring(0,10);
 		$("#c_SDATE").val(starDt);
 		$("#c_EDATE").val(endDt);
 	}
 
-	if("${contentVO.memDownGb}" == "3"&&!("${contentVO.distrGb}" =="2" && "${contentVO.couponGb}" == "1")){
+	if("${content.memDownGb}" == "3"&&!("${content.distrGb}" =="2" && "${content.couponGb}" == "1")){
 		$("#d3").prop("checked", true);
 		$("#memDownAmt").val("");
 		$("#memDownAmt").attr("readonly", true);		
@@ -667,7 +667,7 @@ function initialize(){
 		$("#d_EDATE").val("");
 	}
 	
-	if("${contentVO.distrGb}" =="2" && "${contentVO.couponGb}" == "1"){
+	if("${content.distrGb}" =="2" && "${content.couponGb}" == "1"){
 		$("#m2").prop("checked",true);
 		$("#memDownAmt").attr("readonly", true);
 		$("#memDownAmt").val("");
@@ -675,24 +675,24 @@ function initialize(){
 		$("#d_EDATE").attr("readonly", true);
 		$("[name=memDownGb]").attr("disabled", true);
 		$("[name=memDownGb]").prop("checked", false);
-		if("${contentVO.nonmemDownGb}" =="1"){
+		if("${content.nonmemDownGb}" =="1"){
 			$("#c_SDATE").attr("readonly", true);
 			$("#c_EDATE").attr("readonly", true);
 		}
 	}
 
-	if("${contentVO.memDownGb}" == "2"){
+	if("${content.memDownGb}" == "2"){
 		$("#d2").prop("checked", true);
 		$("#memDownAmt").val("");
 		$("#memDownAmt").attr("readonly", true);
-		var starDt =  "${contentVO.memDownStartDt}".substring(0,10);
-		var endDt =  "${contentVO.memDownEndDt}".substring(0,10);
+		var starDt =  "${content.memDownStartDt}".substring(0,10);
+		var endDt =  "${content.memDownEndDt}".substring(0,10);
 
 		$("#d_SDATE").val(starDt);
 		$("#d_EDATE").val(endDt);
 	} 
 
-	if("${contentVO.couponGb}" == "2"){
+	if("${content.couponGb}" == "2"){
 		$("[name=nonmemDownGb]").attr("disabled", true);
 		$("[name=nonmemDownGb]").prop("checked", false);
 		$("#nonmemDownAmt").attr("readonly", true);
@@ -707,7 +707,7 @@ function initialize(){
 		$("#c_EDATE").val("");
 	}
 
-	if("${contentVO.memDownGb}"=="1"){
+	if("${content.memDownGb}"=="1"){
 		$("#d_SDATE").attr("readonly", true);
 		$("#d_EDATE").attr("readonly", true);
 		$("#d_SDATE").attr("disabled", true);
@@ -716,7 +716,7 @@ function initialize(){
 		$("#d_EDATE").val("");
 	}
 
-	if("${contentVO.nonmemDownGb}"=="1"){
+	if("${content.nonmemDownGb}"=="1"){
 		$("#c_SDATE").attr("readonly", true);
 		$("#c_EDATE").attr("readonly", true);
 		$("#c_SDATE").attr("disabled", true);
@@ -725,7 +725,7 @@ function initialize(){
 		$("#c_EDATE").val("");
 	}
 
-	if("${contentVO.nonmemDownGb}"=="3"){
+	if("${content.nonmemDownGb}"=="3"){
 		$("#nonmemDownAmt").attr("readonly", true);
 		$("#nonmemDownAmt").val("");
 		
@@ -737,7 +737,7 @@ function initialize(){
 		$("#c_EDATE").val("");
 	}
 
-	if("${contentVO.completGb}" == "2"){
+	if("${content.completGb}" == "2"){
 		$("[name = distrGb]").attr("checked", false);
 		$("[name = couponGb]").attr("checked", false);
 	}
@@ -801,7 +801,7 @@ function distributeCouponDisabled(){
 		if(radioArr.indexOf($(this).attr('name'))>-1){
 			$(this).prop('checked', false).attr('disabled', 'disabled');
 		}
-	}).promise().done( function(){ memDownFunction();distrFunction();couponFunction();nonMemFunction();	} );
+	}).promise().done(function(){ memDownFunction();distrFunction();couponFunction();nonMemFunction();	} );
 
 	$("#couponNum").attr("readonly",true);
 	$("#couponNum").attr("disabled",true);
@@ -822,7 +822,7 @@ function distributeCouponDefault(){
 			}
 		}
 		pname = $(this).attr('name');
-	}).promise().done( function(){memDownFunction();distrFunction();couponFunction();nonMemFunction();	});
+	}).promise().done(function(){memDownFunction();distrFunction();couponFunction();nonMemFunction();	});
 	
 	
 	$("#couponNum").attr("readonly",false);
@@ -848,7 +848,7 @@ function distributeCouponDefault(){
 			<form action="" name="contents_modify_f" id="contents_modify_f" method="POST" enctype="multipart/form-data">
 			<!-- 20180411 : lsy - distribute Process Modify -->
 			<input type="hidden" name="distributeProcess" id="distributeProcess" value="" />	<!-- Update를 call한 주체 구분값 -->
-			<input type="hidden" name="completGb" id="completGb" value="${contentVO.completGb }" />
+			<input type="hidden" name="completGb" id="completGb" value="${content.completGb }" />
 			<input type="hidden" name="referer" id="referer" value="${referer }" />
 			<!-- 20180411 : lsy - distribute Process Modify - end -->
 			<div class="section fisrt_section">
@@ -864,7 +864,7 @@ function distributeCouponDefault(){
 						<tr>
 							<th scope="row"><label class="title" for="contentsName"><em>*</em> <spring:message code='contents.modify.002' /></label></th>
 							<td colspan="3">
-								<input id="contentsName" name="contentsName" value="${contentVO.contentsName }" type="text" style="width:94.7%;">						
+								<input id="contentsName" name="contentsName" value="${content.contentsName }" type="text" style="width:94.7%;">						
 							</td>
 						</tr>
 						<tr>
@@ -872,17 +872,17 @@ function distributeCouponDefault(){
 							<td>
 								<select id="contentsType" name="contentsType" style="width:150px;">
 								<c:choose>
-									<c:when test = "${contentVO.contentsType == '1' }">
+									<c:when test = "${content.contentsType == '1' }">
 										<option value="1" selected="selected">HTML5</option>
 										<option value="2">ePub3</option>
 										<option value="3">PDF</option>
 									</c:when>
-									<c:when test = "${contentVO.contentsType == '2' }">
+									<c:when test = "${content.contentsType == '2' }">
 										<option value="1">HTML5</option>
 										<option value="2" selected="selected">ePub3</option>
 										<option value="3">PDF</option>
 									</c:when>
-									<c:when test = "${contentVO.contentsType == '3' }">
+									<c:when test = "${content.contentsType == '3' }">
 										<option value="1">HTML5</option>
 										<option value="2">ePub3</option>
 										<option value="3" selected="selected">PDF</option>
@@ -892,27 +892,27 @@ function distributeCouponDefault(){
 							</td>
 							<th style="text-align:right; width:150px;" scope="row"><label class="title" for="verNum"><em>*</em> <spring:message code='contents.modify.015' /></label></th>
 							<td>
-								<input id="verNum" name="verNum" type="text" value="${contentVO.verNum }" style="width:80%;">
-								<%-- <input id="verNum" name="verNum" type="text" value="${contentVO.verNum }" style="width:50%;" class="line_right"> --%>
+								<input id="verNum" name="verNum" type="text" value="${content.verNum }" style="width:80%;">
+								<%-- <input id="verNum" name="verNum" type="text" value="${content.verNum }" style="width:50%;" class="line_right"> --%>
 								<%-- <a href="#" class="btn btnL btn_gray_light line_left"><spring:message code='contents.modify.004' /></a>		 --%>			
 							</td>
 						</tr>
 						<tr>
 							<th scope="row"><label class="title" for="appName"><spring:message code='contents.modify.005' /></label></th>
 							<td colspan="3">
-								<input id="relatedAppName" name="relatedAppName" type="text" value="${contentVO.appName }" style="width:94.7%;" class="line_right">
+								<input id="relatedAppName" name="relatedAppName" type="text" value="${content.appName }" style="width:94.7%;" class="line_right">
 <%-- 	20180625(월) : lsy - 새버전추가시 번들 중복으로 인한 변경(번들 -> seq)								
-								<input id="relatedBundleId" name="relatedBundleId" type="hidden" value="${contentVO.contentsappSubVO.storeBundleId }">
- --%>							<input id="relatedAppSeq" name="relatedAppSeq" type="hidden" value="${contentVO.contentsappSubVO.appSeq }">
-								<input id="relatedAppType" name="relatedAppType" type="hidden" value="${contentVO.appType }">
-								<input id="relatedInAppSeq" name="relatedInAppSeq" type="hidden" value="${contentVO.contentsappSubVO.inappSeq }"/>
+								<input id="relatedBundleId" name="relatedBundleId" type="hidden" value="${content.contentsappSubVO.storeBundleId }">
+ --%>							<input id="relatedAppSeq" name="relatedAppSeq" type="hidden" value="${content.contentsappSubVO.appSeq }">
+								<input id="relatedAppType" name="relatedAppType" type="hidden" value="${content.appType }">
+								<input id="relatedInAppSeq" name="relatedInAppSeq" type="hidden" value="${content.contentsappSubVO.inappSeq }"/>
 <%-- 								<a href="#" id="appSearch" class="btn btnL btn_gray_light line_left"><spring:message code='contents.modify.006' /></a> --%>
 							</td>
 						</tr>
 						<tr>
 							<th scope="row"><label class="title" for="descriptionText"><spring:message code='contents.modify.007' /></label></th>
 							<td colspan="3">
-								<textarea id="descriptionText" name="descriptionText" cols="" rows="4" style="width:95%;">${contentVO.descriptionText}</textarea>
+								<textarea id="descriptionText" name="descriptionText" cols="" rows="4" style="width:95%;">${content.descriptionText}</textarea>
 							</td>
 						</tr>
 						<tr style="border-bottom : thin dotted #000000;">
@@ -920,13 +920,13 @@ function distributeCouponDefault(){
 							<td colspan="3">
 								<input id="contentsFile" name="contentsFile" type="file" style="width:95%;">
 								<c:choose>
-									<c:when test='${not empty contentVO.uploadOrgFile}'>
+									<c:when test='${not empty content.uploadOrgFile}'>
 										<div id="uploadInput">
-											<span id="uploadOrgName" >${contentVO.uploadOrgFile}</span>										<!--message : 아이콘 썸네일 이미지 닫기  -->
+											<span id="uploadOrgName" >${content.uploadOrgFile}</span>										<!--message : 아이콘 썸네일 이미지 닫기  -->
 											<a class="removeImgBtn2" id="removeImgBtn2" href="#removeImgBtn2"><img src="/images/btn_close_s.png" alt="<spring:message code='contents.modify.042' />"></a>
 										</div>
 									</c:when>
-									<c:when test="${empty contentVO.uploadOrgFile}">
+									<c:when test="${empty content.uploadOrgFile}">
 										<div id="uploadInput">
 										</div>
 									</c:when>
@@ -937,11 +937,11 @@ function distributeCouponDefault(){
 							<td colspan="3">
 								<div class="radio_area">
 									<c:choose>
-										<c:when test="${contentVO.useGb == '1'}">
+										<c:when test="${content.useGb == '1'}">
 											<input name="useGb" id="u_y"  type="radio" value="1" checked="checked"> <label for="u_y"><spring:message code='contents.modify.013' /></label>
 											<input name="useGb" id="u_n"  type="radio" value="2"> <label for="u_n"><spring:message code='contents.modify.014' /></label>
 										</c:when>
-										<c:when test="${contentVO.useGb == '2'}">
+										<c:when test="${content.useGb == '2'}">
 											<input name="useGb" id="u_y"  type="radio" value="1"> <label for="u_y"><spring:message code='contents.modify.013' /></label>
 											<input name="useGb" id="u_n"  type="radio" value="2" checked="checked"> <label for="u_n"><spring:message code='contents.modify.014' /></label>
 										</c:when>
@@ -959,15 +959,15 @@ function distributeCouponDefault(){
 									</span>
 									<span>
 										<input type="radio" name="memDownGb" id="d1"  value="1" /> <label for="d1"><spring:message code='contents.modify.025' /></label><!--message : 다운로드 횟수  -->
-										<input name="memDownAmt" id="memDownAmt" type="text" value="${contentVO.memDownAmt}" class="tCenter" style="width:120px;">
-										&nbsp;&nbsp; <spring:message code='anonymous.option.010' />&nbsp;<input name ="memDownCnt" value="${contentVO.memDownCnt }" type="text" class="tCenter" style="width:120px;" readonly onkeypress="return digit_check(event)" maxlength="3"/>
+										<input name="memDownAmt" id="memDownAmt" type="text" value="${content.memDownAmt}" class="tCenter" style="width:120px;">
+										&nbsp;&nbsp; <spring:message code='anonymous.option.010' />&nbsp;<input name ="memDownCnt" value="${content.memDownCnt }" type="text" class="tCenter" style="width:120px;" readonly onkeypress="return digit_check(event)" maxlength="3"/>
 									</span>
 									<br>
 									<span>
 										<input type="radio" name="memDownGb" id="d2" id=""  value="2" /> <label for="d2"><spring:message code='contents.modify.026' /></label><!--message : 유효기간  -->
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="d_SDATE" name="memDownStartDt" type="text" title="" value="${memDownStartDt }" class="date fmDate1" value="" />
 										&nbsp;&nbsp;~&nbsp;&nbsp;
-										<input id="d_EDATE" name="memDownEndDt" type="text" title="" value="${contentVO.memDownEndDt }"  class="date toDate1" value="" />
+										<input id="d_EDATE" name="memDownEndDt" type="text" title="" value="${content.memDownEndDt }"  class="date toDate1" value="" />
 									</span>
 									<br>
 									<span>
@@ -982,11 +982,11 @@ function distributeCouponDefault(){
 								<div class="radio_area coupon_area">
 									<span style="width:100%;">
 										<c:choose>
-											<c:when test="${contentVO.couponGb == 1}">
+											<c:when test="${content.couponGb == 1}">
 												<input name="couponGb" id="cou_y"  type="radio" value="1" checked="checked"> <label for="cou_y"><spring:message code='contents.modify.023' /></label>
 												<input name="couponGb" id="cou_n"  type="radio" value="2"> <label for="cou_n" style="margin-right:43px"><spring:message code='contents.modify.024' /></label>
 											</c:when>
-											<c:when test="${contentVO.couponGb == 2}">
+											<c:when test="${content.couponGb == 2}">
 												<input name="couponGb" id="cou_y"  type="radio" value="1"> <label for="cou_y"><spring:message code='contents.modify.023' /></label>
 												<input name="couponGb" id="cou_n"  type="radio" value="2" checked="checked"> <label for="cou_n" style="margin-right:43px"><spring:message code='contents.modify.024' /></label>
 											</c:when>
@@ -995,18 +995,18 @@ function distributeCouponDefault(){
 												<input name="couponGb" id="cou_n"  type="radio" value="2"> <label for="cou_n" style="margin-right:43px"><spring:message code='contents.modify.024' /></label>
 											</c:otherwise>
 										</c:choose>
-										<input id="couponNum" name="couponNum" value="${contentVO.couponNum }" type="text"  style="width:43.2%;">
+										<input id="couponNum" name="couponNum" value="${content.couponNum }" type="text"  style="width:43.2%;">
 									</span>
 									<br/>
 									<span style="width:100%;">
 										<c:choose>
-											<c:when test="${contentVO.nonmemDownGb == '1' }">
+											<c:when test="${content.nonmemDownGb == '1' }">
 												<input type="radio" name="nonmemDownGb" id="c1"  value="1" checked="checked" /> <label for="c1"><spring:message code='contents.modify.025' /></label>
 											</c:when>
-											<c:when test="${contentVO.nonmemDownGb == '2' }">
+											<c:when test="${content.nonmemDownGb == '2' }">
 												<input type="radio" name="nonmemDownGb" id="c1"  value="1" /> <label for="c1"><spring:message code='contents.modify.025' /></label>
 											</c:when>
-											<c:when test="${contentVO.nonmemDownGb == '3' }">
+											<c:when test="${content.nonmemDownGb == '3' }">
 												<input type="radio" name="nonmemDownGb" id="c1"  value="1" /> <label for="c1"><spring:message code='contents.modify.025' /></label>
 											</c:when>
 											<c:otherwise>
@@ -1014,19 +1014,19 @@ function distributeCouponDefault(){
 											</c:otherwise>
 										</c:choose>
 										
-										<input name="nonmemDownAmt" id="nonmemDownAmt" type="text" value="${contentVO.nonmemDownAmt }" class="tCenter" style="width:120px; margin-right:3px;">
-										&nbsp;&nbsp; <spring:message code='anonymous.option.010' />&nbsp;<input name="nonmemDownCnt" value='${contentVO.nonmemDownCnt }' type="text"  class="tCenter" style="width:120px; " readonly value="" onkeypress="return digit_check(event)" maxlength="3"/>
+										<input name="nonmemDownAmt" id="nonmemDownAmt" type="text" value="${content.nonmemDownAmt }" class="tCenter" style="width:120px; margin-right:3px;">
+										&nbsp;&nbsp; <spring:message code='anonymous.option.010' />&nbsp;<input name="nonmemDownCnt" value='${content.nonmemDownCnt }' type="text"  class="tCenter" style="width:120px; " readonly value="" onkeypress="return digit_check(event)" maxlength="3"/>
 									</span>
 										<br>
 										<span style ="width:100%;">
 											<c:choose>
-												<c:when test="${contentVO.nonmemDownGb == '1' }">
+												<c:when test="${content.nonmemDownGb == '1' }">
 													<input type="radio" name="nonmemDownGb" id="c2"  value="2" /> <label for="c2"><spring:message code='contents.modify.026' /></label>
 												</c:when>
-												<c:when test="${contentVO.nonmemDownGb == '3' }">
+												<c:when test="${content.nonmemDownGb == '3' }">
 													<input type="radio" name="nonmemDownGb" id="c2"  value="2" /> <label for="c2"><spring:message code='contents.modify.026' /></label>
 												</c:when>
-												<c:when test="${contentVO.nonmemDownGb == '2' }">
+												<c:when test="${content.nonmemDownGb == '2' }">
 													<input type="radio" name="nonmemDownGb" id="c2"  value="2" checked="checked" /> <label for="c2"><spring:message code='contents.modify.026' /></label>
 												</c:when>
 												<c:otherwise>
@@ -1040,7 +1040,7 @@ function distributeCouponDefault(){
 										<br>
 										<span style="width:100%;">
 											<c:choose>
-												<c:when test="${contentVO.nonmemDownGb == '3' }">
+												<c:when test="${content.nonmemDownGb == '3' }">
 													<input type="radio" name="nonmemDownGb" id="c3"  value="3" checked="checked" /> <label for="c3"><spring:message code='contents.modify.032' /></label>
 												</c:when>
 												<c:otherwise>
@@ -1057,11 +1057,11 @@ function distributeCouponDefault(){
 								<td colspan="3">
 									<div class="radio_area">
 										<c:choose>
-											<c:when test="${contentVO.limitGb == '1' }">
+											<c:when test="${content.limitGb == '1' }">
 												<input name="limitGb" id="l_y"  type="radio" value="1" checked="checked"> <label for="l_y"><spring:message code='contents.modify.023' /></label>	
 												<input name="limitGb" id="l_n"  type="radio" value="2"> <label for="l_n"><spring:message code='contents.modify.024' /></label>
 											</c:when>
-											<c:when test="${contentVO.limitGb == '2' }">
+											<c:when test="${content.limitGb == '2' }">
 												<input name="limitGb" id="l_y"  type="radio" value="1"> <label for="l_y"><spring:message code='contents.modify.023' /></label>	
 												<input name="limitGb" id="l_n"  type="radio" value="2" checked="checked"> <label for="l_n"><spring:message code='contents.modify.024' /></label>
 											</c:when>
@@ -1074,12 +1074,12 @@ function distributeCouponDefault(){
 				</div>
 				
 				<!-- 20180410 : lsy - distribute request add -->
-				<c:if test="${'2' eq contentVO.completGb }">
+				<c:if test="${'2' eq content.completGb }">
 					<div class="btn_area_bottom tCenter">
 						<a id="distributeReq" href="#distributeReq" class="btn btnL btn_gray_light"><spring:message code='app.modify.text78' /></a>
 					</div>
 				</c:if>
-				<c:if test="${'3' eq contentVO.completGb }">
+				<c:if test="${'3' eq content.completGb }">
 					<div class="btn_area_bottom tCenter">
 						<a id="distributeComplet" href="#distributeComplet" class="btn btnL btn_red"><spring:message code='app.modify.text80' /></a>
 						<a id="distributeRestore" href="#distributeRestore" class="btn btnL btn_gray_light"><spring:message code='app.modify.text81' /></a>
@@ -1089,7 +1089,7 @@ function distributeCouponDefault(){
 						</div>
 					</div>
 				</c:if>
-				<c:if test="${'4' eq contentVO.completGb }">
+				<c:if test="${'4' eq content.completGb }">
 					<div class="btn_area_bottom tCenter">
 						<a id="distributeReq" href="#distributeReq" class="btn btnL btn_gray_light"><spring:message code='app.modify.text78' /></a>
 						<a id="restoreBreakdown" href="#restoreBreakdown" class="btn btnL btn_gray_light"><spring:message code='app.modify.text79' /></a>
@@ -1104,7 +1104,7 @@ function distributeCouponDefault(){
 					<!-- 20180518 : lsy - 권한 체계 변경 -->
 					<a href="javascript:contentDelete();" class="btn btnL btn_gray_light"><spring:message code='user.list.011'/></a>
 <%-- 					<c:choose>
-						<c:when test="${'2' eq contentVO.completGb }">
+						<c:when test="${'2' eq content.completGb }">
 							<a href="javascript:contentDelete();" class="btn btnL btn_gray_light"><spring:message code='user.list.011'/></a>		
 						</c:when>
 						<c:otherwise>
@@ -1113,10 +1113,10 @@ function distributeCouponDefault(){
 							</sec:authorize>	
 						</c:otherwise>
 					</c:choose> --%>
-					<input type="hidden" id="contentsSeq" name="contentsSeq" 		value="${contentVO.contentsSeq }"/>
-					<input type="hidden" name="contentsappSubSeq"   value="${contentVO.contentsappSubVO.contentsappSubSeq }">
+					<input type="hidden" id="contentsSeq" name="contentsSeq" 		value="${content.contentsSeq }"/>
+					<input type="hidden" name="contentsappSubSeq"   value="${content.contentsappSubVO.contentsappSubSeq }">
 					<input type="hidden" name="page" id="page" value="${param.page }"/>
-					<input type="hidden" name="uploadSaveFile" value="${contentVO.uploadSaveFile}"/>
+					<input type="hidden" name="uploadSaveFile" value="${content.uploadSaveFile}"/>
 					<input type="hidden" name="fileChanged" id="fileChanged" value="0"/><%-- 0 is no change--%>
 					<input type="hidden" name="companySeq" value="<sec:authentication property="principal.memberVO.companySeq" />"/>
 					<input type="hidden" name="chgUserSeq" value="<sec:authentication property="principal.memberVO.userSeq" />"/>

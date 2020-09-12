@@ -187,7 +187,7 @@ function cuponDownProcedure(result, sort){
 			break;
 		case '2' :
 			var validInfo =  compareDateBetweenCurrentAndValidDate(result);
-			if( validInfo == false){
+			if(validInfo == false){
 				downloadYN = 'N';
 			}
 			break;

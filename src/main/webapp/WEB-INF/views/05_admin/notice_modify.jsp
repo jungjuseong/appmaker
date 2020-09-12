@@ -18,7 +18,7 @@ $(document).ready(function(){
 		$("#use_user_pop").show();
 	}
 	
-	$("[name=useUserGb]").change( function(){
+	$("[name=useUserGb]").change(function(){
 		if($(this).val() == '1'){
 			$("#fixDiv1").css("margin","10px 0px");
 			$("#use_user_pop").hide();
@@ -36,7 +36,7 @@ $(document).ready(function(){
 		$("#use_app_pop").show();
 	}
 
-	$("[name=appGb]").change( function(){
+	$("[name=appGb]").change(function(){
 		if($(this).val() == '1'){
 			$("#fixDiv2").css("margin","10px 0px");
 			$("#use_app_pop").hide();
@@ -54,7 +54,7 @@ $(document).ready(function(){
 		}
 	});
 
-	$("#d_SDATE").change( function() {
+	$("#d_SDATE").change(function() {
 
 		//현재 시간
 		var d = new Date();
@@ -90,13 +90,13 @@ $(document).ready(function(){
 		$("#notice_modify_f").submit();
 	});
 
-	$("#use_user_pop").click( function(){
+	$("#use_user_pop").click(function(){
 		var target_ = "userPop";
 		var useS = $("#useS").val();
 	  	window.open("/assignment/user.html?useS="+useS,target_,"width=985, height=450, top=100, left=100, resizable=no, menubar=no, scrollbars=no");
 	});
 
-	$("#use_app_pop").click( function(){
+	$("#use_app_pop").click(function(){
 		var target_ = "userPop";
 		var storeBundleId = $("#storeBundleId").val();
 		var inappSeq = $("#inappSeq").val();

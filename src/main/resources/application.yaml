@@ -1,6 +1,7 @@
 server:
   address: localhost
   port: 8080
+
 spring.datasource:
   platform: mysql
   schema-username: root
@@ -18,13 +19,17 @@ spring.datasource:
 spring.data:
   jpa.repositories.enabled: true
 
-spring.jpa:
+hibernate:
   database: mysql
-  database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-  show.sql: true
+  dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  show_sql: true
   generate-ddl: true
+  format_sql: true
+  entity_manager.packagesToScan: com.clbee.appmaker.model
+
+spring.jpa.properties:
   hibernate:
-    format_sql: true
+    enable_lazy_load_no_trans: true
 
 spring.mvc.view:
   prefix: /WEB-INF/jsp/

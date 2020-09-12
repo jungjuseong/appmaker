@@ -62,25 +62,7 @@
   
  	<servlet>
         <servlet-name>ImageServlet</servlet-name>
-        <servlet-class>com.clbee.pbcms</servlet-class>
+        <servlet-class>com.clbee.appmaker</servlet-class>
     </servlet>
-  
-  <!-- 
-  <error-page>
-    <error-code>500</error-code>
-    <location>/WEB-INF/views/wrong.jsp</location>
-  </error-page>
-  <error-page>
-   <error-code>503</error-code>
-    <location>/WEB-INF/views/wrong.jsp</location>
-  </error-page>
-  <error-page>
-    <error-code>403</error-code>
-    <location>/WEB-INF/views/wrong.jsp</location>
-  </error-page>
-  <error-page>
-    <error-code>404</error-code>
-    <location>/WEB-INF/views/wrong.jsp</location>
-  </error-page>
-   -->
+
 </web-app>

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -22,62 +23,31 @@ public class MyUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
+
+		Member member = memberService.findByUserName(username);
 		
-		Member memberVO = memberService.findByUserName(username);
-		
-//		System.out.println("password" + memberVO.getUserPw());
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
-//		System.out.println("userGb Number // = " + memberVO.getUserGb());
-		switch(Integer.parseInt(memberVO.getUserGb())) {
-		
-/*		20180518 : lsy - 권한 체계 변경
- * 
- * 		기존 : ROLE_ADMIN_SERVICE -> ROLE_INDIVIDUAL_MEMBER / ROLE_COMPANY_MEMBER -> ROLE_COMPANY_MIDDLEADMIN / ROLE_COMPANY_DISTRIBUTOR / ROLE_COMPANY_CREATOR / ROLE_COMPANY_USER
- * 		변경 : ROLE_ADMIN_SERVICE -> ROLE_INDIVIDUAL_MEMBER / ROLE_COMPANY_MEMBER -> ROLE_USER
- * 		변경 내용
- * 			1. ROLE_COMPANY_MEMBER(기업회원) 하위에 -> 중간관리자/배포자/제작자/사용자 4가지로 권한 구분(권한별로 페이지 접근권한/사용권한이 정해져있었음)
- * 				=> 사용자 1가지로 권한 압축 및 그룹 개념 도입 : 기업회원 or 그룹관리 권한을 가진 기업회원 하위 사용자가 만든 기업 사용자용 그룹을 
- * 					--> 기업회원 or 사용자 관리 권한을 가진 기업회원 하위 사용자가 사용자 등록,수정 시 그룹을 선택하는 개념(그룹에 따라서 페이지 접근권한/사용권한이 변경)
- * 			2. ROLE_INDIVIDUAL_MEMBER / ROLE_COMPANY_MEMBER -> 그룹관리 개념 적용 
- * 				=> ROLE_ADMIN_SERVICE 권한의 계정(service)으로 회원용 그룹을 생성/수정 가능 : 회원가입 시, 회원용 그룹을 선택하는 개념
- * 					--> 그룹 생성 시, 기업용인지 개인용인지 선택 필수(사용자 그룹과 다른점)
- * 
-			case 1 :
-				 authorities.add(new GrantedAuthorityImpl("ROLE_COMPANY_USER"));
-				break;
-			case 5 :
-				 authorities.add(new GrantedAuthorityImpl("ROLE_COMPANY_CREATOR"));
-				break;
-			case 21 :
-				authorities.add(new GrantedAuthorityImpl("ROLE_COMPANY_DISTRIBUTOR"));
-				break;
-			case 29 :
-				authorities.add(new GrantedAuthorityImpl("ROLE_COMPANY_MIDDLEADMIN"));
-				break;
-*/
+		switch(Integer.parseInt(member.getUserGb())) {
 			case 63 :	//	새 권한 체계 : 사용자
 				authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 				break;
 			case 127 :	//	회원(1:기업,2:개인)
-				if("1".equals(memberVO.getCompanyGb())) {
+				if ("1".equals(member.getCompanyGb()))
 					 authorities.add(new SimpleGrantedAuthority("ROLE_COMPANY_MEMBER"));
-				}else{
+				else
 					 authorities.add(new SimpleGrantedAuthority("ROLE_INDIVIDUAL_MEMBER"));
-				}
 				break;
 			case 255 :	//	service
 				authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN_SERVICE"));
 				break;
 		}
 
-		if("5".equals(memberVO.getUserStatus())){
-			System.out.println("getUserStatus : 5");
-			return new MyUserDetails(username, memberVO.getUserPw(),authorities, memberVO, false, false );
-		}else if("4".equals(memberVO.getUserStatus())){
-			System.out.println("getUserStats : 4 ");
-			return new MyUserDetails(username, memberVO.getUserPw(),authorities, memberVO, true, false );
+		if("5".equals(member.getUserStatus())){
+			return new MyUserDetails(username, member.getUserPw(),authorities, member, false, false );
+		}
+		else if("4".equals(member.getUserStatus())){
+			return new MyUserDetails(username, member.getUserPw(),authorities, member, true, false );
 		}
 
 		return null;

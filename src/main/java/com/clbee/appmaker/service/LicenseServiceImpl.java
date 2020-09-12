@@ -1,9 +1,9 @@
 package com.clbee.appmaker.service;
 
 import com.clbee.appmaker.Json.ConnectLicenseInfo;
-import com.clbee.appmaker.repo.LicenseRepo;
+import com.clbee.appmaker.dao.LicenseDao;
+import com.clbee.appmaker.model.list.LicenseList;
 import com.clbee.appmaker.util.Entity;
-import com.clbee.appmaker.util.ShaPassword;
 import com.clbee.appmaker.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +18,7 @@ import java.util.UUID;
 public class LicenseServiceImpl implements LicenseService {
 
 	@Autowired
-	LicenseRepo licenseRepo;
-	
-	@Autowired
-	ShaPassword shaPassword;
+	LicenseDao licenseDao;
 
 	int pageSize = 10;
 	int maxResult = 10;
@@ -34,7 +31,7 @@ public class LicenseServiceImpl implements LicenseService {
 	@Override
 	public int checkUseLicense(int userSeq) {
 		// TODO Auto-generated method stub
-		return licenseRepo.checkUseLicense("checkUseLicense", userSeq);
+		return licenseDao.checkUseLicense("checkUseLicense", userSeq);
 	}
 
 	@Override
@@ -44,16 +41,16 @@ public class LicenseServiceImpl implements LicenseService {
 			licenseList.setSearchMember(null);
 		}
 		
-		totalCount = licenseRepo.totalCount("totalCountLicense", licenseList);
+		totalCount = licenseDao.totalCount("totalCountLicense", licenseList);
 		licenseList.calc(pageSize, totalCount, licenseList.getCurrentPage(), maxResult);
 		
-		List<License> vo = licenseRepo.selectList("selectListLicense", licenseList);
+		List<License> vo = licenseDao.selectList("selectListLicense", licenseList);
 		
 		String licenseView;
 		for(int i=0;i<vo.size();i++) {
 			licenseView = "";
 			for(int j=0;j<vo.get(i).getLicenseNum().length();j++) {
-				if( (j != 0) && (j % 5 == 0) ) {
+				if((j != 0) && (j % 5 == 0) ) {
 					licenseView += "-";
 				}
 				licenseView += vo.get(i).getLicenseNum().charAt(j);
@@ -66,7 +63,7 @@ public class LicenseServiceImpl implements LicenseService {
 	}
 
 	@Override
-	public int makeLicense( License licenseVO ) {
+	public int makeLicense(License licenseVO ) {
 		// TODO Auto-generated method stub
 		String license = "";
 		int dupleCheck = 1;
@@ -74,15 +71,15 @@ public class LicenseServiceImpl implements LicenseService {
 		while(dupleCheck != 0) {
 			license = "";
 			license = makeLicenseNum();
-			dupleCheck = licenseRepo.dupleCheck("dupleCheck", license);
+			dupleCheck = licenseDao.dupleCheck("dupleCheck", license);
 		}
 
-		if( (license != null && license != "") && dupleCheck == 0 ) {
+		if((license != null && license != "") && dupleCheck == 0 ) {
 			licenseVO.setLicenseNum(license);
 			licenseVO.setLicenseStatus("1");
 
 			try {
-				licenseRepo.insertLicense("insertLicense", licenseVO);
+				licenseDao.insertLicense("insertLicense", licenseVO);
 				return 1;
 			}catch (Exception e) {
 				// TODO: handle exception
@@ -99,7 +96,7 @@ public class LicenseServiceImpl implements LicenseService {
 		SecureRandom random = new SecureRandom();
 
 		int idxLicense = 0, idxUUID = 0;
-		if( (now.get(Calendar.MINUTE) % 2) == 1 ) {
+		if((now.get(Calendar.MINUTE) % 2) == 1 ) {
 			idxUUID = 1;
 		}
 
@@ -111,7 +108,7 @@ public class LicenseServiceImpl implements LicenseService {
 		String license = "", tempUUID = UUID.randomUUID().toString().replaceAll("-", ""), randomCharacter = "0123456789abcdefghijklmnopqrstuvwxyz";;
 		char[] arrayUUID = tempUUID.toCharArray();
 		while(idxLicense < 20) {
-			if( checkIdx(idxLicense, idxRandom) ) {
+			if(checkIdx(idxLicense, idxRandom) ) {
 				license += randomCharacter.charAt(random.nextInt(36));
 			}else {
 				license += arrayUUID[idxUUID];
@@ -135,9 +132,9 @@ public class LicenseServiceImpl implements LicenseService {
 	@Override
 	public int disposalLicense(Entity param) {
 		// TODO Auto-generated method stub
-		if(licenseRepo.disposalLicense("disposalLicense", param) > 0) {
+		if(licenseDao.disposalLicense("disposalLicense", param) > 0) {
 			try {
-				licenseRepo.deleteLicenseSub("deleteLicenseSub", param.getInt("licenseSeq"));
+				licenseDao.deleteLicenseSub("deleteLicenseSub", param.getInt("licenseSeq"));
 				return 1;
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -156,7 +153,7 @@ public class LicenseServiceImpl implements LicenseService {
 		List<License> vo = null;
 
 		license = license.toUpperCase();
-		vo = licenseRepo.licenseRegistCheck("licenseRegistCheck", license);
+		vo = licenseDao.licenseRegistCheck("licenseRegistCheck", license);
 
 		if(vo.size() == 1) {
 			if(Integer.parseInt(vo.get(0).getLicenseStatus()) == 1) {
@@ -184,20 +181,20 @@ public class LicenseServiceImpl implements LicenseService {
 		vo.setLicenseUserSeq(userSeq);
 		vo.setLicenseNum(license);
 
-		licenseRepo.licenseRegist("licenseRegist", vo);
+		licenseDao.licenseRegist("licenseRegist", vo);
 	}
 
 	@Override
 	public LicenseList selectMyList(LicenseList licenseList, int userSeq) {
 		// TODO Auto-generated method stub
 		List<License> vo = null;
-		vo = licenseRepo.selectMyLicense("selectMyLicense", userSeq);
+		vo = licenseDao.selectMyLicense("selectMyLicense", userSeq);
 
 		String licenseView;
 		for(int i=0;i<vo.size();i++) {
 			licenseView = "";
 			for(int j=0;j<vo.get(i).getLicenseNum().length();j++) {
-				if( (j != 0) && (j % 5 == 0) ) {
+				if((j != 0) && (j % 5 == 0) ) {
 					licenseView += "-";
 				}
 				licenseView += vo.get(i).getLicenseNum().charAt(j);
@@ -212,24 +209,24 @@ public class LicenseServiceImpl implements LicenseService {
 	@Override
 	public List<License> selectLicenseForRenew(int userSeq) {
 		// TODO Auto-generated method stub
-		return licenseRepo.selectMyLicense("selectMyLicense", userSeq);
+		return licenseDao.selectMyLicense("selectMyLicense", userSeq);
 	}
 
 	@Override
 	public void licenseExpire(int licenseSeq) {
 		// TODO Auto-generated method stub
-		if(licenseRepo.licenseExpire("licenseExpire", licenseSeq) > 0) {
-			licenseRepo.deleteLicenseSub("deleteLicenseSub", licenseSeq);
+		if(licenseDao.licenseExpire("licenseExpire", licenseSeq) > 0) {
+			licenseDao.deleteLicenseSub("deleteLicenseSub", licenseSeq);
 		}
 	}
 
 	@Override
 	public LicenseSubList selectLicenseUseDevice(LicenseSubList licenseUseDevice) {
 		// TODO Auto-generated method stub
-		totalCount = licenseRepo.totalCountDevice("totalCountDevice", licenseUseDevice);
+		totalCount = licenseDao.totalCountDevice("totalCountDevice", licenseUseDevice);
 		licenseUseDevice.calc(pageSize_device, totalCount, licenseUseDevice.getCurrentPage(), maxResult_device);
 
-		List<LicenseSub> vo = licenseRepo.selectListDevice("selectListDevice", licenseUseDevice);
+		List<LicenseSub> vo = licenseDao.selectListDevice("selectListDevice", licenseUseDevice);
 		licenseUseDevice.setList(vo);
 
 		return licenseUseDevice;
@@ -238,18 +235,18 @@ public class LicenseServiceImpl implements LicenseService {
 	@Override
 	public int deleteLicenseUseDevice(int licensesubSeq) {
 		// TODO Auto-generated method stub
-		return licenseRepo.deleteLicenseUseDevice("deleteLicenseUseDevice", licensesubSeq);
+		return licenseDao.deleteLicenseUseDevice("deleteLicenseUseDevice", licensesubSeq);
 	}
 
 	@Override
 	public ConnectLicenseInfo licenseAuthCheckWithAccount(ConnectLicenseInfo connectLicenseInfo) {
 		// TODO Auto-generated method stub
-		List<Member> account = licenseRepo.checkAccountStatus("checkAccountStatus", connectLicenseInfo);
+		List<Member> account = licenseDao.checkAccountStatus("checkAccountStatus", connectLicenseInfo);
 
 		if(account.size() == 1) {//1. 계정 유무 체크
 			if(account.get(0).getUserStatus().equals("4")) {//2. 계정 상태 체크(사용중인것만)
 				connectLicenseInfo.setUserSeq(account.get(0).getUserSeq());
-				List<License> license = licenseRepo.checkRegistLicenseWithAccount("checkRegistLicenseWithAccount", account.get(0));//3. 해당 계정에 등록되어 있는 라이센스 상태 체크
+				List<License> license = licenseDao.checkRegistLicenseWithAccount("checkRegistLicenseWithAccount", account.get(0));//3. 해당 계정에 등록되어 있는 라이센스 상태 체크
 
 				if(license.size() == 1) {
 					connectLicenseInfo.setLicenseSeq(license.get(0).getLicenseSeq());
@@ -277,13 +274,13 @@ public class LicenseServiceImpl implements LicenseService {
 		// TODO Auto-generated method stub
 		try {
 			//4. 해당 계정(회원/사용자)으로 tb_license_sub에 등록된 내역이 있는지 확인 -> 있다면 이전꺼 삭제 (해당 계정의 새로운 디바이스 정보로 등록할 예정)
-			if(licenseRepo.checkLicenseUserExist("checkLicenseUserExist", connectLicenseInfo.getUserSeq())) {
-				licenseRepo.deleteLicenseSubByUserSeq("deleteLicenseSubByUserSeq", connectLicenseInfo.getUserSeq());
+			if(licenseDao.checkLicenseUserExist("checkLicenseUserExist", connectLicenseInfo.getUserSeq())) {
+				licenseDao.deleteLicenseSubByUserSeq("deleteLicenseSubByUserSeq", connectLicenseInfo.getUserSeq());
 			}
 
 			//5. 해당 계정(회원)의 Copy수 체크 -> Copy 여유가 있을 때만 사용자(디바이스) 등록할 수 있음
-			if( licenseRepo.getLicenseUserCount("getLicenseUserCount", connectLicenseInfo.getLicenseSeq()) <	connectLicenseInfo.getUserCopyCount() ) {
-				licenseRepo.licenseUserRegist("licenseUserRegist", connectLicenseInfo);
+			if(licenseDao.getLicenseUserCount("getLicenseUserCount", connectLicenseInfo.getLicenseSeq()) <	connectLicenseInfo.getUserCopyCount() ) {
+				licenseDao.licenseUserRegist("licenseUserRegist", connectLicenseInfo);
 				connectLicenseInfo.setResultCode("6000");
 			}else {
 				connectLicenseInfo.setResultCode("6005");
@@ -300,10 +297,10 @@ public class LicenseServiceImpl implements LicenseService {
 	public ConnectLicenseInfo licenseAuthCheckWithDevice(ConnectLicenseInfo connectLicenseInfo) {
 		// TODO Auto-generated method stub
 		//1. 계정 유무 체크
-		List<Member> account = licenseRepo.checkAccountStatus("checkAccountStatus", connectLicenseInfo);
+		List<Member> account = licenseDao.checkAccountStatus("checkAccountStatus", connectLicenseInfo);
 		if(account.size() == 1) {
 			//2. deviceSeq로 사용자 등록여부 확인(== Copy 체크)
-			List<ConnectLicenseInfo> checkData = licenseRepo.licenseAuthCheckWithDevice("licenseAuthCheckWithDevice", connectLicenseInfo);
+			List<ConnectLicenseInfo> checkData = licenseDao.licenseAuthCheckWithDevice("licenseAuthCheckWithDevice", connectLicenseInfo);
 	
 			if(checkData.size() == 1) {
 				connectLicenseInfo.setResultCode("6000");
@@ -322,13 +319,13 @@ public class LicenseServiceImpl implements LicenseService {
 	@Override
 	public String selectLicenseDisposalReason(int licenseSeq) {
 		// TODO Auto-generated method stub
-		return licenseRepo.selectLicenseDisposalReason("selectLicenseDisposalReason", licenseSeq);
+		return licenseDao.selectLicenseDisposalReason("selectLicenseDisposalReason", licenseSeq);
 	}
 
 	@Override
 	public String selectLicenseUseCompanyName(int userSeq) {
 		// TODO Auto-generated method stub
-		return licenseRepo.selectLicenseUseCompanyName("selectLicenseUseCompanyName", userSeq);
+		return licenseDao.selectLicenseUseCompanyName("selectLicenseUseCompanyName", userSeq);
 	}
 	
 }

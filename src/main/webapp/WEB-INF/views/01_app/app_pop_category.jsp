@@ -110,7 +110,7 @@ function Save(storeBundleId, depth){
         }
     });
 
-	if( returnValue == false) return;
+	if(returnValue == false) return;
 	
 	if(depth == 2){
 		if($('#categorySeq1').val() == "" || curVal1 == "" ){

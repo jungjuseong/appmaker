@@ -1,7 +1,7 @@
 package com.clbee.appmaker.service;
 
-import com.clbee.appmaker.repo.GroupRepo;
-import com.clbee.appmaker.model.GroupList;
+import com.clbee.appmaker.dao.GroupDao;
+import com.clbee.appmaker.model.list.GroupList;
 import com.clbee.appmaker.model.GroupMenu;
 import com.clbee.appmaker.model.GroupUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import java.util.List;
 public class GroupServiceImpl implements GroupService {
 
 	@Autowired
-	GroupRepo groupRepo;
+	GroupDao groupDao;
 
 	int pageSize = 10;
 	int maxResult = 10;
@@ -21,23 +21,23 @@ public class GroupServiceImpl implements GroupService {
 	int startNo = 0;
 	
 	@Override
-	public List<GroupMenu> selectMenu( String menu_type ) {
-		return groupRepo.selectMenu("selectMenu", menu_type);
+	public List<GroupMenu> selectMenu(String menu_type ) {
+		return groupDao.selectMenu("selectMenu", menu_type);
 	}
 
 	@Override
 	public void insertGroupUser(GroupUser groupUser) {
 		// TODO Auto-generated method stub
-		groupRepo.insertGroupUser("insertGroupUser", groupUser);
+		groupDao.insertGroupUser("insertGroupUser", groupUser);
 	}
 
 	@Override
-	public GroupList selectList( GroupList groupList ) {
+	public GroupList selectList(GroupList groupList ) {
 		// TODO Auto-generated method stub
 		List<GroupUser> vo = null;
 		
 		if(groupList.getCompanySeq() == 0) {//회원인경우
-			totalCount = groupRepo.totalCount("totalCountMemberGroup", groupList);
+			totalCount = groupDao.totalCount("totalCountMemberGroup", groupList);
 
 			groupList.calc(pageSize, totalCount, groupList.getCurrentPage(), maxResult);
 
@@ -45,9 +45,9 @@ public class GroupServiceImpl implements GroupService {
 				groupList.setSearchValue(null);
 			}
 
-			 vo = groupRepo.selectList("selectListMemberGroup", groupList);
+			 vo = groupDao.selectList("selectListMemberGroup", groupList);
 		}else {//사용자인경우
-			totalCount = groupRepo.totalCount("totalCountUserGroup", groupList);
+			totalCount = groupDao.totalCount("totalCountUserGroup", groupList);
 
 			groupList.calc(pageSize, totalCount, groupList.getCurrentPage(), maxResult);
 
@@ -55,7 +55,7 @@ public class GroupServiceImpl implements GroupService {
 				groupList.setSearchValue(null);
 			}
 
-			vo = groupRepo.selectList("selectListUserGroup", groupList);
+			vo = groupDao.selectList("selectListUserGroup", groupList);
 		}
 		
 		groupList.setList(vo);
@@ -65,16 +65,16 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public int groupNameOverlap(String groupName) {
 		// TODO Auto-generated method stub
-		return groupRepo.groupNameOverlap("groupNameOverlap", groupName);
+		return groupDao.groupNameOverlap("groupNameOverlap", groupName);
 	}
 	
 	//20180213 - lsy : user delete
 	@Override
 	public int deleteGroup(int numGroupSeq) {
-		int cnt = groupRepo.deleteCheck("deleteCheck", numGroupSeq);
+		int cnt = groupDao.deleteCheck("deleteCheck", numGroupSeq);
 		
 		if(cnt == 0) {
-			return groupRepo.deleteGroup("deleteGroup", numGroupSeq);
+			return groupDao.deleteGroup("deleteGroup", numGroupSeq);
 		}else if(cnt > 0) {
 			return 2;
 		}else {
@@ -85,19 +85,19 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public GroupUser selectGroupInfo(int groupSeq) {
 		// TODO Auto-generated method stub
-		return groupRepo.selectGroupInfo("selectGroupInfo", groupSeq);
+		return groupDao.selectGroupInfo("selectGroupInfo", groupSeq);
 	}
 
 	@Override
 	public void updateGroupUser(GroupUser groupUser) {
 		// TODO Auto-generated method stub
-		groupRepo.updateGroupUser("updateGroupUser", groupUser);
+		groupDao.updateGroupUser("updateGroupUser", groupUser);
 	}
 
 	@Override
 	public List<GroupUser> getSelectListGroup(int companySeq) {
 		// TODO Auto-generated method stub
-		return groupRepo.getSelectListGroup("getSelectListGroup", companySeq);
+		return groupDao.getSelectListGroup("getSelectListGroup", companySeq);
 	}
 	
 }

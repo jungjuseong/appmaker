@@ -177,7 +177,7 @@ $(document).ready(function(){
 	
 	$("#fm_app_contents_amt").focusout(function(){
 		if($("[name=fm_template_type_gb]").val() == '1' && !($("[name=fm_app_contents_gb]:checked").val()=="3")){
-			if( !($(this).is('[readonly]')) && (parseInt($("#fm_app_contents_amt").val()) < 2 || $("#fm_app_contents_amt").val() == "")){
+			if(!($(this).is('[readonly]')) && (parseInt($("#fm_app_contents_amt").val()) < 2 || $("#fm_app_contents_amt").val() == "")){
 				//message : 2 이상 숫자를 입력해 주십시오
 				alert("<spring:message code='template.write.039' />");
 				$("#fm_app_contents_amt").val('2');

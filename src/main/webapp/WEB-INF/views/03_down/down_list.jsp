@@ -79,7 +79,7 @@ $(document).ready(function(){
 	});	
 
 	
-	/* if( /|AppleWebKit|/i.test(navigator.userAgent) && "<c:out value='${userRole}'/>" == "[ROLE_COMPANY_DISTRIBUTOR]"){
+	/* if(/|AppleWebKit|/i.test(navigator.userAgent) && "<c:out value='${userRole}'/>" == "[ROLE_COMPANY_DISTRIBUTOR]"){
 		alert("배포자 다운로드");
 	}else{
 		
@@ -97,7 +97,7 @@ $(document).ready(function(){
 		if(${fn:indexOf(menuFunction, '131') != -1 }){
 			if(!(/Android|iPhone|iPad/i.test(navigator.userAgent))){
 				//데스크탑일때
-				if( spVal[0] == "CONTENTS" ){
+				if(spVal[0] == "CONTENTS" ){
 					//콘텐츠 인 경우
 
 					$('#downGubun').val(spVal[0]);
@@ -201,7 +201,7 @@ $(document).ready(function(){
 					alert("<spring:message code='down.list.029' />");
 					return;
 				}
-				if( spVal[0] == "CONTENTS" ){
+				if(spVal[0] == "CONTENTS" ){
 					//콘텐츠 인 경우
 
 					

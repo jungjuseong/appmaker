@@ -14,13 +14,13 @@ $(document).ready(function(){
 		<sec:authentication property="principal.authorities" var="userRole" />
 	</sec:authorize>
 
-	//alert('${appVO.distrGb}');
+	//alert('${app.distrGb}');
 	completGbStatus('load');
 	memDownGbStatus();nomemDownGbStatus();nomemCoupon('load');
 	settemplateAppcontents('load');
 	//custom radio button action;
 
-	var useUserVal = '${appVO.useUserGb}';
+	var useUserVal = '${app.useUserGb}';
 	if(useUserVal == 1){
 		$("#fixDiv").css("margin","10px 0px");
 		$("#use_user_pop").hide();
@@ -29,15 +29,15 @@ $(document).ready(function(){
 		$("#use_user_pop").show();
 	}
 
-	if('${appVO.appContentsGb}' == 3){
+	if('${app.appContentsGb}' == 3){
 		$("#appContentsAmt").prop("readonly", true);
 	}
 
-	if('${appVO.regGb}' == '2' ){
+	if('${app.regGb}' == '2' ){
 		$("#appContentsAmt").prop("readonly", true);
 	}
 
-	$("[name=useUserGb]").change( function(){
+	$("[name=useUserGb]").change(function(){
 		/* $.ajax({
             url: "/deviceIsOver200.html" ,
             type: "POST" ,
@@ -47,7 +47,7 @@ $(document).ready(function(){
             success: function (result){
                switch (result){
                       case 0 : alert("해당 이메일을 사용할 수 있습니다" );
-                     $( "#emailValidFlag" ).prop("value" ,1);
+                     $("#emailValidFlag" ).prop("value" ,1);
                       break ;
                     case 1 : alert("해당 이메일이 이미 존재 합니다." );
                       break ;
@@ -204,7 +204,7 @@ $(document).ready(function(){
 		if(storeBundleId1&&storeBundleId2){
 			provId = storeBundleId1+storeBundleId2;			
 		}
-		var url = "/app/provision/list.html?distrProfile=" + distrProfile+"&provId="+provId+"&appSeq=${appVO.appSeq}";			
+		var url = "/app/provision/list.html?distrProfile=" + distrProfile+"&provId="+provId+"&appSeq=${app.appSeq}";			
 		var opt = "width=" + winWidth + ", height=" + winHeight + ", top=" + winPosTop + ", left=" + winPosLeft + ", scrollbars=No, resizeable=No, status=No, toolbar=No";
 		//if(!provisionPopup){
 			provisionPopup = window.open(url, winName, opt);			
@@ -261,7 +261,7 @@ $(document).ready(function(){
 		var winPosTop = (screen.height - winHeight)/2;
 		var ostypeGb = $('[name=ostype]').val();
 		var appContentsAmt = $("#appContentsAmt").val();
-		var templateTypeGb = '${appVO.regGb }';
+		var templateTypeGb = '${app.regGb }';
 		var appContentsGb = $("[name=appContentsGb]:checked").val();
 
 		var url = "/app/template/list.html?currentPage=1&templateTypeGb=" + templateTypeGb + "&ostypeGb=" + ostypeGb +"&appContentsAmt=" + appContentsAmt +"&appContentsGb=" + appContentsGb;		
@@ -279,7 +279,7 @@ $(document).ready(function(){
 		var winHeight = 333;
 		var winPosLeft = (screen.width - winWidth)/2;
 		var winPosTop = (screen.height - winHeight)/2;
-		var url = "/app/category/category_write.html?storeBundleId=${appVO.storeBundleId}";		
+		var url = "/app/category/category_write.html?storeBundleId=${app.storeBundleId}";		
 		var opt = "width=" + winWidth + ", height=" + winHeight + ", top=" + winPosTop + ", left=" + winPosLeft + ", scrollbars=No, resizeable=No, status=No, toolbar=No";
 		//if(!templatePopup){
 			categoryPopup = window.open(url, "categoryPopup", opt);			
@@ -358,7 +358,7 @@ $(document).ready(function(){
 				},
 
 				 errorPlacement: function(error, element) {
-					error.appendTo( element.parent("td") );
+					error.appendTo(element.parent("td") );
 				},
 				validClass:"success"
 			});
@@ -535,7 +535,7 @@ $(document).ready(function(){
 		var isValid = false;
 		//varcompletGb_  = $('input:radio[name=completGb]:checked').val();
 		var inappCnt = $('#inappCnt').val();
-		var regGb = '${appVO.regGb }';
+		var regGb = '${app.regGb }';
 		//alert(regGb);
 		if(regGb=='1'){
 			var completGb = $('[name=completGb]:checked').val();
@@ -576,17 +576,17 @@ $(document).ready(function(){
 
 	function completGbStatus(type){
 
-		if( "${appVO.app_resultCode}" == "2" && $('input:radio[name=completGb]:checked').val() == 1){
+		if("${app.app_resultCode}" == "2" && $('input:radio[name=completGb]:checked').val() == 1){
 			alert("<spring:message code='app.modify.text75' />");
 			$("[name=completGb]").eq(1).prop('checked',true);
 		}else{
 			
 			//버전 업데이트한 이앱이 사용 여부가 YES이어야만, 
 			//완성여부 에따라 이전 버전을 사용안함으로 바꿀수있다. 
-			if("${appVO.useGb}" == "1"){
-				if("${appVO.completGb}" == "2" && $("[name=completGb]:checked").val() == '1'){
+			if("${app.useGb}" == "1"){
+				if("${app.completGb}" == "2" && $("[name=completGb]:checked").val() == '1'){
 					$("#isCompleteNoToYes").val("UPDATEOTHERYES");
-				}else if("${appVO.completGb}" == "2" && $("[name=completGb]:checked").val() == '2'){
+				}else if("${app.completGb}" == "2" && $("[name=completGb]:checked").val() == '2'){
 					$("#isCompleteNoToYes").val("UPDATEOTHERNO");
 				}
 			}
@@ -597,7 +597,7 @@ $(document).ready(function(){
 					if(radioArr.indexOf($(this).attr('name'))>-1){
 						$(this).prop('checked', false).attr('disabled', 'disabled');
 					}
-				}).promise().done( function(){ memDownGbStatus();nomemDownGbStatus();nomemCoupon();} );
+				}).promise().done(function(){ memDownGbStatus();nomemDownGbStatus();nomemCoupon();} );
 
 				$("#couponNum").attr("readonly",true);
 				$("#couponNum").attr("disabled",true);
@@ -616,7 +616,7 @@ $(document).ready(function(){
 								}
 							}
 							pname = $(this).attr('name');
-						}).promise().done( function(){
+						}).promise().done(function(){
 							memDownGbStatus();
 							nomemDownGbStatus();
 							nomemCoupon();
@@ -793,25 +793,25 @@ $(document).ready(function(){
 
 	//콘텐츠 수량 입력할때
 	$("#appContentsAmt").focusout(function(){
-		if(  !($(this).is('[readonly]')) &&( parseInt($("#appContentsAmt").val()) < 2 || $("#appContentsAmt").val() == "") ){
+		if(!($(this).is('[readonly]')) &&(parseInt($("#appContentsAmt").val()) < 2 || $("#appContentsAmt").val() == "") ){
 			alert("<spring:message code='app.modify.text72' />");
 			$("#appContentsAmt").val($("#pastTempForappContentsAmt").val());
 			return;
 		}
 		if($("[name=templateName]").val().length !== 0){
-			if( ($("[name=maxTemplateContentsGb]").val() != '3')  && parseInt($("[name=appContentsAmt]").val()) > parseInt($("[name=maxTemplateContentsAmt]").val()) ){
+			if(($("[name=maxTemplateContentsGb]").val() != '3')  && parseInt($("[name=appContentsAmt]").val()) > parseInt($("[name=maxTemplateContentsAmt]").val()) ){
 				alert("<spring:message code='anonymous.option.008' />");
 				$("#appContentsAmt").val($("#pastTempForappContentsAmt").val());
 				return;
 			}
 		}
-		if( ($("[name=appContentsGb]:checked").val() == '1') && (parseInt($(this).val()) < parseInt("${inappCnt}")) ){
+		if(($("[name=appContentsGb]:checked").val() == '1') && (parseInt($(this).val()) < parseInt("${inappCnt}")) ){
 			alert("<spring:message code='anonymous.option.009' />");
 			$("#appContentsAmt").val($("#pastTempForappContentsAmt").val());
 			$("#tempAmt").val($("#pastTempForappContentsAmt").val());
 			return;
 		}
-		if( ($("[name=appContentsGb]:checked").val() == '2') && (parseInt($(this).val()) < parseInt("${inappCnt}")) ){
+		if(($("[name=appContentsGb]:checked").val() == '2') && (parseInt($(this).val()) < parseInt("${inappCnt}")) ){
 			alert("<spring:message code='app.modify.text65' />");
 			$("#appContentsAmt").val($("#pastTempForappContentsAmt").val());
 			$("#tempAmt").val($("#pastTempForappContentsAmt").val());
@@ -852,7 +852,7 @@ $(document).ready(function(){
 	}
 
 	//버젼 코드 검증
-	$('#versionCode').keyup( function(){
+	$('#versionCode').keyup(function(){
 		var versionCode = $('#versionCode').val();
 		var pattern1 = /^[0-9]{1,99}$/;
 		var pattern2 = /^[0-9]{1,3}$/;
@@ -874,7 +874,7 @@ $(document).ready(function(){
 	});
 
 	$("#d_EDATE").mousedown(function(e){
-		if( $("#d_SDATE").val() == null || $("#d_SDATE").val() == ""){
+		if($("#d_SDATE").val() == null || $("#d_SDATE").val() == ""){
 			//message : 시작 날짜를 입력해주십시오.
 			alert("<spring:message code='contents.modify.039' />");
 			e.preventDefault();
@@ -889,7 +889,7 @@ $(document).ready(function(){
 		} 
 	});
 
-	$("#c_SDATE").change( function(){
+	$("#c_SDATE").change(function(){
 
 		//현재 시간
 		var d = new Date();
@@ -934,7 +934,7 @@ $(document).ready(function(){
 		}
 	});
 
-	$("#d_SDATE").change( function(){
+	$("#d_SDATE").change(function(){
 		//현재 시간
 		var d = new Date();
 		var curr_year = d.getFullYear();
@@ -979,17 +979,17 @@ $(document).ready(function(){
 		}
 	});
 
-	$("#use_user_pop").click( function(){
+	$("#use_user_pop").click(function(){
 		var target_ = "userPop";
 		var useS = $("#useS").val();
 	  	window.open("/assignment/user.html?useS="+useS,target_,"width=985, height=450, top=100, left=100, resizable=no, menubar=no, scrollbars=no");
 	});
 
-	$("#goToHistory").click( function(){
+	$("#goToHistory").click(function(){
 		window.open("/app/history.html?","popup","width=700, height=450, top=100, left=100, resizable=no, menubar=no, scrollbars=no");
 	});
 	
-	$("#appRequest").click( function(){
+	$("#appRequest").click(function(){
 		var appSeqTest = '${param.appSeq}'
 		var templateName = $("#templateName").val();
 		var templateSeq  = $("#templateSeq").val();
@@ -1020,7 +1020,7 @@ $(document).ready(function(){
 					storeBundleId : storeBundleIdJ,
 					descriptionText : descriptionTextJ,
 					verNum : verNumJ,
-					ostype : '${appVO.ostype}',
+					ostype : '${app.ostype}',
 					versionCode : versionCodeJ
 	            },
 	            success: function (result){
@@ -1069,7 +1069,7 @@ function cancelResist(){
 
 //관련 탬플릿이 있는 경우나 등록 수정시 탬플릿의 컨탠츠 타입 갯수 validate
 function checkAppappContentsAmtTemplateaContentsAmt(){
-	var regGb = "${appVO.regGb}";
+	var regGb = "${app.regGb}";
 	var valid = true;
 	if(regGb=='1'){		
 		var appContentsAmt = $('#appContentsAmt').val();
@@ -1101,7 +1101,7 @@ function settemplateAppcontents(action){
 	var cappContentsGb = 3;
 	//alert($('[name=templateSeq]').val());
 	if($('[name=templateSeq]').val()){
-		$.getJSON( "/app/template/appcontentsamt.html?templateSeq="+$('[name=templateSeq]').val(), function( data ) {
+		$.getJSON("/app/template/appcontentsamt.html?templateSeq="+$('[name=templateSeq]').val(), function(data ) {
 			//alert(data);
 			cappContentsAmt = data.appContentsAmt;
 			cappContentsGb = data.appContentsGb;
@@ -1136,8 +1136,8 @@ function settemplateAppcontents(action){
 			<input type="hidden" name="currentPage" id="" value="${appList.currentPage }">
 			<input type="hidden" name="searchType" id="" value="${appList.searchType }">
 			<input type="hidden" name="searchValue" id="" value="${appList.searchValue }">		
-			<input type="hidden" name="appSeq" id="" value="${appVO.appSeq }">
-			<input type="hidden" name="regGb" value="${appVO.regGb }" /><!-- 앱구분 단일앱, 서가앱 -->
+			<input type="hidden" name="appSeq" id="" value="${app.appSeq }">
+			<input type="hidden" name="regGb" value="${app.regGb }" /><!-- 앱구분 단일앱, 서가앱 -->
 			<input type="hidden" name="fileType" id="fileType" /><!-- 아이콘인지 캡쳐이미지인지 -->
 			<input type="hidden" name="saveFileSeq" id="saveFileSeq" /><!-- 파일삭제시 사용할 저장명 -->
 			<input type="hidden" name="saveFileName" id="saveFileName" /><!-- 파일삭제시 사용할 저장명 -->
@@ -1149,8 +1149,8 @@ function settemplateAppcontents(action){
 			<!-- 맨처음 페이지 로딩 될때, 템플릿의 최대 허용 콘텐츠 수량을 범위를 입력 -->
 			<input type="hidden" name="maxTemplateContentsAmt" id="maxAppContentsAmt" value="${templateVO.appContentsAmt }"/>
 			<input type="hidden" name="maxTemplateContentsGb" id="maxTemplateContentsGb" value="${templateVO.appContentsGb }" />
-			<input type="hidden" name="pastTempForappContentsAmt" id="pastTempForappContentsAmt" value="${appVO.appContentsAmt }" />
-			<input type="hidden" name="tempAmt"				id="tempAmt" value="${appVO.appContentsAmt }"/>
+			<input type="hidden" name="pastTempForappContentsAmt" id="pastTempForappContentsAmt" value="${app.appContentsAmt }" />
+			<input type="hidden" name="tempAmt"				id="tempAmt" value="${app.appContentsAmt }"/>
 			<input type="hidden" name="useS" id="useS" value="${useSelVal }" />
 		<div id="deleteFileList" style="display:none;">
 		</div>
@@ -1184,7 +1184,7 @@ function settemplateAppcontents(action){
 									<input id="appContentsAmt" class="tCenter onlyNum" name="appContentsAmt" type="text" value="1" style="ime-mode:disabled;width:138px;" onkeypress="return digit_check(event)">
 									</c:when>
 									<c:when test="${'1' eq appVO.regGb }">
-									<input id="appContentsAmt" class="tCenter onlyNum" name="appContentsAmt" type="text" value="${appVO.appContentsAmt}" style="ime-mode:disabled;width:138px;" onkeypress="return digit_check(event)">
+									<input id="appContentsAmt" class="tCenter onlyNum" name="appContentsAmt" type="text" value="${app.appContentsAmt}" style="ime-mode:disabled;width:138px;" onkeypress="return digit_check(event)">
 									</c:when>
 								</c:choose>
 								</span>
@@ -1200,13 +1200,13 @@ function settemplateAppcontents(action){
 						<tr>
 							<th><label class="title" for="name"><em>*</em> <spring:message code='app.modify.text7' /></label></th>
 							<td>
-								<input id="appName" name="appName" type="text" style="width:95%;" value="${appVO.appName }" maxlength="50">							
+								<input id="appName" name="appName" type="text" style="width:95%;" value="${app.appName }" maxlength="50">							
 							</td>
 						</tr>
 						<tr>
 							<th><label class="title" for="file"><em>*</em> <spring:message code='app.modify.text8' /></label></th>
 							<td>
-								<input id="fileName" name="fileName" type="text" style="width:95%;" value="${appVO.fileName }" maxlength="50">
+								<input id="fileName" name="fileName" type="text" style="width:95%;" value="${app.fileName }" maxlength="50">
 							</td>
 						</tr>
 						<tr>
@@ -1250,7 +1250,7 @@ function settemplateAppcontents(action){
 								<!-- <input id="storeBundleId" name="storeBundleId" type="text" style="width:138px;">-->
 								<div class="provarea" >
 									<ul>
-										<c:if test="${appVO.ostype!='4'}">
+										<c:if test="${app.ostype!='4'}">
 											<c:if test="${not empty bundleList}">
 												<c:forEach var="result" items="${bundleList }" varStatus="status">
 												<li class="provli">
@@ -1299,11 +1299,11 @@ function settemplateAppcontents(action){
 							</td>
 						</tr>
 						<c:choose>
-							<c:when test="${appVO.ostype == '4'}">
+							<c:when test="${app.ostype == '4'}">
 								<tr>
 									<th class="versionName"><label class="title line_right" for="version"><em>*</em> <spring:message code='app.modify.text26.1' /></label></th>
 									<td>
-										<input id="verNum" name="verNum" type="text" style="width:95%;" value="${appVO.verNum }">  <!-- width:78% -->
+										<input id="verNum" name="verNum" type="text" style="width:95%;" value="${app.verNum }">  <!-- width:78% -->
 										<%-- <a href="#" id="goToHistory" class="btn btnL btn_gray_light line_left"><spring:message code='contents.modify.004' /></a> --%>
 									</td>
 								</tr>
@@ -1312,39 +1312,39 @@ function settemplateAppcontents(action){
 								<tr>
 									<th class="versionName"><label class="title line_right" for="version"><em>*</em> <spring:message code='app.modify.text26' /></label></th>
 									<td>
-										<input id="verNum" name="verNum" type="text" style="width:78%;" value="${appVO.verNum }">
+										<input id="verNum" name="verNum" type="text" style="width:78%;" value="${app.verNum }">
 										<%-- <a id="appHistory" href="#appHistory" class="btn btnL btn_gray_light line_left"><spring:message code='contents.modify.004' /></a> --%>
 									</td>
 								</tr>
 							</c:otherwise>
 						</c:choose>
 						
-						<c:if test="${appVO.ostype == '4'}">
+						<c:if test="${app.ostype == '4'}">
 							<tr >
 								<th><label class="title" for="version"><em>*</em> <spring:message code='app.modify.text26.2' /></label></th>
 								<td>
-									<input  id="versionCode" name="versionCode" type="text" value="${appVO.versionCode }" style="width:95%;">
+									<input  id="versionCode" name="versionCode" type="text" value="${app.versionCode }" style="width:95%;">
 								</td>
 							</tr>
 						</c:if>
 						<tr>
 							<th><label class="title" for="template"><spring:message code='app.modify.text24' /></label></th>
 							<td>
-								<input type="hidden" id="templateSeq" name="templateSeq" value="${appVO.templateSeq }"/>
-								<input id="templateName" name="templateName" type="text" style="width:78%;" class="line_right" value="${appVO.templateName }">
+								<input type="hidden" id="templateSeq" name="templateSeq" value="${app.templateSeq }"/>
+								<input id="templateName" name="templateName" type="text" style="width:78%;" class="line_right" value="${app.templateName }">
 								<a id="templateNameBtn" href="#templateNameBtn_" class="btn btnL btn_gray_light line_left"><spring:message code='app.modify.text25' /></a>
 							</td>							
 						</tr>
 						<tr>
 							<th><label class="title" for="ex"><spring:message code='app.modify.text17' /></label></th>
 							<td>
-								<textarea id="ex" name="descriptionText" cols="" rows="4" style="width:95%;">${appVO.descriptionText }</textarea>
+								<textarea id="ex" name="descriptionText" cols="" rows="4" style="width:95%;">${app.descriptionText }</textarea>
 							</td>
 						</tr>
 						<tr>
 							<th><label class="title" for="mh"><spring:message code='app.modify.text27' /></label></th>
 							<td>
-								<textarea id="mh" name="chgText" cols="" rows="4" style="width:95%;">${appVO.chgText }</textarea>
+								<textarea id="mh" name="chgText" cols="" rows="4" style="width:95%;">${app.chgText }</textarea>
 							</td>
 						</tr>
 						<tr>
@@ -1355,10 +1355,10 @@ function settemplateAppcontents(action){
 									<ul class="clfix">	
 									<c:if test="${not empty appVO.iconSaveFile }">
 										<li>
-											<input type="hidden" name="iconOrgFile" value="${appVO.iconOrgFile }"/>
-											<input type="hidden" name="iconSaveFile" value="${appVO.iconSaveFile }"/>
+											<input type="hidden" name="iconOrgFile" value="${app.iconOrgFile }"/>
+											<input type="hidden" name="iconSaveFile" value="${app.iconSaveFile }"/>
 											<input type="hidden" name="thisFileType" value="icon"/>
-											<img src="<spring:message code='file.upload.path.app.icon.file' />${appVO.iconSaveFile}" alt="">
+											<img src="<spring:message code='file.upload.path.app.icon.file' />${app.iconSaveFile}" alt="">
 											<a class="removeImgBtn" href="#remove_img"><img src="/images/btn_close_s.png" alt="<spring:message code='app.modify.text71' />"></a>
 										</li>
 									</c:if>
@@ -1392,8 +1392,8 @@ function settemplateAppcontents(action){
 							<th><span class="title"><em>*</em> <spring:message code='extend.local.061' /></span></th>
 							<td>
 								<div id="fixDiv" class="radio_area" style="margin:0;">
-									<input name="useUserGb" id="um_1" type="radio" value="1" <c:if test="${appVO.useUserGb == 1}">checked="checked"</c:if>> <label style="margin-right:100px;" for="um_1"><spring:message code='template.modify.027' /></label>
-									<input name="useUserGb" id="um_2" type="radio" value="2" <c:if test="${appVO.useUserGb == 2}">checked="checked"</c:if>> <label for="um_2"><spring:message code='extend.local.077' /><%-- <span id="useCnt" style="margin-right:5px">(${UserCnt}<spring:message code='template.modify.028_2' />)</span> --%></label>
+									<input name="useUserGb" id="um_1" type="radio" value="1" <c:if test="${app.useUserGb == 1}">checked="checked"</c:if>> <label style="margin-right:100px;" for="um_1"><spring:message code='template.modify.027' /></label>
+									<input name="useUserGb" id="um_2" type="radio" value="2" <c:if test="${app.useUserGb == 2}">checked="checked"</c:if>> <label for="um_2"><spring:message code='extend.local.077' /><%-- <span id="useCnt" style="margin-right:5px">(${UserCnt}<spring:message code='template.modify.028_2' />)</span> --%></label>
 									<a href="#" id="use_user_pop" class="btn btnL btn_gray_light"> <spring:message code='extend.local.028' /></a>
 								</div>
 							</td>
@@ -1435,15 +1435,15 @@ function settemplateAppcontents(action){
 									</span>
 									<span>
 										<input type="radio" name="memDownGb" id="d1"  value="1" <c:if test="${'1' eq appVO.memDownGb }">checked="checked"</c:if>/><label for="d1"> <spring:message code='app.modify.text38' /></label>
-										<input name="memDownAmt" type="text"  class="tCenter" style="width:120px; " value="${appVO.memDownAmt }"  onkeypress="return digit_check(event)"  maxlength="3" />
-										&nbsp;&nbsp; <spring:message code='anonymous.option.010' />&nbsp;<input name ="memDownCnt" type="text" class="tCenter" style="width:120px;" value="${appVO.memDownCnt }" onkeypress="return digit_check(event)" maxlength="3"/>
+										<input name="memDownAmt" type="text"  class="tCenter" style="width:120px; " value="${app.memDownAmt }"  onkeypress="return digit_check(event)"  maxlength="3" />
+										&nbsp;&nbsp; <spring:message code='anonymous.option.010' />&nbsp;<input name ="memDownCnt" type="text" class="tCenter" style="width:120px;" value="${app.memDownCnt }" onkeypress="return digit_check(event)" maxlength="3"/>
 									</span>
 									<br/>
 									<span>
 										<input type="radio" name="memDownGb" id="d2"  value="2" <c:if test="${'2' eq appVO.memDownGb }">checked="checked"</c:if> /> <label for="d2"><spring:message code='app.modify.text39' /></label>
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="d_SDATE" name="memDownStartDt" type="text" title="start date" class="date fmDate1" value="<fmt:formatDate value="${appVO.memDownStartDt}" pattern="yyyy-MM-dd"/>" />
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="d_SDATE" name="memDownStartDt" type="text" title="start date" class="date fmDate1" value="<fmt:formatDate value="${app.memDownStartDt}" pattern="yyyy-MM-dd"/>" />
 										&nbsp;&nbsp;~&nbsp;&nbsp;
-										<input id="d_EDATE" name="memDownEndDt" type="text" title="end date"   class="date toDate1" value="<fmt:formatDate value="${appVO.memDownEndDt}" pattern="yyyy-MM-dd"/>" />
+										<input id="d_EDATE" name="memDownEndDt" type="text" title="end date"   class="date toDate1" value="<fmt:formatDate value="${app.memDownEndDt}" pattern="yyyy-MM-dd"/>" />
 									</span>
 									<br>
 									<span>
@@ -1459,20 +1459,20 @@ function settemplateAppcontents(action){
 									<span style="width:100%;">
 										<input name="couponGb" id="cou_y"  type="radio" value="1" <c:if test="${'1' eq appVO.couponGb }">checked="checked"</c:if>> <label for="cou_y"><spring:message code='app.modify.text33' /></label>
 										<input name="couponGb" id="cou_n"  type="radio" value="2" <c:if test="${'2' eq appVO.couponGb }">checked="checked"</c:if>> <label for="cou_n" style="margin-right:78px"><spring:message code='app.modify.text41' /></label>
-										<input id="couponNum" name="couponNum" type="text" style="width:43.2%;"  value="${appVO.couponNum }">
+										<input id="couponNum" name="couponNum" type="text" style="width:43.2%;"  value="${app.couponNum }">
 									</span>
 									<br/>
 									<span style="width:100%;">
 										<input type="radio" name="nonmemDownGb" id="c1"  value="1" <c:if test="${'1' eq appVO.nonmemDownGb }">checked="checked"</c:if>/><label for="c1"> <spring:message code='app.modify.text42' /></label>
-										<input name="nonmemDownAmt" type="text"  class="tCenter" style="width:120px; " value="${appVO.nonmemDownAmt }" onkeypress="return digit_check(event)" maxlength="3" />
-										&nbsp;&nbsp; <spring:message code='anonymous.option.010' />&nbsp;<input name="nonmemDownCnt" type="text"  class="tCenter" style="width:120px; " value="${appVO.nonmemDownCnt }" onkeypress="return digit_check(event)" maxlength="3"/>
+										<input name="nonmemDownAmt" type="text"  class="tCenter" style="width:120px; " value="${app.nonmemDownAmt }" onkeypress="return digit_check(event)" maxlength="3" />
+										&nbsp;&nbsp; <spring:message code='anonymous.option.010' />&nbsp;<input name="nonmemDownCnt" type="text"  class="tCenter" style="width:120px; " value="${app.nonmemDownCnt }" onkeypress="return digit_check(event)" maxlength="3"/>
 									</span>
 									<br/>
 									<span style="width:100%;">
 										<input type="radio" name="nonmemDownGb" id="c2"  value="2" <c:if test="${'2' eq appVO.nonmemDownGb }">checked="checked"</c:if>/> <label for="c2"><spring:message code='app.modify.text43' /></label>
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="c_SDATE" name="nonmemDownStarDt" type="text" title="start date" class="date fmDate2" value="<fmt:formatDate value="${appVO.nonmemDownStarDt}" pattern="yyyy-MM-dd"/>" />
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="c_SDATE" name="nonmemDownStarDt" type="text" title="start date" class="date fmDate2" value="<fmt:formatDate value="${app.nonmemDownStarDt}" pattern="yyyy-MM-dd"/>" />
 										&nbsp;&nbsp;~&nbsp;&nbsp;
-										<input id="c_EDATE" name="nonmemDownEndDt" type="text" title="end date"   class="date toDate2" value="<fmt:formatDate value="${appVO.nonmemDownEndDt}" pattern="yyyy-MM-dd"/>" />
+										<input id="c_EDATE" name="nonmemDownEndDt" type="text" title="end date"   class="date toDate2" value="<fmt:formatDate value="${app.nonmemDownEndDt}" pattern="yyyy-MM-dd"/>" />
 									</span>
 									<br>
 									<span style="width:100%;">

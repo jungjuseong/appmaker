@@ -25,7 +25,7 @@ $(document).ready(function(){
 		    view : true
 		}
 	
-	var jsonObj = jQuery.parseJSON( '${json}' );
+	var jsonObj = jQuery.parseJSON('${json}' );
 
     writeToDom('Formatted', JSON.stringify(jsonObj, null, 4));
 	

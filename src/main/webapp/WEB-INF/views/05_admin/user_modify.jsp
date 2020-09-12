@@ -26,7 +26,7 @@ $(document).ready(function(){
 	});
 	
 	jQuery.validator.addMethod("specialChar", function(value, element){
-		return this.optional( element ) || /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{0,16}$/.test(value);
+		return this.optional(element ) || /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{0,16}$/.test(value);
 	}, "wrong nic number");
 
 	if("<c:out value='${modifySuccess}'/>" == "true"){
@@ -199,7 +199,7 @@ $(document).ready(function(){
 			}
 		},
 		 errorPlacement: function(error, element) {
-			error.appendTo( element.parent("td") );
+			error.appendTo(element.parent("td") );
 		}
 	});
 
@@ -249,13 +249,13 @@ $(document).ready(function(){
 			$("#preventSubmit").val("0");
 			//message : 필수 사항을 입력해 주십시오.
 	    	alert("<spring:message code='user.modify.043' />");
-	    }else if( $("#emailValidFlag").val() === "0"){
+	    }else if($("#emailValidFlag").val() === "0"){
 	    	event.preventDefault();
 	    	$("#preventSubmit").val("0");
 	    	//message : 메일 중복확인을 해주십시오.
 	    	alert("<spring:message code='user.modify.044' />");
 	    }else{
-			if( "<c:out value='${memberVO.email}'/>" !== $("#email").val() ){
+			if("<c:out value='${memberVO.email}'/>" !== $("#email").val() ){
 				//message : 메일 변경 후 인증을 거치지 않으면 재 로그인시, 로그인이 불가능합니다. 괜찮습니까?
 				var result = confirm("<spring:message code='user.modify.040' />");
 				if(result == true){
@@ -264,7 +264,7 @@ $(document).ready(function(){
 					$("#userStatus").prop("value","4");
 					$("#preventSubmit").val("0");
 					//value값 바꿀때는 val로 써야함 attr은 바뀌긴하는데 화면상에서는 안ㅇ바뀜 
-					$("#email").val( "<c:out value='${memberVO.email}'/>");
+					$("#email").val("<c:out value='${memberVO.email}'/>");
 				}
 			}else{
 				if(!$(".error").text().length ){
@@ -280,7 +280,7 @@ $(document).ready(function(){
 		if($("email").val() === "<c:out value='${memberVO.email}'/>"){
 			$("#emailValidFlag").prop("value",1);
 			$("#userStatus").prop("value","4");
-		//}else if( $("email").val() != "<c:out value='${memberVO.email}'/>" && $("[name=userGb]:checked").val() != "1"){
+		//}else if($("email").val() != "<c:out value='${memberVO.email}'/>" && $("[name=userGb]:checked").val() != "1"){
 		}else{
 			$("#emailValidFlag").prop("value",0);
 			$("#userStatus").prop("value","5");
@@ -401,7 +401,7 @@ $(document).ready(function(){
 		setTimeout(function(){ $("[name=userStartDt").val($("[name=tempStartDt]").val()) }, 100);
 	});
 	
-	$("#d_SDATE").change( function(){
+	$("#d_SDATE").change(function(){
 
 		$("[name=tempStartDt]").val($(this).val());
 		//현재 시간
@@ -433,14 +433,14 @@ $(document).ready(function(){
 			curr_date = "0"+curr_date
 		}
 
-		/* if( curr_year < inputYear ){
-		}else if( curr_year == inputYear ){
-			if( curr_month < inputmonth ){
-				if( curr_date <= inputdate ){
+		/* if(curr_year < inputYear ){
+		}else if(curr_year == inputYear ){
+			if(curr_month < inputmonth ){
+				if(curr_date <= inputdate ){
 					
 				}
-			}else if( curr_month == inputmonth ){
-				if( curr_date <= inputdate ){
+			}else if(curr_month == inputmonth ){
+				if(curr_date <= inputdate ){
 					
 				}else{
 					var inputValue = curr_year +"-"+(curr_month)+"-"+curr_date;

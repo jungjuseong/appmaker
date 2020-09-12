@@ -1,6 +1,7 @@
 package com.clbee.appmaker;
 
-import com.clbee.appmaker.repo.MemberRepo;
+import com.clbee.appmaker.model.Member;
+import com.clbee.appmaker.service.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -11,15 +12,16 @@ import org.springframework.stereotype.Component;
 class MemberLister implements ApplicationRunner {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final MemberRepo memberRepo;
+    private final MemberService memberService;
 
-    MemberLister(MemberRepo memberRepo) {
-        this.memberRepo = memberRepo;
+    MemberLister(MemberService memberService) {
+        this.memberService = memberService;
     }
 
     @Override
     public void run(ApplicationArguments args) {
-        memberRepo.findAll().forEach(member -> logger.info("{}", member.getUserId()));
-        logger.info("{}", memberRepo.findByUserName("devicemanager"));
+        //memberRepo.findAll().forEach(member -> logger.info("{}", member.getUserId()));
+        Member member = memberService.findByUserName("devicemanager");
+        logger.info("{}", member);
     }
 }

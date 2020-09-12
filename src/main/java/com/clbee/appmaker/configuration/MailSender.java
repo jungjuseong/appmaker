@@ -18,7 +18,7 @@ public class MailSender {
 	public ReloadableResourceBundleMessageSource messageSource(){
 		ReloadableResourceBundleMessageSource bundleMessageSource = new ReloadableResourceBundleMessageSource();
 
-		bundleMessageSource.setBasenames("file:C:/context-common-new","classpath:messages", "file:C:/limit-user");
+		bundleMessageSource.setBasenames("classpath:context-common-new","classpath:messages");
 
 		bundleMessageSource.setCacheSeconds(1);
 		bundleMessageSource.setDefaultEncoding("UTF-8");
@@ -26,13 +26,11 @@ public class MailSender {
 	}
 	
 	@Bean(name = "localeResolver")
-	 public LocaleResolver sessionLocaleResolver(){
-	     SessionLocaleResolver localeResolver=new SessionLocaleResolver();
-
-		 localeResolver.setDefaultLocale(new Locale("ko"));
-
-	     return localeResolver;
-	 }  
+	public LocaleResolver sessionLocaleResolver(){
+		SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+		localeResolver.setDefaultLocale(new Locale("ko"));
+		return localeResolver;
+	}
 	@Bean
 	public JavaMailSender javaMailSender(){
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -43,9 +41,9 @@ public class MailSender {
 		
 		mailSender.setJavaMailProperties(props);
 
-		mailSender.setHost(messageSource().getMessage("send.email.domain", null, new Locale("ko")));
-		mailSender.setUsername(messageSource().getMessage("send.email.ID", null, new Locale("ko")));
-		mailSender.setPassword(messageSource().getMessage("send.email.PW", null, new Locale("ko")));
+		//mailSender.setHost(messageSource().getMessage("send.email.domain", null, new Locale("ko")));
+		//mailSender.setUsername(messageSource().getMessage("send.email.ID", null, new Locale("ko")));
+		//mailSender.setPassword(messageSource().getMessage("send.email.PW", null, new Locale("ko")));
 
 		return mailSender;
 	}	

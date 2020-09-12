@@ -1,19 +1,16 @@
 package com.clbee.appmaker.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
-
 import javax.persistence.*;
-
 import java.util.Date;
 
-
-/**
- * The persistent class for the tb_appcategory database table.
- * 
- */
+@Data
+@NoArgsConstructor
 @Entity
-//@Table(name="tb_appcategory", catalog="pbcms_test")
-@Table(name="tb_appcategory", catalog="pbcms_new")
+@Table(name="tb_appcategory", catalog="appmaker")
 public class Appcategory implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -56,10 +53,7 @@ public class Appcategory implements Serializable {
 	@Column(name="reg_user_seq")
 	private int regUserSeq;
 
-	public Appcategory() {
-	}
-
-	public void setAppcategoryVO( Appcategory updatedVO) {
+	public void setAppcategoryVO(Appcategory updatedVO) {
 		this.appSeq = updatedVO.getAppSeq();
 		this.categoryName = updatedVO.getCategoryName();
 		this.categoryParent = updatedVO.getCategoryParent();
@@ -72,101 +66,4 @@ public class Appcategory implements Serializable {
 		this.regUserId = updatedVO.getRegUserId();
 		this.regUserSeq = updatedVO.getRegUserSeq();
 	}
-
-	public int getAppSeq() {
-		return appSeq;
-	}
-
-	public void setAppSeq(int appSeq) {
-		this.appSeq = appSeq;
-	}
-	
-	public int getCategorySeq() {
-		return this.categorySeq;
-	}
-
-	public void setCategorySeq(int categorySeq) {
-		this.categorySeq = categorySeq;
-	}
-	
-	public String getCategoryName() {
-		return this.categoryName;
-	}
-
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
-
-	public int getCategoryParent() {
-		return this.categoryParent;
-	}
-
-	public void setCategoryParent(int categoryParent) {
-		this.categoryParent = categoryParent;
-	}
-
-	public Date getChgDt() {
-		return this.chgDt;
-	}
-
-	public void setChgDt(Date chgDt) {
-		this.chgDt = chgDt;
-	}
-
-	public String getChgUserGb() {
-		return this.chgUserGb;
-	}
-
-	public void setChgUserGb(String chgUserGb) {
-		this.chgUserGb = chgUserGb;
-	}
-
-	public String getChgUserId() {
-		return this.chgUserId;
-	}
-
-	public void setChgUserId(String chgUserId) {
-		this.chgUserId = chgUserId;
-	}
-
-	public int getChgUserSeq() {
-		return this.chgUserSeq;
-	}
-
-	public void setChgUserSeq(int chgUserSeq) {
-		this.chgUserSeq = chgUserSeq;
-	}
-
-	public Date getRegDt() {
-		return this.regDt;
-	}
-
-	public void setRegDt(Date regDt) {
-		this.regDt = regDt;
-	}
-
-	public String getRegUserGb() {
-		return this.regUserGb;
-	}
-
-	public void setRegUserGb(String regUserGb) {
-		this.regUserGb = regUserGb;
-	}
-
-	public String getRegUserId() {
-		return this.regUserId;
-	}
-
-	public void setRegUserId(String regUserId) {
-		this.regUserId = regUserId;
-	}
-
-	public int getRegUserSeq() {
-		return this.regUserSeq;
-	}
-
-	public void setRegUserSeq(int regUserSeq) {
-		this.regUserSeq = regUserSeq;
-	}
-
 }

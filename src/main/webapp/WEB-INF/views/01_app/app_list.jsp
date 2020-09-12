@@ -1,8 +1,8 @@
-﻿<%@page import="com.clbee.pbcms.util.ConditionCompile"%>
-<%@page import="com.clbee.pbcms.vo.AppVO"%>
+﻿<%@page import="com.clbee.appmaker.util.ConditionCompile"%>
+<%@page import="com.clbee.appmaker.model.App"%>
 <%@page import="java.util.List"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@page import="com.clbee.pbcms.vo.AppList"%>
+<%@page import="com.clbee.appmaker,model.AppList"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ include file="../inc/top.jsp" %>
 </head>

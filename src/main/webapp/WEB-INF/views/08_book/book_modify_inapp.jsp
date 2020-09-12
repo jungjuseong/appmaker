@@ -27,14 +27,14 @@ $(document).ready(function(){
 		$("#use_user_pop").show();
 	}
 
-	// 사용자 지정 버튼 위치 번경 ( 초기화 )
+	// 사용자 지정 버튼 위치 번경 (초기화 )
 	var iconHeight = parseInt($("#icon").css('height'));
 	var captureHeight = parseInt($("#capture").css('height'));
 	var popUpHeight = parseInt($("#use_user_pop").css('top'));
 	
 	$("#use_user_pop").css('top', popUpHeight+iconHeight+"px");
 
-	$("[name=useUserGb]").change( function(){
+	$("[name=useUserGb]").change(function(){
 		if($(this).val() == '1'){
 			$("#use_user_pop").hide();
 		}else if($(this).val() == '2'){
@@ -59,7 +59,7 @@ $(document).ready(function(){
 		if(e.keyCode=='13')goToSearch();
 	});
 
-	//alert('${appVO.distrGb}');
+	//alert('${app.distrGb}');
 	completGbStatus('load');
 	memDownGbStatus();nomemDownGbStatus();nomemCoupon('load');
 
@@ -302,7 +302,7 @@ $(document).ready(function(){
 				},
 				
 				 errorPlacement: function(error, element) {
-					error.appendTo( element.parent("td") );
+					error.appendTo(element.parent("td") );
 				},
 				validClass:"success"
 			});		
@@ -422,7 +422,7 @@ $(document).ready(function(){
 				if(radioArr.indexOf($(this).attr('name'))>-1){
 					$(this).prop('checked', false).attr('disabled', 'disabled');
 				}
-			}).promise().done( function(){ memDownGbStatus();nomemDownGbStatus();nomemCoupon();} );
+			}).promise().done(function(){ memDownGbStatus();nomemDownGbStatus();nomemCoupon();} );
 		}else{
 			var cname = '';
 			var pname = '';
@@ -446,7 +446,7 @@ $(document).ready(function(){
 						}
 					}
 					pname = $(this).attr('name');
-				}).promise().done( function(){
+				}).promise().done(function(){
 					memDownGbStatus();
 					nomemDownGbStatus();
 					nomemCoupon(); 
@@ -632,14 +632,14 @@ $(document).ready(function(){
 		else $("#nameChanged").val('1');
 	});
 	
-	$("#use_user_pop").click( function(){
+	$("#use_user_pop").click(function(){
 		var target_ = "userPop";
 		var useS = $("#useS").val();
 		var inappSeq = $("[name=inappSeq]").val();
 	  	window.open("/assignment/user.html?useS="+useS+"&inappSeq="+inappSeq,target_,"width=985, height=450, top=100, left=100, resizable=no, menubar=no, scrollbars=no");
 	});
 	
-	$("#appRequest").click( function(){
+	$("#appRequest").click(function(){
 		var inappSeqTest = '${param.inappSeq}'
 		$.ajax({
             url: "/book/createTextAppRequestPOST.html" ,

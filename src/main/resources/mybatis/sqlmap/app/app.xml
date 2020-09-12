@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="service.app.AppMapper">
 
-	<select id="selectAppVOByBundleIdAndOstype" parameterType="hashmap" resultType="java.util.LinkedHashMap">
+	<select id="selectAppByBundleIdAndOstype" parameterType="hashmap" resultType="java.util.LinkedHashMap">
 		SELECT
 		    a.app_seq as appSeq,
 		    a.reg_gb as regGb,
@@ -221,7 +221,7 @@
 		;
 	</select>
 	
-	<select id="selectAppForHistory" parameterType="java.util.List" resultType="com.clbee.pbcms.vo.AppVO">
+	<select id="selectAppForHistory" parameterType="java.util.List" resultType="com.clbee.appmaker.model.App">
 		SELECT
 			app_name as appName, ver_num as verNum, reg_user_id as regUserId, distribute_complet_dt as distributeCompletDt, app_size as appSize, description_text as descriptionText, limit_gb as limitGb, use_gb as useGb, complet_gb as completGb
 		FROM 
@@ -241,7 +241,7 @@
 		;
 	</select>
 	
-	<select id="selectInappForHistory" parameterType="java.util.List" resultType="com.clbee.pbcms.vo.InappVO">
+	<select id="selectInappForHistory" parameterType="java.util.List" resultType="com.clbee.appmaker.model.InApp">
 		SELECT 
 			inapp_name as inappName, ver_num as verNum, reg_user_id as regUserId, distribute_complet_dt as distributeCompletDt, inapp_size as inappSize, description_text as descriptionText, limit_gb as limitGb, use_gb as useGb, complet_gb as completGb, distribute_complet_dt as distributeCompletDt
 		FROM 
@@ -261,7 +261,7 @@
 		;
 	</select>
 	
-	<select id="selectAppBySeq" resultType="com.clbee.pbcms.vo.AppVO">
+	<select id="selectAppBySeq" resultType="com.clbee.appmaker.model.App">
 		SELECT 
 			app_contents_amt as appContentsAmt, app_contents_gb as appContentsGb, app_name as appName, file_name as fileName, ver_num as verNum, version_code as versionCode, template_name as templateName, template_seq as templateSeq, description_text as descriptionText, chg_text as chgText, icon_org_file as iconOrgFile, icon_save_file as iconSaveFile, login_gb as loginGb, use_gb as useGb, use_user_gb as useUserGb, install_gb as installGb, distr_gb as distrGb, mem_down_gb as memDownGb, mem_down_amt as memDownAmt, mem_down_start_dt as memDownStartDt, mem_down_end_dt as memDownEndDt, coupon_gb as couponGb, nonmem_down_gb as nonmemDownGb, nonmem_down_amt as nonmemDownAmt, nonmem_down_star_dt as nonmemDownStarDt, nonmem_down_end_dt as nonmemDownEndDt, complet_gb as completGb, reg_gb as regGb 
 		FROM 
@@ -271,7 +271,7 @@
 		;
 	</select>
 	
-	<select id="selectInappBySeq" resultType="com.clbee.pbcms.vo.InappVO">
+	<select id="selectInappBySeq" resultType="com.clbee.appmaker.model.InApp">
 		SELECT 
 			inapp_name as inappName, ver_num as verNum, category_seq as categorySeq, category_name as categoryName, description_text as descriptionText, inapp_org_file as inappOrgFile, inapp_save_file as inappSaveFile, icon_org_file as iconOrgFile, icon_save_file as iconSaveFile, use_gb as useGb, use_user_gb as useUserGb, screen_type as screenType, complet_gb as completGb 
 		FROM 
@@ -293,7 +293,7 @@
 		;
 	</select>
 	
-	<select id="getInAppByBundleId" parameterType="java.lang.String" resultType="com.clbee.pbcms.vo.InappVO">
+	<select id="getInAppByBundleId" parameterType="java.lang.String" resultType="com.clbee.appmaker.model.InApp">
 		SELECT
 			inapp_seq as inappSeq, inapp_name as inappName, ver_num as verNum, description_text as descriptionText, inapp_org_file as inappOrgFile,
 			inapp_save_file as inappSaveFile, reg_user_seq as regUserSeq, reg_user_id as regUserId, reg_user_gb as regUserGb, reg_dt as regDt,
@@ -306,7 +306,7 @@
 	</select>
 	<!-- 20180619 - lsy : when app request(Library), load inapp info - end -->
 	
-	<select id="selectBeforAppInfoBySeqForNewVersion" parameterType="java.lang.Integer" resultType="com.clbee.pbcms.vo.AppVO">
+	<select id="selectBeforAppInfoBySeqForNewVersion" parameterType="java.lang.Integer" resultType="com.clbee.appmaker.model.App">
 		SELECT
 			reg_gb as regGb, 
 			app_name as appName, 
@@ -330,7 +330,7 @@
 		;
 	</select>
 	
-	<insert id="insertNewVersionAppInfo" parameterType="com.clbee.pbcms.vo.AppVO">
+	<insert id="insertNewVersionAppInfo" parameterType="com.clbee.appmaker.model.App">
 		INSERT INTO 
 			tb_app 
 				(reg_gb, app_name, app_contents_amt, app_contents_gb, file_name, 
@@ -352,7 +352,7 @@
 		</selectKey>
 	</insert>
 	
-	<select id="selectBeforeBundleInfoByAppSeqForNewVersion" parameterType="java.lang.Integer" resultType="com.clbee.pbcms.vo.BundleVO">
+	<select id="selectBeforeBundleInfoByAppSeqForNewVersion" parameterType="java.lang.Integer" resultType="com.clbee.appmaker.model.Bundle">
 		SELECT 
 			prov_seq as provSeq, 
 			bundle_name as bundleName, 
@@ -377,7 +377,7 @@
 		;
 	</select>
 	
-	<insert id="insertNewVersionAppBundleInfo" parameterType="com.clbee.pbcms.vo.BundleVO">
+	<insert id="insertNewVersionAppBundleInfo" parameterType="com.clbee.appmaker.model.Bundle">
 		INSERT INTO 
 			tb_bundle 
 				(app_seq, prov_seq, bundle_name, os_type, prov_test_gb)
@@ -386,7 +386,7 @@
 		;
 	</insert>
 	
-	<select id="selectAppByAppSeqForMakeJobTicket" parameterType="java.lang.Integer" resultType="com.clbee.pbcms.vo.AppVO">
+	<select id="selectAppByAppSeqForMakeJobTicket" parameterType="java.lang.Integer" resultType="com.clbee.appmaker.model.App">
 		SELECT
 			ver_num as verNum,
 			file_name as fileName,
@@ -410,7 +410,7 @@
 		;
 	</select>
 	
-	<select id="selectBundleInfoByAppSeqForMakePbapp" parameterType="com.clbee.pbcms.vo.BundleVO" resultType="hashmap">
+	<select id="selectBundleInfoByAppSeqForMakePbapp" parameterType="com.clbee.appmaker.model.Bundle" resultType="hashmap">
 		SELECT 
 			bundle.prov_seq as provSeq, 
             bundle.prov_test_gb as provTestGb, 
@@ -446,7 +446,7 @@
 		;
 	</select>
 	
-	<select id="selectProvisionInfoByAppSeqForMakePbapp" parameterType="java.lang.Integer" resultType="com.clbee.pbcms.vo.ProvisionVO">
+	<select id="selectProvisionInfoByAppSeqForMakePbapp" parameterType="java.lang.Integer" resultType="com.clbee.appmaker.model.Provision">
 		SELECT 
 			bundle.prov_seq as provSeq, 
 		    provision.prov_name as provName

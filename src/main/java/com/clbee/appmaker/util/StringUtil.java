@@ -784,7 +784,7 @@ public class StringUtil {
 
 
     /**
-     * �����ڵ� ��ȯ ( 8859_1 --> KSC5601 )
+     * �����ڵ� ��ȯ (8859_1 --> KSC5601 )
      *
      * @param str
      *            ��ȯ�� ���ڿ�
@@ -803,7 +803,7 @@ public class StringUtil {
     }
 
     /**
-     * �����ڵ� ��ȯ ( 8859_1 --> KSC5601 )
+     * �����ڵ� ��ȯ (8859_1 --> KSC5601 )
      *
      * @param str
      *            ��ȯ�� ���ڿ�
@@ -825,7 +825,7 @@ public class StringUtil {
 
         String ret = (obj!=null) ? obj.toString().trim() : "";
 
-        if ( "".equals(ret) ) {
+        if ("".equals(ret) ) {
             return val;
         } else {
             return ret;
@@ -950,7 +950,7 @@ public class StringUtil {
                             0xa1);
                     }
                 } catch (UnsupportedEncodingException ex) {
-                    //throw new SQLException( ex.getMessage() );
+                    //throw new SQLException(ex.getMessage() );
                 } //try ��
             } //2��° if�� ��
         }
@@ -1365,7 +1365,7 @@ public class StringUtil {
                    nn = buf.charAt(i);
                    Character.UnicodeBlock uniTmp = Character.UnicodeBlock.of(nn);
 
-                if( uniTmp == Character.UnicodeBlock.HANGUL_COMPATIBILITY_JAMO ||
+                if(uniTmp == Character.UnicodeBlock.HANGUL_COMPATIBILITY_JAMO ||
                     uniTmp == Character.UnicodeBlock.HANGUL_JAMO ||
                     uniTmp == Character.UnicodeBlock.HANGUL_SYLLABLES ||
                     uniTmp == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION  ||
@@ -1438,7 +1438,7 @@ public class StringUtil {
 
                 //System.out.println("nn=[" + nn + "][" + uniTmp + "]");
 
-                if( uniTmp == Character.UnicodeBlock.HANGUL_COMPATIBILITY_JAMO ||
+                if(uniTmp == Character.UnicodeBlock.HANGUL_COMPATIBILITY_JAMO ||
                     uniTmp == Character.UnicodeBlock.HANGUL_JAMO ||
                     uniTmp == Character.UnicodeBlock.HANGUL_SYLLABLES ||
                     uniTmp == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION  ||
@@ -1558,14 +1558,14 @@ public class StringUtil {
         {
             br = new BufferedReader(new InputStreamReader(uURL.openStream() ) );
 
-            while( (sLine = br.readLine() ) != null )
+            while((sLine = br.readLine() ) != null )
             {
                 sDisplayString += sLine;
             }
 
         }
         catch(Exception e) { throw e; }
-        finally { try { if( br != null ) br.close(); } catch(Exception e) {} }
+        finally { try { if(br != null ) br.close(); } catch(Exception e) {} }
 
         return sDisplayString;
     }
@@ -1752,14 +1752,14 @@ public class StringUtil {
                 replace(replace(keyword, "[", "\\["), ")", "\\)"),
                 "(", "\\(");
 
-        Pattern p = Pattern.compile( keyword , Pattern.CASE_INSENSITIVE );
-        Matcher m = p.matcher( str );
+        Pattern p = Pattern.compile(keyword , Pattern.CASE_INSENSITIVE );
+        Matcher m = p.matcher(str );
         int start = 0;
         int lastEnd = 0;
         StringBuffer sbuf = new StringBuffer();
-        while( m.find() ) {
+        while(m.find() ) {
             start = m.start();
-            sbuf.append( str.substring(lastEnd, start) )
+            sbuf.append(str.substring(lastEnd, start) )
                 .append(startTag + m.group() + endTag );
             lastEnd = m.end();
         }

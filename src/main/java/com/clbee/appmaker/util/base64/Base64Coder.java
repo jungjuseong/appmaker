@@ -146,7 +146,7 @@ public static byte[] decode (char[] in) {
       int b3 = map2[i3];
       if (b0 < 0 || b1 < 0 || b2 < 0 || b3 < 0)
          throw new IllegalArgumentException ("Illegal character in Base64 encoded data.");
-      int o0 = ( b0       <<2) | (b1>>>4);
+      int o0 = (b0       <<2) | (b1>>>4);
       int o1 = ((b1 & 0xf)<<4) | (b2>>>2);
       int o2 = ((b2 &   3)<<6) |  b3;
       out[op++] = (byte)o0;

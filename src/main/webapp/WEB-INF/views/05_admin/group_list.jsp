@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ page import="com.clbee.pbcms.vo.GroupList"%>
+<%@ page import="com.clbee.appmaker.model.GroupList"%>
 <%@ include file="../inc/top.jsp" %>
 </head>
 

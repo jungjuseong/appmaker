@@ -13,13 +13,13 @@
 		;
 	</select>
 	
-	<insert id="insertGroupUser" parameterType="com.clbee.pbcms.vo.GroupUserVO">
+	<insert id="insertGroupUser" parameterType="com.clbee.appmaker.model.GroupUser">
 		INSERT INTO
 		tb_group_user(group_name, member_seq, company_seq, menu_large, menu_medium, menu_function, member_gb) 
 		VALUES(#{groupName},#{memberSeq},#{companySeq},#{menuLarge},#{menuMedium},#{menuFunction},#{memberGb});
 	</insert>
 
-	<select id="selectListMemberGroup" parameterType="com.clbee.appmaker.model.GroupList" resultType="com.clbee.appmaker.model.GroupUser">
+	<select id="selectListMemberGroup" parameterType="com.clbee.appmaker.model.list.GroupList" resultType="com.clbee.appmaker.model.GroupUser">
 		SELECT 
 			group_seq as groupSeq, group_name as groupName, member_seq as memberSeq, company_seq as companySeq, menu_large as menuLarge, menu_medium as menuMedium, menu_function as menuFunction
 		FROM 
@@ -97,7 +97,7 @@
 		;
 	</select>
 
-	<select id="selectListUserGroup" parameterType="com.clbee.pbcms.vo.GroupList" resultType="com.clbee.pbcms.vo.GroupUserVO">
+	<select id="selectListUserGroup" parameterType="com.clbee.appmaker.model.list.GroupList" resultType="com.clbee.appmaker.model.GroupUser">
 		SELECT 
 			group_seq as groupSeq, group_name as groupName, member_seq as memberSeq, company_seq as companySeq, menu_large as menuLarge, menu_medium as menuMedium, menu_function as menuFunction
 		FROM 
@@ -192,7 +192,7 @@
 			group_seq=#{numGroupSeq}
 	</delete>
 	
-	<select id="selectGroupInfo" resultType="com.clbee.pbcms.vo.GroupUserVO">
+	<select id="selectGroupInfo" resultType="com.clbee.appmaker.model.GroupUser">
 		SELECT 
 			group_seq as groupSeq, group_name as groupName, menu_medium as menuMedium, menu_function as menuFunction, member_gb as memberGb
 		FROM
@@ -202,7 +202,7 @@
 		;
 	</select>
 	
-	<update id="updateGroupUser" parameterType="com.clbee.pbcms.vo.GroupUserVO">
+	<update id="updateGroupUser" parameterType="com.clbee.appmaker.model.GroupUser">
 		UPDATE
 			tb_group_user
 		SET
@@ -215,7 +215,7 @@
 		;
 	</update>
 	
-	<select id="getSelectListGroup" parameterType="java.lang.Integer" resultType="com.clbee.pbcms.vo.GroupUserVO">
+	<select id="getSelectListGroup" parameterType="java.lang.Integer" resultType="com.clbee.appmaker.model.GroupUser">
 		SELECT 
 			group_seq as groupSeq, group_name as groupName, member_gb as memberGb 
 		FROM

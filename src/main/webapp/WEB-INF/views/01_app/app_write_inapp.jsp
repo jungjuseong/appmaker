@@ -135,7 +135,7 @@ $(document).ready(function(){
 				    	} 
 					},
 					errorPlacement: function(error, element) {
-						error.appendTo( element.parent("td") );
+						error.appendTo(element.parent("td") );
 					},
 					validClass:"success"
 				});	
@@ -219,7 +219,7 @@ $(document).ready(function(){
 		$('#categorySearch').focus().click();
 	});
 
-	$("#use_user_pop").click( function(){
+	$("#use_user_pop").click(function(){
 		
 	});
 }); 

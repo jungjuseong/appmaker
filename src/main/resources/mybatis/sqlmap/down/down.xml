@@ -15,7 +15,7 @@
 							use_gb AS USE_YN, complet_gb as COMPLETE_YN, distr_gb as SCOPE_YN, mem_down_gb as DOWNYN, CAST(IFNULL(mem_down_cnt,0) as UNSIGNED) as DOWNCNT, CAST(IFNULL(mem_down_amt,0) as UNSIGNED) as DOWNAMT, DATE_FORMAT(mem_down_start_dt, '%Y-%m-%d') as MEMDOWNSTDT, DATE_FORMAT(mem_down_end_dt, '%Y-%m-%d') as MEMDOWNENDT, coupon_gb as COUPON_YN, coupon_num as COUPON_NUM, nonmem_down_gb as NONDOWNYN, CAST(IFNULL(nonmem_down_cnt,0) as UNSIGNED) as NONDOWNCNT, CAST(IFNULL(nonmem_down_amt,0) as UNSIGNED) as NONDOWNAMT, DATE_FORMAT(nonmem_down_star_dt, '%Y-%m-%d') as NONMEMDOWNSTDT, DATE_FORMAT(nonmem_down_end_dt, '%Y-%m-%d') as NONMEMDOWNENDT, limit_gb as LIMIT_YN
 						FROM TB_APP
 							<!-- 1> 앱 생성 완료인것만(app_resultCode==1), 2> 앱 등록자가 있는 경우(reg_user_seq IS NOT NULL), 3>사용범위:All, 4>사용범위:특정사용자==>사용중인계정 자신인 경우 -->
-							WHERE 1 = 1 AND app_resultCode = '1' AND reg_user_seq IS NOT NULL AND (TB_APP.use_user_gb = '1' OR ( TB_APP.use_user_gb = '2' AND (SELECT COUNT(user_seq) FROM TB_APP_SUB WHERE TB_APP.app_seq = TB_APP_SUB.app_seq AND TB_APP_SUB.user_seq = #{sessionUserSeq} ) > 0))  
+							WHERE 1 = 1 AND app_resultCode = '1' AND reg_user_seq IS NOT NULL AND (TB_APP.use_user_gb = '1' OR (TB_APP.use_user_gb = '2' AND (SELECT COUNT(user_seq) FROM TB_APP_SUB WHERE TB_APP.app_seq = TB_APP_SUB.app_seq AND TB_APP_SUB.user_seq = #{sessionUserSeq} ) > 0))
 							<if test="ISMOBILE == 'ADD'">
 								AND install_gb = 1 AND ostype ='4'
 							</if>
@@ -47,34 +47,34 @@
 <!--			20180523 : lsy - 그룹권한 추가
  				<if test="AUTHORITY == 'ROLE_COMPANY_MEMBER' or AUTHORITY == 'ROLE_COMPANY_DISTRIBUTOR' or AUTHORITY == 'ROLE_COMPANY_CREATOR' " >	-->
 				<if test='check132 == "Y"'> 
-					AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND (COMPLETE_YN = '1' AND (SCOPE_YN = '1' AND (DOWNYN = '1' AND (DOWNCNT &lt; DOWNAMT AND 0 &lt; DOWNAMT) OR DOWNYN = '2' AND ( DATE_FORMAT(curdate(), '%Y-%m-%d') >= MEMDOWNSTDT AND DATE_FORMAT(curdate(), '%Y-%m-%d') &lt;= MEMDOWNENDT  )  OR DOWNYN = '3'  )) OR (COMPLETE_YN = '1' AND SCOPE_YN = '2') OR COMPLETE_YN IN ('2', '3', '4') )										  
+					AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND (COMPLETE_YN = '1' AND (SCOPE_YN = '1' AND (DOWNYN = '1' AND (DOWNCNT &lt; DOWNAMT AND 0 &lt; DOWNAMT) OR DOWNYN = '2' AND (DATE_FORMAT(curdate(), '%Y-%m-%d') >= MEMDOWNSTDT AND DATE_FORMAT(curdate(), '%Y-%m-%d') &lt;= MEMDOWNENDT  )  OR DOWNYN = '3'  )) OR (COMPLETE_YN = '1' AND SCOPE_YN = '2') OR COMPLETE_YN IN ('2', '3', '4') )
 				</if>
 <!--			20180523 : lsy - 그룹권한 추가
 				<if test="AUTHORITY == 'ROLE_COMPANY_USER'" >	-->
 				<if test='check132 == "N"'>
-					AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND (COMPLETE_YN = '1' AND (SCOPE_YN = '1' AND (DOWNYN = '1' AND (DOWNCNT &lt; DOWNAMT AND 0 &lt; DOWNAMT) OR DOWNYN = '2' AND ( DATE_FORMAT(curdate(), '%Y-%m-%d') >= MEMDOWNSTDT AND DATE_FORMAT(curdate(), '%Y-%m-%d') &lt;= MEMDOWNENDT  )  OR DOWNYN = '3'  )) OR (COMPLETE_YN = '1' AND SCOPE_YN = '2') )		
+					AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND (COMPLETE_YN = '1' AND (SCOPE_YN = '1' AND (DOWNYN = '1' AND (DOWNCNT &lt; DOWNAMT AND 0 &lt; DOWNAMT) OR DOWNYN = '2' AND (DATE_FORMAT(curdate(), '%Y-%m-%d') >= MEMDOWNSTDT AND DATE_FORMAT(curdate(), '%Y-%m-%d') &lt;= MEMDOWNENDT  )  OR DOWNYN = '3'  )) OR (COMPLETE_YN = '1' AND SCOPE_YN = '2') )
 				</if>
 <!--			20180604 : lsy - 그룹권한 추가
 				<if test="AUTHORITY != 'ROLE_COMPANY_DISTRIBUTOR'">
  -->
 				<if test='check134 == "Y"'>
-				    AND ( PROVISION_GUBUN != '2' OR PROVISION_GUBUN IS NULL  )
+				    AND (PROVISION_GUBUN != '2' OR PROVISION_GUBUN IS NULL  )
 				</if>
 <!--			20180604 : lsy - 그룹권한 추가 
 				<if test="AUTHORITY == 'ROLE_COMPANY_DISTRIBUTOR' and (ISMOBILE == 'ADD' or ISMOBILE=='IPHD') ">
  -->
 				<if test='check134 == "N" and (ISMOBILE == "ADD" or ISMOBILE=="IPHD")'>
-				    AND ( PROVISION_GUBUN != '2' OR PROVISION_GUBUN IS NULL )
+				    AND (PROVISION_GUBUN != '2' OR PROVISION_GUBUN IS NULL )
 				</if>
 			</if>
 			<if test="COMPANY_GB == 2 ">
 				<!-- AND REG_SEQ = #{REGSEQ} AND LIMIT_YN = '2' AND USE_YN='1' AND (COMPLETE_YN = '2' OR COMPLETE_YN = '1') -->
-<!-- 			AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND (COMPLETE_YN = '1' OR COMPLETE_YN = '2' AND (SCOPE_YN = '1' AND (DOWNYN = '1' AND REG_SEQ = #{REGSEQ} AND (DOWNCNT &lt; DOWNAMT AND 0 &lt; DOWNAMT) OR DOWNYN = '2' AND ( DATE_FORMAT(curdate(), '%Y-%m-%d') >= MEMDOWNSTDT AND DATE_FORMAT(curdate(), '%Y-%m-%d') &lt;= MEMDOWNENDT )  OR DOWNYN = '3'  )) AND SCOPE_YN = '2' AND COUPON_YN = '2' ) -->
+<!-- 			AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND (COMPLETE_YN = '1' OR COMPLETE_YN = '2' AND (SCOPE_YN = '1' AND (DOWNYN = '1' AND REG_SEQ = #{REGSEQ} AND (DOWNCNT &lt; DOWNAMT AND 0 &lt; DOWNAMT) OR DOWNYN = '2' AND (DATE_FORMAT(curdate(), '%Y-%m-%d') >= MEMDOWNSTDT AND DATE_FORMAT(curdate(), '%Y-%m-%d') &lt;= MEMDOWNENDT )  OR DOWNYN = '3'  )) AND SCOPE_YN = '2' AND COUPON_YN = '2' ) -->
 				AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND REG_SEQ = #{REGSEQ} 
 			</if>
 			<if test="COMPANY_GB == '' or COMPANY_GB == null"> 
 				<!-- AND LIMIT_YN = '2' AND USE_YN='1' AND COMPLETE_YN = '1' AND COUPON_YN = '2' -->
-				AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND (COMPLETE_YN = '1' AND (SCOPE_YN = '2' AND COUPON_YN = '2' AND (DOWNYN = '1' AND (DOWNCNT &lt; DOWNAMT AND 0 &lt; DOWNAMT) OR DOWNYN = '2' AND ( DATE_FORMAT(curdate(), '%Y-%m-%d') >= MEMDOWNSTDT AND DATE_FORMAT(curdate(), '%Y-%m-%d') &lt;= MEMDOWNENDT  ) OR DOWNYN = '3' )))			
+				AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND (COMPLETE_YN = '1' AND (SCOPE_YN = '2' AND COUPON_YN = '2' AND (DOWNYN = '1' AND (DOWNCNT &lt; DOWNAMT AND 0 &lt; DOWNAMT) OR DOWNYN = '2' AND (DATE_FORMAT(curdate(), '%Y-%m-%d') >= MEMDOWNSTDT AND DATE_FORMAT(curdate(), '%Y-%m-%d') &lt;= MEMDOWNENDT  ) OR DOWNYN = '3' )))
 			</if>				
 			 			
 			<if test="searchValue != null and searchValue != '' ">
@@ -105,7 +105,7 @@
 		SELECT count(*) AS DOWNTOTALCOUNT
 			FROM (
 				SELECT @RNUM := @RNUM + 1  AS ROWNUM, SIZE, GUBUN, PROVISION_GUBUN, FILENAME, INSTALL_YN, VERSION_CODE, SEQ, NAME, ACCFLAG, OSCODE, OSCODE2, OSTYPE, VERNUM, CATETYPE, SCOPE, REGDATE, CHGDATE, KEYVAL, REG_SEQ, USE_YN, COMPLETE_YN, SCOPE_YN, DOWNYN, DOWNCNT, DOWNAMT, MEMDOWNSTDT, MEMDOWNENDT, COUPON_YN, COUPON_NUM, NONDOWNYN, NONDOWNCNT, NONDOWNAMT, NONMEMDOWNSTDT, NONMEMDOWNENDT, LIMIT_YN
-					FROM ( 
+					FROM (
 						SELECT	SIZE, GUBUN, PROVISION_GUBUN, FILENAME, INSTALL_YN, VERSION_CODE, SEQ, COMPANY_SEQ, NAME, ACCFLAG, OSCODE, OSCODE2, OSTYPE, VERNUM, CATETYPE, SCOPE, REGDATE, CHGDATE, KEYVAL, REG_SEQ, USE_YN, COMPLETE_YN, SCOPE_YN, DOWNYN, DOWNCNT, DOWNAMT, MEMDOWNSTDT, MEMDOWNENDT, COUPON_YN, COUPON_NUM, NONDOWNYN, NONDOWNCNT, NONDOWNAMT, NONMEMDOWNSTDT, NONMEMDOWNENDT, LIMIT_YN
 							FROM (
 								SELECT
@@ -114,7 +114,7 @@
 									CASE ostype WHEN '1' THEN 'Universal' WHEN '2' THEN 'iPhone' WHEN '3' THEN 'iPad' WHEN '4' THEN 'Android' ELSE '' END as OSTYPE, ver_num as VERNUM, reg_gb as CATETYPE, CASE distr_gb WHEN '1' THEN 'íì' WHEN '2' THEN 'ë¹íì' END as SCOPE, reg_dt as REGDATE, chg_dt as CHGDATE, (SELECT bundle_name FROM TB_BUNDLE BUN WHERE BUN.app_seq = TB_APP.app_seq limit 1) as KEYVAL, reg_user_seq as REG_SEQ,
 									use_gb AS USE_YN, complet_gb as COMPLETE_YN, distr_gb as SCOPE_YN, mem_down_gb as DOWNYN, CAST(IFNULL(mem_down_cnt,0) as UNSIGNED) as DOWNCNT, CAST(IFNULL(mem_down_amt,0) as UNSIGNED) as DOWNAMT, DATE_FORMAT(mem_down_start_dt, '%Y-%m-%d') as MEMDOWNSTDT, DATE_FORMAT(mem_down_end_dt, '%Y-%m-%d') as MEMDOWNENDT, coupon_gb as COUPON_YN, coupon_num as COUPON_NUM, nonmem_down_gb as NONDOWNYN, CAST(IFNULL(nonmem_down_cnt,0) as UNSIGNED) as NONDOWNCNT, CAST(IFNULL(nonmem_down_amt,0) as UNSIGNED) as NONDOWNAMT, DATE_FORMAT(nonmem_down_star_dt, '%Y-%m-%d') as NONMEMDOWNSTDT, DATE_FORMAT(nonmem_down_end_dt, '%Y-%m-%d') as NONMEMDOWNENDT, limit_gb as LIMIT_YN
 								FROM TB_APP 
-								WHERE 1 = 1 AND app_resultCode = '1' AND reg_user_seq IS NOT NULL AND (TB_APP.use_user_gb = '1' OR ( TB_APP.use_user_gb = '2' AND (SELECT COUNT(user_seq) FROM TB_APP_SUB WHERE TB_APP.app_seq = TB_APP_SUB.app_seq AND TB_APP_SUB.user_seq = #{sessionUserSeq} ) > 0)) 
+								WHERE 1 = 1 AND app_resultCode = '1' AND reg_user_seq IS NOT NULL AND (TB_APP.use_user_gb = '1' OR (TB_APP.use_user_gb = '2' AND (SELECT COUNT(user_seq) FROM TB_APP_SUB WHERE TB_APP.app_seq = TB_APP_SUB.app_seq AND TB_APP_SUB.user_seq = #{sessionUserSeq} ) > 0))
 								<if test="ISMOBILE == 'ADD'">
 									AND install_gb = 1 AND ostype ='4'
 								</if>
@@ -146,35 +146,35 @@
  				<if test="AUTHORITY == 'ROLE_COMPANY_MEMBER' or AUTHORITY == 'ROLE_COMPANY_DISTRIBUTOR' or AUTHORITY == 'ROLE_COMPANY_CREATOR' " >	-->
 				<if test='check132 == "Y"'>  
 					<!-- AND LIMIT_YN = '2' AND USE_YN='1' AND (COMPLETE_YN = '1' OR COMPLETE_YN = '2') --> 
-					AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND (COMPLETE_YN = '1' AND (SCOPE_YN = '1' AND (DOWNYN = '1' AND (DOWNCNT &lt; DOWNAMT AND 0 &lt; DOWNAMT) OR DOWNYN = '2' AND ( DATE_FORMAT(curdate(), '%Y-%m-%d') >= MEMDOWNSTDT AND DATE_FORMAT(curdate(), '%Y-%m-%d') &lt;= MEMDOWNENDT  )  OR DOWNYN = '3'  )) OR (COMPLETE_YN = '1' AND SCOPE_YN = '2') OR COMPLETE_YN IN ('2', '3', '4'))					  
+					AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND (COMPLETE_YN = '1' AND (SCOPE_YN = '1' AND (DOWNYN = '1' AND (DOWNCNT &lt; DOWNAMT AND 0 &lt; DOWNAMT) OR DOWNYN = '2' AND (DATE_FORMAT(curdate(), '%Y-%m-%d') >= MEMDOWNSTDT AND DATE_FORMAT(curdate(), '%Y-%m-%d') &lt;= MEMDOWNENDT  )  OR DOWNYN = '3'  )) OR (COMPLETE_YN = '1' AND SCOPE_YN = '2') OR COMPLETE_YN IN ('2', '3', '4'))
 				</if>
 <!--			20180523 : lsy - 그룹권한 추가
 				<if test="AUTHORITY == 'ROLE_COMPANY_USER'" >	-->
 				<if test='check132 == "N"'>
 					<!-- AND LIMIT_YN = '2' AND USE_YN='1' AND COMPLETE_YN = '1' -->
-					AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND (COMPLETE_YN = '1' AND (SCOPE_YN = '1' AND (DOWNYN = '1' AND (DOWNCNT &lt; DOWNAMT AND 0 &lt; DOWNAMT) OR DOWNYN = '2' AND ( DATE_FORMAT(curdate(), '%Y-%m-%d') >= MEMDOWNSTDT AND DATE_FORMAT(curdate(), '%Y-%m-%d') &lt;= MEMDOWNENDT  )  OR DOWNYN = '3'  )) OR (COMPLETE_YN = '1' AND SCOPE_YN = '2') )		
+					AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND (COMPLETE_YN = '1' AND (SCOPE_YN = '1' AND (DOWNYN = '1' AND (DOWNCNT &lt; DOWNAMT AND 0 &lt; DOWNAMT) OR DOWNYN = '2' AND (DATE_FORMAT(curdate(), '%Y-%m-%d') >= MEMDOWNSTDT AND DATE_FORMAT(curdate(), '%Y-%m-%d') &lt;= MEMDOWNENDT  )  OR DOWNYN = '3'  )) OR (COMPLETE_YN = '1' AND SCOPE_YN = '2') )
 				</if>
 <!--			20180604 : lsy - 그룹권한 추가
 				<if test="AUTHORITY != 'ROLE_COMPANY_DISTRIBUTOR'">
  -->
 				<if test='check134 == "Y"'>
-				    AND ( PROVISION_GUBUN != '2' OR PROVISION_GUBUN IS NULL  )
+				    AND (PROVISION_GUBUN != '2' OR PROVISION_GUBUN IS NULL  )
 				</if>
 <!--			20180604 : lsy - 그룹권한 추가 
 				<if test="AUTHORITY == 'ROLE_COMPANY_DISTRIBUTOR' and (ISMOBILE == 'ADD' or ISMOBILE=='IPHD') ">
  -->
 				<if test='check134 == "N" and (ISMOBILE == "ADD" or ISMOBILE=="IPHD")'>
-				    AND ( PROVISION_GUBUN != 'AppStore' OR PROVISION_GUBUN IS NULL )
+				    AND (PROVISION_GUBUN != 'AppStore' OR PROVISION_GUBUN IS NULL )
 				</if>
 			</if>	
 			<if test="COMPANY_GB == 2 "> <!-- ê°ì¸ íì --> 
 				<!-- AND REG_SEQ = #{REGSEQ} AND LIMIT_YN = '2' AND USE_YN='1' AND (COMPLETE_YN = '2' OR COMPLETE_YN = '1') -->
-<!-- 			AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND (COMPLETE_YN = '1' OR COMPLETE_YN = '2' AND (SCOPE_YN = '1' AND (DOWNYN = '1' AND REG_SEQ = #{REGSEQ} AND (DOWNCNT &lt; DOWNAMT AND 0 &lt; DOWNAMT) OR DOWNYN = '2' AND ( DATE_FORMAT(curdate(), '%Y-%m-%d') >= MEMDOWNSTDT AND DATE_FORMAT(curdate(), '%Y-%m-%d') &lt;= MEMDOWNENDT )  OR DOWNYN = '3'  )) AND SCOPE_YN = '2' AND COUPON_YN = '2' ) -->
+<!-- 			AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND (COMPLETE_YN = '1' OR COMPLETE_YN = '2' AND (SCOPE_YN = '1' AND (DOWNYN = '1' AND REG_SEQ = #{REGSEQ} AND (DOWNCNT &lt; DOWNAMT AND 0 &lt; DOWNAMT) OR DOWNYN = '2' AND (DATE_FORMAT(curdate(), '%Y-%m-%d') >= MEMDOWNSTDT AND DATE_FORMAT(curdate(), '%Y-%m-%d') &lt;= MEMDOWNENDT )  OR DOWNYN = '3'  )) AND SCOPE_YN = '2' AND COUPON_YN = '2' ) -->
 				AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND REG_SEQ = #{REGSEQ} 
 			</if>
 			<if test="COMPANY_GB == '' or COMPANY_GB == null"> <!-- ê°ì¸ ë¹íì(ë¡ê·¸ì¸ìíì¬ë) --> 
 				<!-- AND LIMIT_YN = '2' AND USE_YN='1' AND COMPLETE_YN = '1' AND COUPON_YN = '2' -->
-				AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND (COMPLETE_YN = '1' AND (SCOPE_YN = '2' AND COUPON_YN = '2' AND (DOWNYN = '1' AND (DOWNCNT &lt; DOWNAMT AND 0 &lt; DOWNAMT) OR DOWNYN = '2' AND ( DATE_FORMAT(curdate(), '%Y-%m-%d') >= MEMDOWNSTDT AND DATE_FORMAT(curdate(), '%Y-%m-%d') &lt;= MEMDOWNENDT  ) OR DOWNYN = '3' )))				
+				AND (LIMIT_YN != '1' OR LIMIT_YN IS NULL) AND USE_YN='1' AND (COMPLETE_YN = '1' AND (SCOPE_YN = '2' AND COUPON_YN = '2' AND (DOWNYN = '1' AND (DOWNCNT &lt; DOWNAMT AND 0 &lt; DOWNAMT) OR DOWNYN = '2' AND (DATE_FORMAT(curdate(), '%Y-%m-%d') >= MEMDOWNSTDT AND DATE_FORMAT(curdate(), '%Y-%m-%d') &lt;= MEMDOWNENDT  ) OR DOWNYN = '3' )))
 			</if>			
 													
 			<if test="searchValue != null and searchValue != '' ">

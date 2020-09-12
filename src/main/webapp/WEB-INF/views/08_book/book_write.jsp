@@ -245,14 +245,14 @@ $(document).ready(function(){
 		        var self = this, val;
 		        $.data(this, 'timer', window.setInterval(function() {
 		            val = self.value;
-		            if ( $.data( self, 'cache') != val ) {
-		                $.data( self, 'cache', val );
-		                $( self ).trigger( 'inputchange' );
+		            if ($.data(self, 'cache') != val ) {
+		                $.data(self, 'cache', val );
+		                $(self ).trigger('inputchange' );
 		            }
 		        }, 20));
 		    },
 		    teardown: function() {
-		        window.clearInterval( $.data(this, 'timer') );
+		        window.clearInterval($.data(this, 'timer') );
 		    },
 		    add: function() {
 		        $.data(this, 'cache', this.value);
@@ -273,7 +273,7 @@ $(document).ready(function(){
 		var winPosTop = (screen.height - winHeight)/2;
 		var ostypeGb = $('[name=ostype]').val();
 		var appContentsAmt = $("#appContentsAmt").val();
-		var templateTypeGb = '${appVO.regGb }';
+		var templateTypeGb = '${app.regGb }';
 		var appContentsGb = $("[name=appContentsGb]:checked").val();
 		var url = "/app/template/list.html?currentPage=1&templateTypeGb=" + templateTypeGb + "&ostypeGb=" + ostypeGb + "&appContentsAmt=" + appContentsAmt +"&appContentsGb=" + appContentsGb;		
 		var opt = "width=" + winWidth + ", height=" + winHeight + ", top=" + winPosTop + ", left=" + winPosLeft + ", scrollbars=No, resizeable=No, status=No, toolbar=No";
@@ -344,7 +344,7 @@ $(document).ready(function(){
 						}							
 					},
 					 errorPlacement: function(error, element) {
-						error.appendTo( element.parent("td") );
+						error.appendTo(element.parent("td") );
 					},
 					validClass:"success"
 				});	
@@ -422,14 +422,14 @@ $(document).ready(function(){
 
 	//콘텐츠 수량 입력할때
 	$("#appContentsAmt").focusout(function(){
-		if( !($(this).is('[readonly]')) && (parseInt($("#appContentsAmt").val()) < 2 || $("#appContentsAmt").val() == "") ){
+		if(!($(this).is('[readonly]')) && (parseInt($("#appContentsAmt").val()) < 2 || $("#appContentsAmt").val() == "") ){
 			//message : 2 이상 일벽해 주쉽시오.
 			alert("<spring:message code='app.write.text58' />");
 			$("#appContentsAmt").val('2');
 		}
 
 		if($("[name=templateName]").val().length !== 0){
-			if( $("[name=appContentsAmt]").val() > $("[name=maxTemplateContentsAmt]").val() ){
+			if($("[name=appContentsAmt]").val() > $("[name=maxTemplateContentsAmt]").val() ){
 				//message : 앱의 콘텐츠 수량이 템플릿의 수량보다 초과될수 없습니다.
 				alert("<spring:message code='anonymous.option.003' />");
 				$("#appContentsAmt").val($("[name=maxTemplateContentsAmt]").val());
@@ -476,7 +476,7 @@ $(document).ready(function(){
 	}
 
 	//버젼 코드 검증
-	$('#versionCode').keyup( function(){
+	$('#versionCode').keyup(function(){
 		var versionCode = $('#versionCode').val();
 		var pattern1 = /^[0-9]{1,99}$/;
 		var pattern2 = /^[0-9]{1,3}$/;
@@ -509,7 +509,7 @@ $(document).ready(function(){
 	});
 
 	//파일 이름 검증 
-	$("#fileName").keyup( function(){
+	$("#fileName").keyup(function(){
 		var fileName = $(this).val();
 		var pattern1 = /^[a-zA-Z0-9]{1,}$/;
 		var pattern2 = /^[a-zA-Z0-9]{1,40}$/;
@@ -582,7 +582,7 @@ function checkBuldeId(){
 			<input type="hidden" name="searchValue" id="searchValue" value="${appList.searchValue }">
 		</form>
 		<form name="appForm" id="appForm" method="post" enctype="multipart/form-data" action="" >
-			<input type="hidden" name="regGb" value="${appVO.regGb }" /><!-- 앱구분 단일앱, 서가앱 -->
+			<input type="hidden" name="regGb" value="${app.regGb }" /><!-- 앱구분 단일앱, 서가앱 -->
 			<input type="hidden" name="fileType" id="fileType" /><!-- 아이콘인지 캡쳐이미지인지 -->
 			<input type="hidden" name="saveFileSeq" id="saveFileSeq" /><!-- 파일삭제시 사용할 저장명 -->
 			<input type="hidden" name="saveFileName" id="saveFileName" /><!-- 파일삭제시 사용할 저장명 -->

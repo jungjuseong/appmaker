@@ -18,7 +18,7 @@
         define(['jquery'], factory);
     } else {
         // no AMD; invoke directly
-        factory( (typeof(jQuery) != 'undefined') ? jQuery : window.Zepto );
+        factory((typeof(jQuery) != 'undefined') ? jQuery : window.Zepto );
     }
 }
 
@@ -76,11 +76,11 @@ var hasProp = !!$.fn.prop;
 // contains inputs with names like "action" or "method"; in those
 // cases "prop" returns the element
 $.fn.attr2 = function() {
-    if ( ! hasProp ) {
+    if (! hasProp ) {
         return this.attr.apply(this, arguments);
     }
     var val = this.prop.apply(this, arguments);
-    if ( ( val && val.jquery ) || typeof val === 'string' ) {
+    if ((val && val.jquery ) || typeof val === 'string' ) {
         return val;
     }
     return this.attr.apply(this, arguments);
@@ -104,7 +104,7 @@ $.fn.ajaxSubmit = function(options) {
     if (typeof options == 'function') {
         options = { success: options };
     }
-    else if ( options === undefined ) {
+    else if (options === undefined ) {
         options = {};
     }
 
@@ -141,7 +141,7 @@ $.fn.ajaxSubmit = function(options) {
     }
 
     var traditional = options.traditional;
-    if ( traditional === undefined ) {
+    if (traditional === undefined ) {
         traditional = $.ajaxSettings.traditional;
     }
 
@@ -167,7 +167,7 @@ $.fn.ajaxSubmit = function(options) {
 
     var q = $.param(a, traditional);
     if (qx) {
-        q = ( q ? (q + '&' + qx) : qx );
+        q = (q ? (q + '&' + qx) : qx );
     }
     if (options.type.toUpperCase() == 'GET') {
         options.url += (options.url.indexOf('?') >= 0 ? '&' : '?') + q;
@@ -360,7 +360,7 @@ $.fn.ajaxSubmit = function(options) {
             // ensure that every serialized input is still enabled
             for (i=0; i < elements.length; i++) {
                 el = $(elements[i]);
-                if ( hasProp ) {
+                if (hasProp ) {
                     el.prop('disabled', false);
                 }
                 else {
@@ -683,7 +683,7 @@ $.fn.ajaxSubmit = function(options) {
                 };
                 // support for XHR 'status' & 'statusText' emulation :
                 if (docRoot) {
-                    xhr.status = Number( docRoot.getAttribute('status') ) || xhr.status;
+                    xhr.status = Number(docRoot.getAttribute('status') ) || xhr.status;
                     xhr.statusText = docRoot.getAttribute('statusText') || xhr.statusText;
                 }
 
@@ -695,7 +695,7 @@ $.fn.ajaxSubmit = function(options) {
                     if (ta) {
                         xhr.responseText = ta.value;
                         // support for XHR 'status' & 'statusText' emulation :
-                        xhr.status = Number( ta.getAttribute('status') ) || xhr.status;
+                        xhr.status = Number(ta.getAttribute('status') ) || xhr.status;
                         xhr.statusText = ta.getAttribute('statusText') || xhr.statusText;
                     }
                     else if (scr) {
@@ -805,7 +805,7 @@ $.fn.ajaxSubmit = function(options) {
             return window['eval']('(' + s + ')');
         };
 
-        var httpData = function( xhr, type, s ) { // mostly lifted from jq1.4.4
+        var httpData = function(xhr, type, s ) { // mostly lifted from jq1.4.4
 
             var ct = xhr.getResponseHeader('content-type') || '',
                 xml = type === 'xml' || !type && ct.indexOf('xml') >= 0,
@@ -867,7 +867,7 @@ $.fn.ajaxForm = function(options) {
         return this;
     }
 
-    if ( options.delegation ) {
+    if (options.delegation ) {
         $(document)
             .off('submit.form-plugin', this.selector, doAjaxSubmit)
             .off('click.form-plugin', this.selector, captureSubmittingElement)
@@ -955,9 +955,9 @@ $.fn.formToArray = function(semantic, elements) {
     }
 
     // #386; account for inputs outside the form which use the 'form' attribute
-    if ( formId ) {
+    if (formId ) {
         els2 = $(':input[form="' + formId + '"]').get(); // hat tip @thet
-        if ( els2.length ) {
+        if (els2.length ) {
             els = (els || []).concat(els2);
         }
     }
@@ -1200,7 +1200,7 @@ $.fn.clearFields = $.fn.clearInputs = function(includeHidden) {
             // indicating a special test; for example:
             //  $('#myForm').clearForm('.special:hidden')
             // the above would clean hidden inputs that have the class of 'special'
-            if ( (includeHidden === true && /hidden/.test(t)) ||
+            if ((includeHidden === true && /hidden/.test(t)) ||
                  (typeof includeHidden == 'string' && $(this).is(includeHidden)) ) {
                 this.value = '';
             }

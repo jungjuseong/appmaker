@@ -73,7 +73,7 @@
 		;
 	</select>
 	
-	<select id="selectContentsForHistory" parameterType="java.util.List" resultType="com.clbee.pbcms.vo.ContentVO">
+	<select id="selectContentsForHistory" parameterType="java.util.List" resultType="com.clbee.appmaker.model.Content">
 		SELECT contents_name as contentsName, ver_num as verNum, reg_user_id as regUserId, distribute_complet_dt as distributeCompletDt, contents_size as contentsSize, description_text as descriptionText, limit_gb as limitGb, use_gb as useGb, complet_gb as completGb
 		FROM tb_contents 
 			<foreach collection="list" item="item">
@@ -90,7 +90,7 @@
 	<!-- 20180327 - lsy : develop version managemenet - end -->
 	
 	<!-- 20180607 : lsy - app make request -> contents select -->
-	<select id="getListContentsForAppMake" parameterType="hashmap" resultType="com.clbee.pbcms.vo.ContentVO">
+	<select id="getListContentsForAppMake" parameterType="hashmap" resultType="com.clbee.appmaker.model.Content">
 		SELECT 
 			contents_seq as contentsSeq, contents_name as contentsName, ver_num as verNum, contents_size as contentsSize, complet_gb as completGb, chg_dt as chgDt, reg_user_id as regUserId
 		FROM
@@ -116,7 +116,7 @@
     	SELECT * FROM tb_contents
 	</select>
 	
-	<select id="selectRelatedAppinfo" parameterType="hashmap" resultType="com.clbee.pbcms.vo.ContentVO">
+	<select id="selectRelatedAppinfo" parameterType="hashmap" resultType="com.clbee.appmaker.model.Content">
     	SELECT 
     		contents_seq as contentsSeq, app_name as appName, app_type as appType
     	FROM 
@@ -144,7 +144,7 @@
 		;
 	</select>
 
-	<select id="selectRelatedAppInfoNew" parameterType="java.lang.Integer" resultType="com.clbee.pbcms.vo.ContentVO">
+	<select id="selectRelatedAppInfoNew" parameterType="java.lang.Integer" resultType="com.clbee.appmaker.model.Content">
 		SELECT 
 			app_name as appName, app_type as appType
 		FROM
@@ -186,7 +186,7 @@
 		;
 	</select>
 	
-	<insert id="insertContentsFromInapp" parameterType="com.clbee.pbcms.vo.ContentVO">
+	<insert id="insertContentsFromInapp" parameterType="com.clbee.appmaker.model.Content">
 		INSERT INTO 
 			tb_contents 
 				(app_name, app_type, company_seq, complet_gb, contents_name, 
@@ -206,7 +206,7 @@
 		</selectKey>
 	</insert>
 	
-	<insert id="insertContentsSubFromInapp" parameterType="com.clbee.pbcms.vo.ContentsappSubVO">
+	<insert id="insertContentsSubFromInapp" parameterType="com.clbee.appmaker.model.ContentsAppSub">
 		INSERT INTO 
 			tb_contentsapp_sub 
 				(contents_seq, app_seq, inapp_seq) 
@@ -226,7 +226,7 @@
 		;
 	</select>
 	
-	<select id="selectBeforeContentInfo" parameterType="java.lang.Integer" resultType="com.clbee.pbcms.vo.ContentVO">		
+	<select id="selectBeforeContentInfo" parameterType="java.lang.Integer" resultType="com.clbee.appmaker.model.Content">
 		SELECT 
 			app_name as appName, app_type as appType
 		FROM

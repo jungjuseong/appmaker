@@ -7,7 +7,7 @@
 
 $(document).ready(function(){
 /* 	20180528 : lsy - lsy - 그룹권한 추가(기존권한 삭제)
-	if( "${memberVO.userGb}" == "1"){
+	if("${memberVO.userGb}" == "1"){
 		$("#isUseMail").val("false");
 		$(".rowtable").find("tr").eq(4).find("em").html("")
 	}else{
@@ -22,7 +22,7 @@ $(document).ready(function(){
 	}
 	
 	jQuery.validator.addMethod("specialChar", function(value, element){
-		return this.optional( element ) || /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=_-])(?=.*[0-9]).{0,16}$/.test(value);
+		return this.optional(element ) || /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=_-])(?=.*[0-9]).{0,16}$/.test(value);
 	}, "wrong nic number");
 	
 	$("#lastName").keyup(function(){
@@ -110,7 +110,7 @@ $(document).ready(function(){
 	    	email: {
 				required: {
 					depends : function () {  
-						if( $("#isUseMail").val() == "true"){
+						if($("#isUseMail").val() == "true"){
 							return true;
 						}else{
 							return false;
@@ -183,7 +183,7 @@ $(document).ready(function(){
 			} 
 		},
 		 errorPlacement: function(error, element) {
-			error.appendTo( element.parent("td") );
+			error.appendTo(element.parent("td") );
 		}
 	});
 
@@ -249,7 +249,7 @@ $(document).ready(function(){
 			alert("<spring:message code='mypage.modify.024' />");
 			$("#email").focus();
 		}
-		else if( $("#emailValidFlag").val() == "0" && $("#isUseMail").val() == "false" && $("#email").val().length > 0){
+		else if($("#emailValidFlag").val() == "0" && $("#isUseMail").val() == "false" && $("#email").val().length > 0){
 	    	event.preventDefault();
 	    	//message : 메일 중복확인을 해주십시오.
 	    	alert("<spring:message code='mypage.modify.024' />");
@@ -258,8 +258,8 @@ $(document).ready(function(){
 	    	if(!$(".error").text().length  && $("#preventSubmit").val() == 0 ){
 				$("#preventSubmit").val("1");
 //				20180528 : lsy - lsy - 그룹권한 추가(기존권한 삭제) > 기존 로직 변경
-//				if( "<c:out value='${memberVO.email}'/>" != $("#email").val() && '${memberVO.userGb}' != '1' && $("#email").val().length > 0){
-				if( "<c:out value='${memberVO.email}'/>" != $("#email").val() && $("#email").val().length > 0){
+//				if("<c:out value='${memberVO.email}'/>" != $("#email").val() && '${memberVO.userGb}' != '1' && $("#email").val().length > 0){
+				if("<c:out value='${memberVO.email}'/>" != $("#email").val() && $("#email").val().length > 0){
 					//message : 메일 변경 후 인증을 거치지 않으면 재 로그인시, 로그인이 불가능합니다. 괜찮습니까?
 					var result = confirm("<spring:message code='mypage.modify.020' />");
 					if(result == true){
@@ -268,7 +268,7 @@ $(document).ready(function(){
 						event.preventDefault();
 						$("#userStatus").prop("value","4");
 						//value값 바꿀때는 val로 써야함 attr은 바뀌긴하는데 화면상에서는 안ㅇ바뀜 
-						$("#email").val( "<c:out value='${memberVO.email}'/>");
+						$("#email").val("<c:out value='${memberVO.email}'/>");
 						$("#preventSubmit").val("0");
 					}
 				}else{

@@ -11,7 +11,7 @@ $(document).ready(function(){
 	$("#selectApp").change(function(){
 		var thisSeq = $(this).val();
 		var temp = $(this).attr("alt");
-		var thisText = $( "#selectApp option:selected" ).text();
+		var thisText = $("#selectApp option:selected" ).text();
 		$('#storeBundleId').val(thisSeq);
 		$('#hiddenAppName').val(thisText);
 		$('#depth').val('1');

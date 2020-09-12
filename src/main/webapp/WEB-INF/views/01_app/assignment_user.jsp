@@ -34,13 +34,13 @@
 
 					//alert("bye");
 					//alert("ctrl-right"+sequence);
-					if( lastTable !== currentTable ){
+					if(lastTable !== currentTable ){
 						clearSelect();
 						$("#selectSequence").val("0");
 					}
 					var listSequence = $("#selectSequence").val().split(",");
 					
-					//listSequence안에, 해당 클릭sequence가 있을경우 ( 하얀색 토글 :  삭제 )
+					//listSequence안에, 해당 클릭sequence가 있을경우 (하얀색 토글 :  삭제 )
 					if($.inArray(sequence, listSequence) > -1){
 						$(this).css("background-color", "#FFFFFF");
 						$(this).css("color", "#000000");
@@ -48,7 +48,7 @@
 						temp.splice(temp.indexOf(sequence), 1);
 						sequence =temp
 					}else{
-					//listSequence안에, 해당 클릭sequence가 없을 경우 ( 파란색 토글 : 추가)
+					//listSequence안에, 해당 클릭sequence가 없을 경우 (파란색 토글 : 추가)
 						$(this).css("background-color","#1E90FF");
 						$(this).css("color","#FFFFFF");
 						var temp = $("#selectSequence").val();
@@ -88,7 +88,7 @@
 				if(listTemp.indexOf(sequence) > listTemp.indexOf(pointer)){
 					//alert("first");
 					//clearSelect();
-					for ( var i =listTemp.indexOf(pointer); i <= listTemp.indexOf(sequence); i ++){
+					for (var i =listTemp.indexOf(pointer); i <= listTemp.indexOf(sequence); i ++){
 						//alert("hello");
 						$(this).parent().find("tr").eq(i+1).css("background-color", "##1E90FF");
 						$(this).parent().find("tr").eq(i+1).css("color", "#FFFFFF");
@@ -99,7 +99,7 @@
 				}else{
 					//alert("second");
 					//clearSelect();
-					for ( var i = listTemp.indexOf(sequence); i <= listTemp.indexOf(pointer); i ++){
+					for (var i = listTemp.indexOf(sequence); i <= listTemp.indexOf(pointer); i ++){
 						//alert("hello");
 						$(this).parent().find("tr").eq(i+1).css("background-color", "##1E90FF");
 						$(this).parent().find("tr").eq(i+1).css("color", "#FFFFFF");
@@ -160,7 +160,7 @@
 //alert(entry);
 					$("#assignTable1").find("#number"+entry).remove();
 					
-					if( entry != "0" && previousTable == "1"){
+					if(entry != "0" && previousTable == "1"){
 						//alert(entry);
 						$("#assignTable2").append(
 								"<tr id='number"+entry+"'>"
@@ -208,12 +208,12 @@
 					   userOneDepartment = $(this).find("td").eq(2).html();
 					   userTwoDepartment = $(this).find("td").eq(3).html();
 					   userSeq = $(this).attr("alt");
-					   var index = jQuery.inArray( userSeq , toSel);
+					   var index = jQuery.inArray(userSeq , toSel);
 					   toSel.splice(index , 1);
 					});
 
 					$("#assignTable2").find("#number"+entry).remove();
-					if( entry != "0" && previousTable == "2"){
+					if(entry != "0" && previousTable == "2"){
 						//alert(entry);
 						$("#assignTable1").append(
 								"<tr id='number"+entry+"'>"
@@ -255,7 +255,7 @@
 			);
 
 			$("#selectSequence").val('0');
-			var index = jQuery.inArray( userSeq , toSel);
+			var index = jQuery.inArray(userSeq , toSel);
 			toSel.splice(index , 1);
 			$("#toSel").val(toSel); */
 		});

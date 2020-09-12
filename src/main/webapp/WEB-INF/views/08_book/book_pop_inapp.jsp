@@ -1,7 +1,7 @@
-<%@page import="com.clbee.pbcms.vo.InappVO"%>
+<%@page import="com.clbee.appmaker.model.Inapp"%>
 <%@page import="java.util.List"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@page import="com.clbee.pbcms.vo.InAppList"%>
+<%@page import="com.clbee.appmaker.model.InAppList"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ include file="../inc/top.jsp" %>

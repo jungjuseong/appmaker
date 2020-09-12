@@ -28,7 +28,7 @@ $(document).ready(function(){
 	});
 	
 	jQuery.validator.addMethod("specialChar", function(value, element){
-		return this.optional( element ) || /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=_-])(?=.*[0-9]).{0,16}$/.test(value);
+		return this.optional(element ) || /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=_-])(?=.*[0-9]).{0,16}$/.test(value);
 	}, "wrong nic number"); 
 	
 	$("#user_write_f").validate({
@@ -126,7 +126,7 @@ $(document).ready(function(){
 		},
 		
 		errorPlacement: function(error, element) {
-			error.appendTo( element.parent("td") );
+			error.appendTo(element.parent("td") );
 		} 
 	}); 
 
@@ -349,7 +349,7 @@ $(document).ready(function(){
 		} 		
 	});
 	
-	$("#d_SDATE").change( function(){
+	$("#d_SDATE").change(function(){
 
 		$("[name=tempStartDt]").val($(this).val());
 		//현재 시간
@@ -381,14 +381,14 @@ $(document).ready(function(){
 			curr_date = "0"+curr_date
 		}
 
-		/* if( curr_year < inputYear ){
-		}else if( curr_year == inputYear ){
-			if( curr_month < inputmonth ){
-				if( curr_date <= inputdate ){
+		/* if(curr_year < inputYear ){
+		}else if(curr_year == inputYear ){
+			if(curr_month < inputmonth ){
+				if(curr_date <= inputdate ){
 					
 				}
-			}else if( curr_month == inputmonth ){
-				if( curr_date <= inputdate ){
+			}else if(curr_month == inputmonth ){
+				if(curr_date <= inputdate ){
 					
 				}else{
 					var inputValue = curr_year +"-"+(curr_month)+"-"+curr_date;

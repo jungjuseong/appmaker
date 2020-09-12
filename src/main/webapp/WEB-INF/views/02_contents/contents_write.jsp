@@ -58,7 +58,7 @@ $(document).ready(function(){
 		},
 
 		 errorPlacement: function(error, element) {
-			error.appendTo( element.parent("td") );
+			error.appendTo(element.parent("td") );
 		}
 	});
 

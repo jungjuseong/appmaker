@@ -2,7 +2,7 @@ package com.clbee.appmaker.service;
 
 import com.clbee.appmaker.model.GroupMenu;
 import com.clbee.appmaker.model.GroupUser;
-import com.clbee.appmaker.repo.GroupViewMenuRepo;
+import com.clbee.appmaker.dao.GroupViewMenuDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +17,10 @@ import java.util.Map;
 public class GroupViewMenuServiceImpl implements GroupViewMenuService {
 
 	@Autowired
-	GroupViewMenuRepo viewMenuDao;
+	GroupViewMenuDao viewMenuDao;
 	
 	@Override
-	public Map<String, Object> selectViewMenu( String groupSeq, Map<String, Object> menuList ) {
+	public Map<String, Object> selectViewMenu(String groupSeq, Map<String, Object> menuList ) {
 		ArrayList<Object> menuLargeList = new ArrayList<Object>();
 		
 		GroupUser userVO = viewMenuDao.selectViewMenuInfo("selectViewMenuInfo", groupSeq);
@@ -33,7 +33,7 @@ public class GroupViewMenuServiceImpl implements GroupViewMenuService {
 		List<Integer> menuLarge = new ArrayList<Integer>();
 		
 		for(int i=0;i<menu_large.length;i++) {
-			menuLarge.add( Integer.parseInt(menu_large[i]) );
+			menuLarge.add(Integer.parseInt(menu_large[i]) );
 		}
 		List<GroupMenu> listLarge = viewMenuDao.selectMenu("selectViewMenu", "1", menuLarge);
 		
@@ -48,7 +48,7 @@ public class GroupViewMenuServiceImpl implements GroupViewMenuService {
 				List<Integer> menuMedium = new ArrayList<Integer>();
 				
 				for(int j=0;j<menu_medium.length;j++) {
-					menuMedium.add( Integer.parseInt(menu_medium[j]) );
+					menuMedium.add(Integer.parseInt(menu_medium[j]) );
 				}
 				
 				List<GroupMenu> listMedium = viewMenuDao.selectMenu("selectViewMenu", "2", menuMedium);

@@ -13,7 +13,7 @@
 		;
 	</select>
 
-	<select id="selectListLicense" parameterType="com.clbee.pbcms.vo.LicenseList" resultType="com.clbee.pbcms.vo.LicenseVO">
+	<select id="selectListLicense" parameterType="com.clbee.appmaker.model.list.LicenseList" resultType="com.clbee.appmaker.model.License">
 		SELECT
 			license.license_seq as licenseSeq, license.license_num as licenseNum, license.license_status as licenseStatus, 
 			license.generate_dt as generateDt, license.regist_dt as registDt, expire_dt as expireDt, 
@@ -39,7 +39,7 @@
 		;
 	</select>
 
-	<select id="totalCountLicense" parameterType="com.clbee.pbcms.vo.LicenseList" resultType="java.lang.Integer">
+	<select id="totalCountLicense" parameterType="com.clbee.appmaker.model.list.LicenseList" resultType="java.lang.Integer">
 		SELECT
 			count(*)
 		FROM
@@ -76,7 +76,7 @@
 		;
 	</select>
 	
-	<insert id="insertLicense" parameterType="com.clbee.pbcms.vo.LicenseVO">
+	<insert id="insertLicense" parameterType="com.clbee.appmaker.model.License">
 		INSERT INTO
 		tb_license(license_num, license_status, generate_dt, user_copy_count, period_gb) 
 		VALUES(#{licenseNum},#{licenseStatus},NOW(),#{userCopyCount},#{periodGb});
@@ -93,7 +93,7 @@
 		;
 	</update>
 	
-	<select id="licenseRegistCheck" parameterType="String" resultType="com.clbee.pbcms.vo.LicenseVO">
+	<select id="licenseRegistCheck" parameterType="String" resultType="com.clbee.appmaker.model.License">
 		SELECT 
 			license_Status as licenseStatus, license_user_seq as licenseMemberSeq
 		FROM
@@ -103,7 +103,7 @@
 		;
 	</select>
 	
-	<update id="licenseRegist" parameterType="com.clbee.pbcms.vo.LicenseVO">
+	<update id="licenseRegist" parameterType="com.clbee.appmaker.model.License">
 		UPDATE
 			tb_license
 		SET
@@ -121,7 +121,7 @@
 		;
 	</update>
 
-	<select id="selectMyLicense" parameterType="java.lang.Integer" resultType="com.clbee.pbcms.vo.LicenseVO">
+	<select id="selectMyLicense" parameterType="java.lang.Integer" resultType="com.clbee.appmaker.model.License">
 		SELECT
 			license.license_seq as licenseSeq, license.license_num as licenseNum, license.user_copy_count as userCopyCount,
 			license.regist_dt as registDt, license.expire_dt as expireDt, license.license_gb as licenseGb, license.period_gb as periodGb,
@@ -152,7 +152,7 @@
 		;
 	</update>
 	
-	<select id="totalCountDevice" parameterType="com.clbee.pbcms.vo.LicenseList" resultType="java.lang.Integer">
+	<select id="totalCountDevice" parameterType="com.clbee.appmaker.model.list.LicenseList" resultType="java.lang.Integer">
 		SELECT 
 			count(*)
 		FROM
@@ -170,7 +170,7 @@
 		;
 	</select>
 	
-	<select id="selectListDevice" parameterType="com.clbee.pbcms.vo.LicenseList" resultType="com.clbee.pbcms.vo.LicenseSubVO">
+	<select id="selectListDevice" parameterType="com.clbee.appmaker.model.list.LicenseList" resultType="com.clbee.appmaker.model.LicenseSub">
 		SELECT 
 			licenseUser.device_name as deviceName, licenseUser.device_os as deviceOs, licenseUser.use_start_dt as useStartDt, 
 			licenseUser.licensesub_seq as licensesubSeq, member.user_id as userId
@@ -208,7 +208,7 @@
 		;
 	</delete>
 	
-	<select id="checkAccountStatus" parameterType="com.clbee.pbcms.Json.ConnectLicenseInfo" resultType="com.clbee.pbcms.vo.MemberVO">
+	<select id="checkAccountStatus" parameterType="com.clbee.appmaker.Json.ConnectLicenseInfo" resultType="com.clbee.appmaker.model.Member">
 		SELECT 
 			user_seq as userSeq, company_seq as companySeq, user_gb as userGb, user_status as userStatus
 		FROM
@@ -219,7 +219,7 @@
 		;
 	</select>
 	
-	<select id="checkRegistLicenseWithAccount" parameterType="com.clbee.pbcms.Json.ConnectLicenseInfo" resultType="com.clbee.pbcms.vo.LicenseVO">
+	<select id="checkRegistLicenseWithAccount" parameterType="com.clbee.appmaker.Json.ConnectLicenseInfo" resultType="com.clbee.appmaker.model.License">
 		SELECT 
 			license_seq as licenseSeq, license_status as licenseStatus, user_copy_count as userCopyCount
 		FROM 
@@ -253,13 +253,13 @@
 		;
 	</select>
 	
-	<insert id="licenseUserRegist" parameterType="com.clbee.pbcms.Json.ConnectLicenseInfo">
+	<insert id="licenseUserRegist" parameterType="com.clbee.appmaker.Json.ConnectLicenseInfo">
 		<selectKey keyProperty="deviceSeq" resultType="String" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 		INSERT INTO
 		tb_license_sub(license_seq, license_user_seq, device_name, device_os, use_start_dt) 
-		VALUES( #{licenseSeq}, #{userSeq}, #{deviceName}, #{deviceOs}, NOW() );
+		VALUES(#{licenseSeq}, #{userSeq}, #{deviceName}, #{deviceOs}, NOW() );
 	</insert>
 	
 	<select id="selectLicenseDisposalReason" parameterType="java.lang.Integer" resultType="String">
@@ -300,7 +300,7 @@
 		;
 	</delete>
 	
-	<select id="licenseAuthCheckWithDevice" parameterType="com.clbee.pbcms.Json.ConnectLicenseInfo" resultType="com.clbee.pbcms.Json.ConnectLicenseInfo">
+	<select id="licenseAuthCheckWithDevice" parameterType="com.clbee.appmaker.Json.ConnectLicenseInfo" resultType="com.clbee.appmaker.Json.ConnectLicenseInfo">
 		SELECT 
 			licensesub_seq as deviceSeq, license_seq as licenseSeq, license_user_seq as userSeq
 		FROM

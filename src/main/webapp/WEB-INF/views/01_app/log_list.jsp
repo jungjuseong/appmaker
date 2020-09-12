@@ -85,7 +85,7 @@ function goToSearch(){
 	var endDate = $("#d_EDATE").val();
 	var dateCheckGb = $("#dateCheckGb").is(":checked");
 
-	if( dateCheckGb === true && (startDate.length < 1 || endDate.length <1) ){
+	if(dateCheckGb === true && (startDate.length < 1 || endDate.length <1) ){
 		alert("<spring:message code='extend.local.096' />")
 	}else{	
 		document.noticeFrm.action='/app/log/list.html';

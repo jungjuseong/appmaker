@@ -15,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name="tb_member")
-public class Member implements Serializable {
+public class Member {
 	private static final long serialVersionUID = 1L;
 
 	@Id

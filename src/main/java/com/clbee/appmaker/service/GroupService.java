@@ -1,6 +1,6 @@
 package com.clbee.appmaker.service;
 
-import com.clbee.appmaker.model.GroupList;
+import com.clbee.appmaker.model.list.GroupList;
 import com.clbee.appmaker.model.GroupMenu;
 import com.clbee.appmaker.model.GroupUser;
 
@@ -15,6 +15,6 @@ public interface GroupService {
 	int groupNameOverlap (String groupName);
 	int deleteGroup(int numGroupSeq);
 	GroupUser selectGroupInfo(int groupSeq);
-	void updateGroupUser( GroupUser groupUser);
-	List<GroupUser> getSelectListGroup( int companySeq );
+	void updateGroupUser(GroupUser groupUser);
+	List<GroupUser> getSelectListGroup(int companySeq );
 }

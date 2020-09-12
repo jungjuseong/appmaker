@@ -1,7 +1,7 @@
-<%@page import="com.clbee.pbcms.vo.AppVO"%>
+<%@page import="com.clbee.appmaker.model.App"%>
 <%@page import="java.util.List"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@page import="com.clbee.pbcms.vo.AppList"%>
+<%@page import="com.clbee.appmaker.model.AppList"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ include file="../inc/top.jsp" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -22,7 +22,7 @@ function appRegist(){
 	$('#appSeq').remove();
 	//window.location.href= '/app/regist.html';
 	//testModify
-	if( "${param.test} " == true ){
+	if("${param.test} " == true ){
 		window.location.href='/book/regist.html?test='+"${param.test}";
 	}else{
 		//baseCode

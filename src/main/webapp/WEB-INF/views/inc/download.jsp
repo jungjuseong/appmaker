@@ -1,5 +1,5 @@
 
-<%@ page language="java"  pageEncoding="utf-8" %><%@ page import="com.clbee.pbcms.util.StringUtil,
+<%@ page language="java"  pageEncoding="utf-8" %><%@ page import="com.clbee.appmaker.util.StringUtil,
     org.springframework.context.MessageSource,
     org.springframework.web.context.WebApplicationContext,
     org.springframework.web.context.support.WebApplicationContextUtils,
@@ -51,7 +51,7 @@
 
         byte b[] = new byte[2048];
         int len = 0;
-        while( (len = in.read(b)) > 0 )
+        while((len = in.read(b)) > 0 )
             os.write(b, 0, len);
 
     } catch(Exception e) {

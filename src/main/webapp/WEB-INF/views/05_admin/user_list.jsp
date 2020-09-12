@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@page import="com.clbee.pbcms.vo.MemberVO"%>
+<%@page import="com.clbee.appmaker.model.Member"%>
 <%@page import="java.util.List"%>
-<%@page import="com.clbee.pbcms.vo.MemberList"%>
+<%@page import="com.clbee.appmaker.model.MemberList"%>
 <%@ include file="../inc/top.jsp" %>
 </head>
 

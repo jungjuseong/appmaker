@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><%@taglib uri="http://www.springframework.org/tags" prefix="spring"%><%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><!-- 변수 지원, 흐름 제어, URL처리 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><!-- 변수 지원, 흐름 제어, URL처리 -->
 
 <html>
 <meta name="viewport" content="width=device-width">
@@ -44,7 +46,11 @@ a {
 
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>PageBuilderCMS <spring:message code='anonymous.option.001' /></title><script>$(document).ready(function(){
+<title>PageBuilderCMS <spring:message code='anonymous.option.001' /></title>
+
+
+<script>
+$(document).ready(function(){
 	
 	/* alert($(window).width());
 	scale = ($(window).width() / 102); 
@@ -59,7 +65,7 @@ a {
 		$("#linkDown").click(function(){
 			//downType이 1일때에만 downloadCnt를 올린다. <- 이전
 			//지금은 그냥 다운로드 카운트를 무조건 올린다.
-			// 통계낼때의 다운로드 카운트랑, 현재 이앱의 대한 다운로드 카운트 ( 다운로드 횟수 지정 옵션의 fieldname)랑 같이 공유함..
+			// 통계낼때의 다운로드 카운트랑, 현재 이앱의 대한 다운로드 카운트 (다운로드 횟수 지정 옵션의 fieldname)랑 같이 공유함..
 			var downType = $("[name=downType]").val();
 			alert(downType);
 			var downCnt = $("[name=downCnt]").val();
@@ -85,7 +91,9 @@ a {
 		                    }
 		      	      }
 		        });
-		});});</script>
+		});
+});
+</script>
 </head>
 <body >
 	<div id="android" align="center">
@@ -103,7 +111,9 @@ a {
 			<input type="hidden" name="downCnt" value="${downCnt}" />
 			<input type="hidden" name="downType" value="${downType }"/>
 			<input type="hidden" name="isCoupon" value="${isCoupon }"/>
-        <ul class="rounded">							<!--bundel  -->	<!-- app_name -->  			<c:if test="${osFlag == 'Android' }"><li><a id="linkDown" target="_blank" href="${filePath}${DownKaU}${DownVer}/${fileName}${DownVer}.apk"><spring:message code='down.list.017' /></a></li></c:if>
+        <ul class="rounded">							<!--bundel  -->	<!-- app_name --> 
+
+ 			<c:if test="${osFlag == 'Android' }"><li><a id="linkDown" target="_blank" href="${filePath}${DownKaU}${DownVer}/${fileName}${DownVer}.apk"><spring:message code='down.list.017' /></a></li></c:if>
   	      	<c:if test="${osFlag == 'iOS' }"><li><a id="linkDown" target="_blank" href="itms-services://?action=download-manifest&url=${filePath}${DownKaU}${DownVer}.plist"><spring:message code='down.list.017' /></a></li></c:if>
         </ul>
 

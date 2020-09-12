@@ -29,7 +29,7 @@ $(document).ready(function(){
 				/*toSelVal  */
 				toSelVal  = $("#toSel").val();
 				selVal  = $(this).val();
-				selVal  = selVal.split( '|$|' );
+				selVal  = selVal.split('|$|' );
 				
 				delToSelVal  += ",|"+selVal[0]+"|";
 				
@@ -69,7 +69,7 @@ $(document).ready(function(){
 			if($(this).is(":checked") == true){
 				toSelVal  = $("#toSel").val();
 				selVal  = $(this).val();
-				selVal  = selVal.split( '|$|' );
+				selVal  = selVal.split('|$|' );
 				addToSelVal  += ",|"+selVal[0]+"|";
 
 				nHtml = "";

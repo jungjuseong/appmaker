@@ -97,7 +97,7 @@
 			);
 
 			$("#selectSequence").val('0');
-			var index = jQuery.inArray( userSeq , toSel);
+			var index = jQuery.inArray(userSeq , toSel);
 			toSel.splice(index , 1);
 			$("#toSel").val(toSel);
 		});

@@ -1,7 +1,7 @@
-<%@page import="com.clbee.pbcms.vo.InappVO"%>
+<%@page import="com.clbee.appmaker.model.Inapp"%>
 <%@page import="java.util.List"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@page import="com.clbee.pbcms.vo.InAppList"%>
+<%@page import="com.clbee.appmaker.model.InAppList"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ include file="../inc/top.jsp" %>
@@ -41,7 +41,7 @@ function licenseGenerate(){
 function onlyNumber(event){
     event = event || window.event;
     var keyID = (event.which) ? event.which : event.keyCode;
-    if ( (keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ){
+    if ((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ){
         return;
     }else{
         return false;
@@ -51,7 +51,7 @@ function onlyNumber(event){
 function removeChar(event) {
     event = event || window.event;
     var keyID = (event.which) ? event.which : event.keyCode;
-    if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ){
+    if (keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ){
         return;
     }else{
     	event.target.value = event.target.value.replace(/[^0-9]/g, "");

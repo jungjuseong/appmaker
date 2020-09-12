@@ -232,7 +232,7 @@ public class App implements Serializable {
     @OneToMany
     @Cascade({ org.hibernate.annotations.CascadeType.DELETE })
     @JoinColumn(nullable = true, name = "app_seq", referencedColumnName = "app_seq", insertable = false, updatable = false)
-    private List<AppSub> appsub;
+    private List<AppSub> appSubList;
     
     @NotFound(action = NotFoundAction.IGNORE)
     @ManyToOne(optional = true)
@@ -267,21 +267,21 @@ public class App implements Serializable {
         limitGb = (String) map.get("limitGb");
         memDownAmt = (String) map.get("memDownAmt");
         memDownCnt = (String) map.get("memDownCnt");
-        if ( map.get("memDownEndDt") != null)
+        if (map.get("memDownEndDt") != null)
             memDownEndDt = transFormat.parse((String) map.get("memDownEndDt"));
         memDownGb = (String) map.get("memDownGb");
-        if ( map.get("memDownStartDt") != null)
+        if (map.get("memDownStartDt") != null)
             memDownStartDt = transFormat.parse((String) map.get("memDownStartDt"));
         nonmemDownAmt = (String) map.get("nonmemDownAmt");
         nonmemDownCnt = (String) map.get("nonmemDownCnt");
-        if ( map.get("nonmemDownEndDt") != null)
+        if (map.get("nonmemDownEndDt") != null)
             nonmemDownEndDt = transFormat.parse((String) map.get("nonmemDownEndDt"));
         nonmemDownGb = (String) map.get("nonmemDownGb");
         if (map.get("nonmemDownStarDt") != null)
             nonmemDownStarDt = transFormat.parse((String) map.get("nonmemDownStarDt"));
         installGb = (String) map.get("installGb");
         ostype = (String) map.get("ostype");
-        if ( map.get("regDt") != null)
+        if (map.get("regDt") != null)
             regDt = transFormat.parse((String) map.get("regDt"));
         regGb = (String) map.get("regGb");
         regUserGb = (String) map.get("regUserGb");
@@ -420,10 +420,6 @@ public class App implements Serializable {
     @JsonSerialize(using = CustomDateSerializer.class)
     public Date getUseAvailDt() {
         return useAvailDt;
-    }
-
-    public void setUseAvailDt(Date useAvailDt) {
-        this.useAvailDt = useAvailDt;
     }
 
     @JsonSerialize(using = CustomDateSerializer.class)

@@ -31,7 +31,7 @@ $(document).ready(function(){
 			firstSetting(index);
 		}
 		//3. third, if last tr and rowspan is need
-		else if( (index+1) == table.length){
+		else if((index+1) == table.length){
 			if(same_cnt > 1){	//same count == 1, not rowspan
 				same_cnt += 1;
 				rowspanTable(index, same_cnt);
@@ -89,7 +89,7 @@ $(document).ready(function(){
 	function rowspanTable(index, same_cnt){
 		for(i = index ; i >= (index - same_cnt + 1) ; i--){
 			var rowspan = $(table).eq(i);
-			if( i == (index - same_cnt + 1) ){
+			if(i == (index - same_cnt + 1) ){
 				rowspan.children().eq(0).attr("rowspan", same_cnt);
 
 				//1>출력하는 대메뉴 권한꺼 칸 합치기
@@ -99,7 +99,7 @@ $(document).ready(function(){
 					if(check.indexOf(",") != -1){
 						var checkArray = check.split(",");
 						
-						if( (checkArray[0] == "${MenuListMedium[0].menuSeq}") && ("${MenuListMedium[0].connectMenu}" == rowspan.children().eq(0).html()) ){
+						if((checkArray[0] == "${MenuListMedium[0].menuSeq}") && ("${MenuListMedium[0].connectMenu}" == rowspan.children().eq(0).html()) ){
 							rowspan.children().eq(0).text("<spring:message code='${MenuListLarge[i].menuName}' />");
 						}
 					}
@@ -118,7 +118,7 @@ $(document).ready(function(){
 					if(check.indexOf(",") != -1){
 						var checkArray = check.split(",");
 						
-						if( (checkArray[0] == "${MenuListMedium[0].menuSeq}") && ("${MenuListMedium[0].connectMenu}" == rowspan.children().eq(0).html()) ){
+						if((checkArray[0] == "${MenuListMedium[0].menuSeq}") && ("${MenuListMedium[0].connectMenu}" == rowspan.children().eq(0).html()) ){
 							rowspan.children().eq(0).text("<spring:message code='${MenuListLarge[i].menuName}' />");
 						}
 					}
@@ -160,26 +160,26 @@ $(document).ready(function(){
 		}
 
 		// 2. checkbox - list auto check release process
-		if( $(this).attr("data-value") == "1" && $(this).is(":checked") == false ){
+		if($(this).attr("data-value") == "1" && $(this).is(":checked") == false ){
 			var releaseId = $(this).attr("data-item");
 			$("input[id^='menu_']").each(function(index){
-				if( $(this).attr("data-item") == releaseId && $(this).is(":checked") == true){
+				if($(this).attr("data-item") == releaseId && $(this).is(":checked") == true){
 					$(this).prop("checked", false);
 				}
 			});
 		}
 
 		// 3. checkbox - inapp contents check, app list auto check
-		if( $(this).attr("data-item") == "107" && $(this).is(":checked") == true ){
-			if( $("#menu_0").is(":checked") == false ){
+		if($(this).attr("data-item") == "107" && $(this).is(":checked") == true ){
+			if($("#menu_0").is(":checked") == false ){
 				$("#menu_0").prop("checked", true);
 			}
 		}
 
 		// 4. checkbox - app list check release, inapp contents check auto release
-		if( $(this).attr("id") == "menu_0" && $(this).is(":checked") == false ){
+		if($(this).attr("id") == "menu_0" && $(this).is(":checked") == false ){
 			$("input[id^='menu_']").each(function(index){
-				if( $(this).attr("data-item") == "107" && $(this).is(":checked") == true){
+				if($(this).attr("data-item") == "107" && $(this).is(":checked") == true){
 					$(this).prop("checked", false);
 				}
 			});

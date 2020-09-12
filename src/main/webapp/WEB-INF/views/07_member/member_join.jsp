@@ -24,12 +24,10 @@ $(document).ready(function() {/* 페이지 로딩이 다 된다음에 이 Functi
 		}
 	});
 	
-	
 	jQuery.validator.addMethod("specialChar", function(value, element){
-		return this.optional( element ) || /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=_-])(?=.*[0-9]).{0,16}$/.test(value);
+		return this.optional(element ) || /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=_-])(?=.*[0-9]).{0,16}$/.test(value);
 	}, "wrong nic number");
 	
-/*	20180511 : lsy - radio delete, select add
 	$("#company_member, #private_member").on("click",function(){
 		if($("#company_member").prop("checked")){
 			$(".second_section").show();
@@ -55,15 +53,14 @@ $(document).ready(function() {/* 페이지 로딩이 다 된다음에 이 Functi
 	});
 	
 	function groupSetting(){
-		if( $("#groupSelect option:selected").attr("data-value") == "1" ){
+		if($("#groupSelect option:selected").attr("data-value") == "1" ){
 			$(".second_section").show();
-		}else if( $("#groupSelect option:selected").attr("data-value") == "2" ){
+		}else if($("#groupSelect option:selected").attr("data-value") == "2" ){
 			$(".second_section").hide();
 		}
 		$("#groupName").val($("#groupSelect option:selected").attr("data-id"));
 		$("#companyGb").val($("#groupSelect option:selected").attr("data-value"));
 	}
-//	20180511 : lsy - radio delete, select add - end
 
 	$("#emailBtn").on("click", function(){
 		var inputEmail = $("#email").val();
@@ -271,7 +268,7 @@ $(document).ready(function() {/* 페이지 로딩이 다 된다음에 이 Functi
 		},
 		
 		errorPlacement: function(error, element) {
-			error.appendTo( element.parent("td") );
+			error.appendTo(element.parent("td") );
 		}
 	});
 	

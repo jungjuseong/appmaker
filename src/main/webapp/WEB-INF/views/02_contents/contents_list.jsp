@@ -8,7 +8,7 @@
 <script>
 
 $(document).ready(function(){
-	/* $("[name = SORT]:checkbox").change( function(){
+	/* $("[name = SORT]:checkbox").change(function(){
 		if($("#all:checekd").length){
 			
 		}
