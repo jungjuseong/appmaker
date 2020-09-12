@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.session.SessionRegistry;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.beans.PropertyVetoException;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -36,10 +36,7 @@ public class HomeController {
 	InAppCategoryService inAppCategoryService;
 	
 	@Autowired
-	AppService appService; 
-	
-	@Autowired
-	InAppService inAppService; 
+	AppService appService;
 
 	@Autowired
 	MessageSource messageSource;
@@ -53,20 +50,17 @@ public class HomeController {
 	@Autowired
 	LocaleResolver localeResolver;
 	
-	@Autowired
-	SessionRegistry sessionRegistry;
-	
-	@GetMapping(value = "index.html")
-	public String home( HttpServletRequest request, HttpSession session  ) {
+	@GetMapping("/index.html")
+	public String home(HttpServletRequest request, HttpSession session) {
 		System.out.println(localeResolver.resolveLocale(request));
 		
-		String addr= ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes())
+		String addr= ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
 	       .getRequest().getRemoteAddr();
 
 		return "index";
 	}
 
-	@PostMapping("couponGenerate.html")
+	@PostMapping("/couponGenerate.html")
 	public @ResponseBody String contentsCouponGeratePOST( String coupon_num, HttpServletRequest request, HttpSession session ) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");//edit for the    format you need
 		final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -90,14 +84,14 @@ public class HomeController {
 		return string;
 	}
 
-	@RequestMapping( value = "getCurrentTime.html", method=RequestMethod.POST)
+	@PostMapping("/getCurrentTime.html")
 	public @ResponseBody String getCurrentTimePOST( String coupon_num, HttpServletRequest request, HttpSession session ) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");//edit for the    format you need
 		String date = format.format(new Date());
 		return date;
 	}
 
-	@RequestMapping( value = "printAnswer.html", method=RequestMethod.POST)
+	@PostMapping("/printAnswer.html")
 	public void writeJsonAnswerPOST( @RequestBody  String jsonObject, HttpSession session ) throws JsonParseException, IOException  {
 		try {
 			FileWriter file = new FileWriter("c:\\data\\test.json");
@@ -109,7 +103,7 @@ public class HomeController {
 		}
 	}
 
-	@RequestMapping( value = "viewJsonAnswer.html", method={RequestMethod.POST, RequestMethod.GET}, produces = "application/json; charset=utf8")
+	@RequestMapping(value = "/viewJsonAnswer.html", method={RequestMethod.POST, RequestMethod.GET}, produces = "application/json; charset=utf8")
 	public ModelAndView viewJsonAnswerPOST( HttpSession session ) throws JsonParseException, IOException  {
 		ModelAndView mv = new ModelAndView();
 		ObjectMapper mapper = new ObjectMapper();
@@ -117,39 +111,24 @@ public class HomeController {
 				new FileReader("c:\\data\\test.json"));
 		JsonNode rootNode = mapper.readTree(fileReader);
 		System.out.println("toString = " + rootNode.toString());
-		/*Object obj = JsonParser jp = parse(new FileReader("c:\\test.json"));*/
+
 		mv.addObject("json",	rootNode.toString());
 		mv.setViewName("sampleAnswer");
 		return mv;
 	}
-	
-	/*int limitUser =  Integer.parseInt(messageSource.getMessage("limit.user.count", null, Locale.getDefault()));
-	int permitUser = memberService.selectCountWithPermisionUserByCompanySeq(memberVO.getCompanySeq());
-	
-	
-	try{
-		
-		if("".equals(memberVO.getEmail())) {
-			if( permitUser >= limitUser ){
-				modelAndView.addObject("msg", messageSource.getMessage("extend.local.088", null, localeResolver.resolveLocale(request)));
-				modelAndView.addObject("type", "href");
-				modelAndView.addObject("url", "/man/user/list.html?page=1");
-				modelAndView.setViewName("inc/dummy");
-			}*/
-	
-	@RequestMapping( value = "/logoutFlagOff.html", method=RequestMethod.POST )
+
+	@PostMapping("/logoutFlagOff.html")
 	public @ResponseBody int logoutFlagOffPOST( HttpSession session, String userSeq ) throws JsonParseException, IOException  {
 		int result = 0;
 		System.out.println("Helo IN logOff Flag");
-		MemberVO memberVO = new MemberVO();
+		Member memberVO = new Member();
 		memberVO.setLoginStatus("2");
 		result = memberService.updateMemberInfo(memberVO, Integer.parseInt(userSeq));
 		
 		return result;
 	}
 	
-	
-	@RequestMapping( value = "/userLimitIsOver.html", method=RequestMethod.POST )
+	@PostMapping("/userLimitIsOver.html")
 	public @ResponseBody int userLimitIsOverPOST( HttpSession session, String companySeq ) throws JsonParseException, IOException  {
 		int limitUser =  Integer.parseInt(messageSource.getMessage("limit.user.count", null, Locale.getDefault()));
 		int permitUser = memberService.selectCountWithPermisionUserByCompanySeq(Integer.parseInt(companySeq));
@@ -158,30 +137,30 @@ public class HomeController {
 		else return 1;
 	}
 	
-	@RequestMapping( value = "/deviceIsOver200.html", method=RequestMethod.POST )
+	@PostMapping("/deviceIsOver200.html")
 	public @ResponseBody int deviceIsOver200POST( HttpSession session ) throws JsonParseException, IOException  {
 		
-		myUserDetails activeUser = null;
+		MyUserDetails activeUser = null;
 		
 		if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof String) {
 			throw new AuthenticationException();
 		}else {
-			activeUser = (myUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			activeUser = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
 		
-		int count = deviceService.countDeviceIsAvailable(activeUser.getMemberVO().getCompanySeq());
+		int count = deviceService.countDeviceIsAvailable(activeUser.getMember().getCompanySeq());
 		return count;
 	}
 	
-	@RequestMapping( value = "/categoryIsDuplicated.html", method=RequestMethod.POST )
+	@PostMapping("/categoryIsDuplicated.html")
 	public @ResponseBody int categoryIsDuplicatedPOST( String storeBundleId, String categoryName, HttpSession session ) throws JsonParseException, IOException  {
-		
-		myUserDetails activeUser = null;
+
+		MyUserDetails activeUser = null;
 		
 		if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof String) {
 			throw new AuthenticationException();
 		}else {
-			activeUser = (myUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			activeUser = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
 		
 		int count = inAppCategoryService.categoryIsDuplicated(storeBundleId, categoryName);

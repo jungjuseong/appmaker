@@ -15,9 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -49,17 +47,15 @@ public class MemberController {
 	@Autowired
 	GroupService groupService;
 
-	//20180515 : lsy - GroupViewMenu Create
 	@Autowired
 	GroupViewMenuService groupViewMenuService;
-	
-	//20180905 : lsy - license menu develop
+
 	@Autowired
 	LicenseService licenseService;
 
-	@RequestMapping(value = "member/join/ok.html", method = RequestMethod.GET)
+	@GetMapping("member/join/ok.html")
 	public ModelAndView memberJoinOk(HttpServletRequest request ) {
-		ModelAndView mav = new ModelAndView();	
+		ModelAndView modelAndView = new ModelAndView();
 		Random random = new Random();
 		
 		String validId = request.getParameter("validId");
@@ -67,28 +63,25 @@ public class MemberController {
 
 		int limitUser =  Integer.parseInt(messageSource.getMessage("limit.user.count", null, localeResolver.resolveLocale(request)));
 
-		if(member == null){
-			mav.addObject("msg", messageSource.getMessage("app.control.006", null, localeResolver.resolveLocale(request)));
-			mav.addObject("type", "href");
-			mav.addObject("url", "/index.html");
-			mav.setViewName("inc/dummy");
-			return mav;
+		if (member == null) {
+			modelAndView.addObject("msg", messageSource.getMessage("app.control.006", null, localeResolver.resolveLocale(request)));
+			modelAndView.addObject("type", "href");
+			modelAndView.addObject("url", "/index.html");
+			modelAndView.setViewName("inc/dummy");
+			return modelAndView;
 		}
 		int permitUser = memberService.selectCountWithPermisionUserByCompanySeq(member.getCompanySeq());
 		if(permitUser >= limitUser ){
-			mav.setViewName("07_member/member_join_ok");
-			mav.addObject("emailChk", false);
-			return mav;
+			modelAndView.setViewName("07_member/member_join_ok");
+			modelAndView.addObject("emailChk", false);
+			return modelAndView;
 		}
 		int result = memberService.verifyIfExists("emailChkSession", validId);
 		
 		switch (result){
 			case 0 : 
-				System.out.println("i'm in case 0");
 				throw new ResourceNotFoundException();
 			case 1 :
-				System.out.println("i'm in case 1");
-				
 				if("1".equals(member.getCompanyGb())){ 
 					int companySeq = member.getCompanySeq();
 					Company company = companyService.findByCustomInfo("companySeq", companySeq);
@@ -107,34 +100,34 @@ public class MemberController {
 					member.setEmailChkSession(changeSHA256(String.valueOf(System.currentTimeMillis()+random.nextInt())));
 					memberService.updateMemberInfo(member, member.getUserSeq());
 				}
-				mav.setViewName("07_member/member_join_ok");
-				mav.addObject("emailChk", true);
-				return mav;
+				modelAndView.setViewName("07_member/member_join_ok");
+				modelAndView.addObject("emailChk", true);
+				return modelAndView;
 			case 2 : 
 				System.out.println("There are two value duplicated with email_chk_session");
 				throw new ResourceNotFoundException();
 		}
-		mav.setViewName("07_member/member_join_ok");
-		mav.addObject("emailChk", true);
-		return mav;
+		modelAndView.setViewName("07_member/member_join_ok");
+		modelAndView.addObject("emailChk", true);
+
+		return modelAndView;
 	}
 
-	@RequestMapping(value = "member/join.html", method = RequestMethod.GET)
+	@GetMapping("member/join.html")
 	public ModelAndView home(HttpServletRequest request ) {
-		ModelAndView mav = new ModelAndView();
+		ModelAndView modelAndView = new ModelAndView();
 		
 		List<GroupUser> groupList = groupService.getSelectListGroup(0);
 
-		mav.addObject("groupList", groupList);
-		mav.setViewName("07_member/member_join");
+		modelAndView.addObject("groupList", groupList);
+		modelAndView.setViewName("07_member/member_join");
 		
-		return mav;
+		return modelAndView;
 	}
 
-	@RequestMapping(value = "member/join.html", method = RequestMethod.POST)
+	@PostMapping("member/join.html")
 	public String join(Member member, Company company, HttpServletRequest request ) {
 		
-		/*request.getParameter(arg0)*/
 		member.setEmailChkSession(changeSHA256(member.getUserId()));
 		member.setUserPw(changeSHA256(member.getUserPw()));
 		member.setRegIp(request.getRemoteAddr());
@@ -153,7 +146,7 @@ public class MemberController {
 				MimeMessage message = mailSender.createMimeMessage();
 				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 				messageHelper.setTo(member.getEmail());
-				//message : �ش� URL�� �����Ͻø� ���� ������ �Ϸ� �˴ϴ�.
+
 				messageHelper.setText(messageSource.getMessage("member.control.008", null, localeResolver.resolveLocale(request)) +"\n"+ "http://" + messageSource.getMessage("basic.Info.IP", null, localeResolver.resolveLocale(request))+"/member/join/ok.html?validId="+changeSHA256(member.getUserId()));
 				messageHelper.setFrom(from);
 				messageHelper.setSubject(subject); 
@@ -164,18 +157,17 @@ public class MemberController {
 		return "redirect:/index.html";
 	}
 	
-	@RequestMapping(value={"/member/userIdValidation.html"}, method=RequestMethod.POST)
-	public @ResponseBody int userIdValidation(String inputUserId ){
-		return memberService.verifyIfExists("userId", inputUserId);
+	@PostMapping("member/userIdValidation.html")
+	public @ResponseBody int userIdValidation(String userId ){
+		return memberService.verifyIfExists("userId", userId);
 	}
 	
-	
-	@RequestMapping(value={"/member/emailValidation.html"}, method=RequestMethod.POST)
+	@PostMapping("member/emailValidation.html")
 	public @ResponseBody int emailValidation(String inputEmail ){
 		return memberService.verifyIfExists("email", inputEmail);
 	}
 	
-	@RequestMapping(value={"/userStatusValid.html"}, method=RequestMethod.POST)
+	@PostMapping("userStatusValid.html")
 	public @ResponseBody int userStatusValid(String userId, String userPw ){
 		
 		Member member = memberService.findByUserName(userId);
@@ -206,7 +198,7 @@ public class MemberController {
 		}
 	}
 
-	@RequestMapping(value="mypage/password.html", method=RequestMethod.GET)
+	@GetMapping("mypage/password.html")
 	public ModelAndView mypagePasswordGET(String userId ){
 		ModelAndView modelAndView = new ModelAndView();
 		
@@ -216,9 +208,7 @@ public class MemberController {
 		
 		for(GrantedAuthority auth : authentication.getAuthorities()) {
 			if(auth.getAuthority().equals("ROLE_COMPANY_MEMBER") || auth.getAuthority().equals("ROLE_INDIVIDUAL_MEMBER") || auth.getAuthority().equals("ROLE_USER")) {
-				//20180515 : lsy - GroupViewMenu Util Create
-				Map<String, Object> menuList = new HashMap<String, Object>();
-				menuList = groupViewMenuService.selectViewMenu(activeUser.getMember().getGroupName(), menuList);
+				var menuList = groupViewMenuService.selectViewMenu(activeUser.getMember().getGroupName());
 				
 				modelAndView.addObject("menuLarge", menuList.get("menuLarge"));
 			}
@@ -227,7 +217,7 @@ public class MemberController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value="mypage/modify.html", method=RequestMethod.POST)
+	@PostMapping("mypage/modify.html")
 	public ModelAndView mypageModifyPOST(HttpServletRequest request,  Member form, Company formCom, String modify_gb ){
 		ModelAndView modelAndView = new ModelAndView();
 		
@@ -235,41 +225,38 @@ public class MemberController {
 		
 		if("modify_password".equals(modify_gb)){	
 			if(activeUser.getPassword().equals(changeSHA256(form.getUserPw()))){
-				/*modelAndView.addObject("ReConfirmPassword", userPw);*/
 				Member dbPassword  = memberService.findByCustomInfo("userId", activeUser.getUsername() );
 				Company company = companyService.findByCustomInfo("companySeq", activeUser.getMember().getCompanySeq());
 				modelAndView.addObject("company", company);
 				modelAndView.addObject("member", dbPassword);
 				modelAndView.setViewName("06_mypage/mypage_modify");
-			}else {
+			}
+			else {
 				modelAndView.addObject("validPassword", false);
 				modelAndView.setViewName("/inc/dummy");
 			}
-		}else{
-			
+		}
+		else {
 			form.setUserPw(changeSHA256(form.getUserPw()));
 			
-			if("5".equals(form.getUserStatus())) {
+			if ("5".equals(form.getUserStatus())) {
 				form.setEmailChkSession(changeSHA256(form.getUserId()));
-				String from=messageSource.getMessage("send.email.ID", null, localeResolver.resolveLocale(request));
+				String from = messageSource.getMessage("send.email.ID", null, localeResolver.resolveLocale(request));
+				String subject = messageSource.getMessage("member.control.007", null, localeResolver.resolveLocale(request));
+				try {
+					MimeMessage message = mailSender.createMimeMessage();
+					MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+					messageHelper.setTo(form.getEmail());
 
-				String subject=messageSource.getMessage("member.control.007", null, localeResolver.resolveLocale(request));
-					try {
-						MimeMessage message = mailSender.createMimeMessage();
-						MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-						messageHelper.setTo(form.getEmail());
-
-						messageHelper.setText(messageSource.getMessage("member.control.008", null, localeResolver.resolveLocale(request)) + "\n"+ "http://"+messageSource.getMessage("basic.Info.IP", null, localeResolver.resolveLocale(request)) + "/member/join/ok.html?validId="+changeSHA256(form.getUserId()));
-						messageHelper.setFrom(from);
-						messageHelper.setSubject(subject); 
-						mailSender.send(message);
-					} catch(Exception e){
-						System.out.println(e);
+					messageHelper.setText(messageSource.getMessage("member.control.008", null, localeResolver.resolveLocale(request)) + "\n"+ "http://"+messageSource.getMessage("basic.Info.IP", null, localeResolver.resolveLocale(request)) + "/member/join/ok.html?validId="+changeSHA256(form.getUserId()));
+					messageHelper.setFrom(from);
+					messageHelper.setSubject(subject);
+					mailSender.send(message);
+				} catch(Exception e) {
+					System.out.println(e);
 				}
 			}
 			
-			
-			System.out.println("formCom.zipCode : " + formCom.getZipcode());
 			form.setChgDt(new Date());
 			form.setChgIp(request.getRemoteAddr());
 			memberService.updateMemberInfo(form, form.getUserSeq());
@@ -286,54 +273,40 @@ public class MemberController {
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication authentication = context.getAuthentication();
 		
-		for(GrantedAuthority auth : authentication.getAuthorities()) {
-			if(auth.getAuthority().equals("ROLE_COMPANY_MEMBER") || auth.getAuthority().equals("ROLE_INDIVIDUAL_MEMBER") || auth.getAuthority().equals("ROLE_USER")) {
-				//20180515 : lsy - GroupViewMenu Util Create
-				Map<String, Object> menuList = new HashMap<String, Object>();
-				menuList = groupViewMenuService.selectViewMenu(activeUser.getMember().getGroupName(), menuList);
-				
+		for (GrantedAuthority auth : authentication.getAuthorities()) {
+			if (auth.getAuthority().equals("ROLE_COMPANY_MEMBER") || auth.getAuthority().equals("ROLE_INDIVIDUAL_MEMBER") || auth.getAuthority().equals("ROLE_USER")) {
+				var menuList = groupViewMenuService.selectViewMenu(activeUser.getMember().getGroupName());
 				modelAndView.addObject("menuLarge", menuList.get("menuLarge"));
-				//20180515 : lsy - GroupViewMenu Util Create - end
 			}
 		}
-		//20180516 : lsy - temp if/else - end
-		
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="mypage/modifyCustom.html", method=RequestMethod.POST)
+	@PostMapping("mypage/modifyCustom.html")
 	public @ResponseBody String mypaOST(String userPw ){
 		MyUserDetails activeUser = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		return activeUser.getMember().getEmail();
 	}
-	
-	//??
-	@RequestMapping(value="mypage/modify.html", method=RequestMethod.GET)
-	public String mypagePOST(String userPw ){
-		/* �ùٸ��� ���� �����Դϴ�. */
-		
-		throw new ResourceNotFoundException();
-		/*return "06_mypage/mypage_modify";*/
-	}
 
-	//??
-	@RequestMapping(value="mypage/withDrawal.html", method=RequestMethod.GET)
+//	@PostMapping("/mypage/modify.html")
+//	public String mypagePOST(String userPw ){
+//		throw new ResourceNotFoundException();
+//	}
+
+	@GetMapping("/mypage/withDrawal.html")
 	public String mypageWithDrawal(String userPw ){
-		/* �ùٸ��� ���� �����Դϴ�. */
-		
 		return "06_mypage/mypage_withdrawal";
-		/*return "06_mypage/mypage_modify";*/
 	}
 
-	@RequestMapping(value="mypage/withDrawal.html", method=RequestMethod.POST)
+	@PostMapping("/mypage/withDrawal.html")
 	public @ResponseBody int mypageWithDrawalPOST(String userSeq, String companySeq ){
 		
 		int intUserSeq = Integer.parseInt(userSeq);
 		int intCompanySeq = Integer.parseInt(companySeq);
 		int companyResult = 1;
 		
-		if(intCompanySeq != 0)/* ���ȸ���̶�� �ǹ� */{
+		if(intCompanySeq != 0) {
 			Company updateCom = new Company();
 			updateCom.setCompanyStatus("1"); // Ż��
 			updateCom.setWithdrawalDt(new Date());
@@ -372,7 +345,7 @@ public class MemberController {
 		return SHA;
 	}	
 	
-	@RequestMapping(value = "/findid.html", method = RequestMethod.POST)
+	@PostMapping("/findid.html")
 	public @ResponseBody String findId(Member member, HttpServletRequest request ) {
 		
 		String firstName = request.getParameter("fm_first_name");
@@ -414,7 +387,7 @@ public class MemberController {
 		}		
 	}
 
-	@RequestMapping(value = "/findpwd.html", method = RequestMethod.POST)
+	@PostMapping("/findpwd.html")
 	public @ResponseBody String findPwd(Member member, HttpServletRequest request ) {
 		String ranStr   = null;
 		String userId  = request.getParameter("fm_user_id");
@@ -455,12 +428,11 @@ public class MemberController {
 			}
 			return "True!";
 		} else {
-			// ���� ������
 			return "False!";
 		}		
 	}
 
-	@RequestMapping(value="my/license.html", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/my/license.html", method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView mypageLicenseManagement(LicenseList listLicense, LicenseSubList licenseUseDevice, HttpServletRequest request, HttpSession session ){
 		ModelAndView modelAndView = new ModelAndView();
 		
@@ -470,8 +442,7 @@ public class MemberController {
 		
 		for(GrantedAuthority auth : authentication.getAuthorities()) {
 			if(auth.getAuthority().equals("ROLE_COMPANY_MEMBER") || auth.getAuthority().equals("ROLE_INDIVIDUAL_MEMBER") || auth.getAuthority().equals("ROLE_USER")) {
-				Map<String, Object> menuList = new HashMap<String, Object>();
-				menuList = groupViewMenuService.selectViewMenu(activeUser.getMember().getGroupName(), menuList);
+				var menuList = groupViewMenuService.selectViewMenu(activeUser.getMember().getGroupName());
 				
 				modelAndView.addObject("menuLarge", menuList.get("menuLarge"));
 			}
@@ -501,17 +472,17 @@ public class MemberController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="my/deleteLicenseUseDevice.html", method=RequestMethod.POST)
+	@PostMapping("/my/deleteLicenseUseDevice.html")
 	public @ResponseBody int mypageDeleteLicenseUseDevicePost(HttpServletRequest request, HttpSession session ){
 		return licenseService.deleteLicenseUseDevice(Integer.parseInt(request.getParameter("licensesubSeq")));
 	}
 
-	@RequestMapping(value="my/licenseRegistCheck.html", method=RequestMethod.POST)
+	@PostMapping("/my/licenseRegistCheck.html")
 	public @ResponseBody int mypageLicenseRegistCheck(HttpServletRequest request, HttpSession session ){
 		return licenseService.licenseRegistCheck(request.getParameter("licenseNum"));
 	}
 
-	@RequestMapping(value="my/licenseRegist.html", method=RequestMethod.POST)
+	@PostMapping("/my/licenseRegist.html")
 	public ModelAndView mypageLicenseRegist(HttpServletRequest request, HttpSession session ){
 		ModelAndView modelAndView = new ModelAndView();
 		
@@ -528,8 +499,7 @@ public class MemberController {
 			
 			for(GrantedAuthority auth : authentication.getAuthorities()) {
 				if(auth.getAuthority().equals("ROLE_COMPANY_MEMBER") || auth.getAuthority().equals("ROLE_INDIVIDUAL_MEMBER") || auth.getAuthority().equals("ROLE_USER")) {
-					Map<String, Object> menuList = new HashMap<String, Object>();
-					menuList = groupViewMenuService.selectViewMenu(activeUser.getMember().getGroupName(), menuList);
+					var menuList = groupViewMenuService.selectViewMenu(activeUser.getMember().getGroupName());
 					
 					modelAndView.addObject("menuLarge", menuList.get("menuLarge"));
 				}
@@ -542,7 +512,7 @@ public class MemberController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value="my/licenseRenew.html", method=RequestMethod.GET)
+	@GetMapping("/my/licenseRenew.html")
 	public ModelAndView mypageLicenseRenewGet(HttpServletRequest request, HttpSession session ){
 		ModelAndView modelAndView = new ModelAndView();
 		
@@ -553,8 +523,7 @@ public class MemberController {
 			
 			for(GrantedAuthority auth : authentication.getAuthorities()) {
 				if(auth.getAuthority().equals("ROLE_COMPANY_MEMBER") || auth.getAuthority().equals("ROLE_INDIVIDUAL_MEMBER") || auth.getAuthority().equals("ROLE_USER")) {
-					Map<String, Object> menuList = new HashMap<String, Object>();
-					menuList = groupViewMenuService.selectViewMenu(activeUser.getMember().getGroupName(), menuList);
+					var menuList = groupViewMenuService.selectViewMenu(activeUser.getMember().getGroupName());
 					
 					modelAndView.addObject("menuLarge", menuList.get("menuLarge"));
 				}
@@ -645,12 +614,7 @@ public class MemberController {
 	        mLimitCharList.clear();
 	    }
 	     
-	     
-	    /**
-	     * ���� ���ڿ� ����.
-	     * @param length ���ڿ� ����
-	     * @return ���� ���ڿ�
-	     */
+
 	    public String generateRandomString(int length) {
 	        boolean runExcludeChar = !isExcludedCharInLimitedChar();            
 	        StringBuffer strBuffer = new StringBuffer(length);
@@ -680,6 +644,5 @@ public class MemberController {
 	        else
 	            return (Character) mLimitCharList.get(rand.nextInt(mLimitCharList.size()));
 	    }
-	}		
-	
+	}
 }

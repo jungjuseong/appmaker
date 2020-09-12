@@ -35,9 +35,12 @@ dependencies {
 	compile group: 'com.google.guava', name: 'guava', version: '29.0-jre'
 	compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
 
-	compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
+	compile('javax.servlet:jstl')
+
 	testCompile group: 'junit', name: 'junit', version: '4.13'
 	testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '5.3.4.RELEASE'
+	compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: '4.2.0.RELEASE'
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'

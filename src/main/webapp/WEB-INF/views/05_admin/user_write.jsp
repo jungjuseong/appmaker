@@ -143,7 +143,7 @@ $(document).ready(function(){
 			}
 			else{
 				$.ajax({
-					url:"/member/emailValidation.html",
+					url:"member/emailValidation.html",
 					type:"POST",
 					data:{
 						"inputEmail":inputEmail
@@ -179,7 +179,7 @@ $(document).ready(function(){
 				alert("<spring:message code='user.write.026' />")
 			}else{
 				$.ajax({
-					url:"/member/userIdValidation.html",
+					url:"member/userIdValidation.html",
 					type:"POST",
 					data:{
 						"inputUserId":inputUserId

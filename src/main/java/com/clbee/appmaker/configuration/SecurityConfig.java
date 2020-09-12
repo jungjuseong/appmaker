@@ -42,23 +42,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
             // 인증이 되어 있을 때
-            .antMatchers(HttpMethod.GET, "/contents/**","/man/**","/distribute/**","/mypage/**","/my/**")
-            .hasAnyRole("ROLE_ADMIN_SERVICE","ROLE_INDIVIDUAL_MEMBER","ROLE_COMPANY_MEMBER","ROLE_USER")
+            .antMatchers(HttpMethod.GET, "/contents/**","/man/**","/distribute/**","mypage/**","my/**")
+                .hasAnyRole("ROLE_ADMIN_SERVICE","ROLE_INDIVIDUAL_MEMBER","ROLE_COMPANY_MEMBER","ROLE_USER")
             .antMatchers(HttpMethod.GET, "/template/**")
-            .hasAnyRole("ROLE_ADMIN_SERVICE")
+                .hasAnyRole("ROLE_ADMIN_SERVICE")
 
-            // 위에서 걸리는 것이 없으면
-            .antMatchers("/*.**").permitAll()
-//            .antMatchers(HttpMethod.DELETE,"/member/**")
-//            .antMatchers(HttpMethod.GET, "/index.html").permitAll()
-//            .antMatchers(HttpMethod.GET, "/send_id_mail.html").permitAll()
-//            .antMatchers(HttpMethod.GET, "/userIdValidation.html").permitAll()
-//            .antMatchers(HttpMethod.GET, "/emailValidation.html").permitAll()
-//            .antMatchers(HttpMethod.GET, "/member/**").permitAll()
-//            .antMatchers(HttpMethod.GET, "/findid.html").permitAll()
-//            .antMatchers(HttpMethod.GET, "/inAppJsonSerializer.html").permitAll()
-//            .antMatchers(HttpMethod.GET, "/printAnswer.html").permitAll()
-//            .antMatchers(HttpMethod.GET, "/viewJsonAnswer.html").permitAll()
+            .antMatchers(HttpMethod.GET, "/index.html").permitAll()
+            .antMatchers(HttpMethod.GET, "/send_id_mail.html").permitAll()
+            .antMatchers(HttpMethod.POST, "member/userIdValidation.html").permitAll()
+            .antMatchers(HttpMethod.POST, "member/emailValidation.html").permitAll()
+            .antMatchers(HttpMethod.GET, "member/**").permitAll()
+            .antMatchers(HttpMethod.POST, "member/**").permitAll()
+
+            .antMatchers(HttpMethod.GET, "/findid.html").permitAll()
+            .antMatchers(HttpMethod.GET, "/inAppJsonSerializer.html").permitAll()
+            .antMatchers(HttpMethod.GET, "/printAnswer.html").permitAll()
+            .antMatchers(HttpMethod.GET, "/viewJsonAnswer.html").permitAll()
 
         .and()
             // 로그인 설정

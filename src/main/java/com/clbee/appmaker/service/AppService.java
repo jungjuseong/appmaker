@@ -42,7 +42,7 @@ public interface AppService {
 	List<AppSub> selectAppSubList(int appSeq);
 	int insertAppSubInfo(AppSub appSub);
 	void deleteAppSubInfo(AppSub appSub);
-	List<App> getNotPermmitList(int companySeq, Integer[] useA, String searchValue, String searchType);
+	List<App> getNoPermitList(int companySeq, Integer[] useA, String searchValue, String searchType);
 	List<App> getPermitList(int companySeq, Integer[] useA);
 	int checkIfAvailableAppByBundleId(int userSeq, String ostype, String storeBundleId);
 	List<App >getListIsAvailableByCompanySeq( int companySeq);

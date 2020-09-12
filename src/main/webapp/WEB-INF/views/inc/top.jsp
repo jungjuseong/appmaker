@@ -8,7 +8,6 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%-- <%@ taglib prefix="form"uri="http://www.springframework.org/tags/form" %> --%>
 
-<!doctype html>
 <html lang="ko">
 <head>
 <title>PageBuilder CMS</title>

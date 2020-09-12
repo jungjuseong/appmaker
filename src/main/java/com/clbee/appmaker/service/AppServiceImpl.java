@@ -249,10 +249,10 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public List<App> getNotPermmitList(int companySeq, Integer[] useA,
+	public List<App> getNoPermitList(int companySeq, Integer[] useA,
 			String searchValue, String searchType) {
 		// TODO Auto-generated method stub
-		return dao.getNotPermmitList(companySeq, useA, searchValue, searchType);
+		return dao.getNoPermitList(companySeq, useA, searchValue, searchType);
 	}
 
 	@Override

@@ -976,15 +976,12 @@ public class AppDaoImpl implements AppDao {
 	}
 	
 	@Override
-	public List<App> getNotPermmitList(int companySeq, Integer[] useA, String searchValue, String searchType) {
+	public List<App> getNoPermitList(int companySeq, Integer[] useArray, String searchValue, String searchType) {
 		Session session = getSession();
 
-		Transaction tx = null;
 		List list = null;
 		
 		try {
-			tx = session.beginTransaction();	
-	
 			Criteria cr = session.createCriteria(App.class);
 			Criteria alias = cr.createAlias("regMember", "Member");
 			
@@ -992,14 +989,13 @@ public class AppDaoImpl implements AppDao {
 				Restrictions.eq("Member.companySeq", companySeq)
 			);
 			
-			if(useA != null && useA.length > 0) {
+			if(useArray != null && useArray.length > 0) {
 				cr.add(					
 					Restrictions.not(
-						Restrictions.in("appSeq", useA)
+						Restrictions.in("appSeq", useArray)
 					)
 				);
 			}
-	
 			if(searchValue != null && searchType != null) {
 				switch(Integer.parseInt(searchType)) {
 					case 1:
@@ -1020,10 +1016,8 @@ public class AppDaoImpl implements AppDao {
 			cr.addOrder(Order.desc("regDt"));
 	
 			list = cr.list();
-			tx.commit();
 		}catch (Exception e) {
-			if(tx != null) tx.rollback();
-			e.printStackTrace();	
+			e.printStackTrace();
 		}finally {
 			session.close();
 		}

@@ -5,9 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
-@EntityScan({
-		"com.clbee.appmaker.model",
-		"com.clbee.appmaker.jpa" })
 public class AppMaker {
 
 	public static void main(String[] args) {

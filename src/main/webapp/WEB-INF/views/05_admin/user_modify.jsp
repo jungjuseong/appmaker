@@ -218,7 +218,7 @@ $(document).ready(function(){
 				alert("<spring:message code='user.modify.039' />");
 			}else{
 				$.ajax({
-					url:"/member/emailValidation.html",
+					url:"member/emailValidation.html",
 					type:"POST",
 					data:{
 						"inputEmail":inputEmail
