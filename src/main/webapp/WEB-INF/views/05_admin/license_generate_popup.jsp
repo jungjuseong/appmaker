@@ -1,4 +1,4 @@
-<%@page import="com.clbee.appmaker.model.Inapp"%>
+<%@page import="com.clbee.appmaker.model.InApp"%>
 <%@page import="java.util.List"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page import="com.clbee.appmaker.model.InAppList"%>

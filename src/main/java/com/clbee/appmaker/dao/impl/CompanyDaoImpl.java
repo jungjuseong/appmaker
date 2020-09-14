@@ -257,19 +257,14 @@ public class CompanyDaoImpl implements CompanyDao {
 	}
 
 	@Override
-	public String changePwChk(Member m, String userID, String inputPW) {
+	public String changePwChk(Member m, String userID, String userPW) {
 		
 		Session session = getSession();
-		Transaction tx = null;
 		String result = "";
 		
 		try {
-			tx = session.beginTransaction();
-			
-			String chPw = ShaPassword.changeSHA256(inputPW);
-			
-	//		m.setUser_pw_1(chPw);
-	//		m.setUser_id(userID);
+			String chPw = ShaPassword.changeSHA256(userPW);
+
 			System.out.println("COMPANY DAO [changePwChk] = " + m.getUserId());
 			System.out.println("COMPANY DAO [changePwChk] = " + m.getUserPw());
 			Criteria criteria= session.createCriteria(Member.class);
@@ -285,10 +280,8 @@ public class CompanyDaoImpl implements CompanyDao {
 				result="okMatch";			
 			}	
 			
-			tx.commit();
 		}catch (Exception e) {
-			if(tx != null) tx.rollback();
-			e.printStackTrace();	
+			e.printStackTrace();
 		}finally {
 			session.close();
 		}
@@ -300,20 +293,16 @@ public class CompanyDaoImpl implements CompanyDao {
 	public Company selectByCompanyId(String companyId) {
 		
 		Session session = getSession();
-		Transaction tx = null;
 		Company company = null;
 		
 		try {
-			tx = session.beginTransaction();
-			
+
 			Criteria cr = session.createCriteria(Company.class);
 			cr.add(Restrictions.eq("company_id", companyId));
 			company = (Company) cr.uniqueResult();
 			
-			tx.commit();
 		}catch (Exception e) {
-			if(tx != null) tx.rollback();
-			e.printStackTrace();	
+			e.printStackTrace();
 		}finally {
 			session.close();
 		}
@@ -321,27 +310,22 @@ public class CompanyDaoImpl implements CompanyDao {
 		return company;
 	}
 
-	public String selectIdByUserNameAndEmail(String lastName, String firstName,
-			String email) {
+	public String selectIdByUserNameAndEmail(String lastName, String firstName, String email) {
 		Session session = getSession();
-		Transaction tx = null;
-		String result = "";	
+		String result = "";
 		try {
-			tx = session.beginTransaction();		
-				
+
 			Criteria criteria= session.createCriteria(Member.class);
 	
 			criteria.add(Restrictions.eq("last_name", lastName));
 			criteria.add(Restrictions.eq("first_name", firstName));
 			criteria.add(Restrictions.eq("email", email));
 					
-			Member member = (Member)criteria.uniqueResult();
-			result=member.getUserId();
+			Member member = (Member) criteria.uniqueResult();
+			result = member.getUserId();
 	
-			tx.commit();
 		}catch (Exception e) {
-			if(tx != null) tx.rollback();
-			e.printStackTrace();	
+			e.printStackTrace();
 		}finally {
 			session.close();
 		}

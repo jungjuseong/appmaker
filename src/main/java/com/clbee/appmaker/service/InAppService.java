@@ -33,15 +33,14 @@ public interface InAppService {
 	
 	//20180327 - lsy : develop version managemenet
 	String selectCompletGbBySeq(int inAppSeq);
-	String getSameInAppSeq ( String inAppName, String store_bundle_id );
+	String getSameInAppSeq ( String inAppName, String storeBundleId );
 	void insertInAppHistory( String inAppSeq );
 	void deleteInAppBySeq( String inAppSeq );
 	
-	List<InApp> selectForHistory( String inapp_ninAppNameame, String store_bundle_id );
-	
+	List<InApp> selectForHistory( String inAppName, String storeBundleId );
 	int infoUpdateCheck( InApp inAppForm, int inAppSeq);
 	//20180327 - lsy : develop version managemenet - end
 	
 	//20180619 - lsy : when app request(Library), load inapp info
-	InAppList getInAppByBundleId(InAppList inAppList, String store_bundle_id);
+	InAppList getInAppByBundleId(InAppList inAppList, String storeBundleId);
 }

@@ -188,9 +188,9 @@ $(document).ready(function(){
 	});
 
 	$("#emailBtn").on("click", function(){
-		var inputEmail = $("#email").val();
+		var email = $("#email").val();
 
-		if(inputEmail.length == 0){
+		if(email.length == 0){
 			//message : 메일을 입력해 주십시오.
 			alert("<spring:message code='mypage.modify.040' />");
 		}
@@ -199,15 +199,15 @@ $(document).ready(function(){
 				//message : 메일 형식이 적당하지 않습니다.
 				alert("<spring:message code='mypage.modify.041' />");
 			}
-			else if(inputEmail === "<c:out value='${memberVO.email}'/>"){
+			else if(email === "<c:out value='${memberVO.email}'/>"){
 				//message : 지금 사용하고 있는 메일입니다.
 				alert("<spring:message code='mypage.modify.045' />");
 			}else{
 				$.ajax({
-					url:"member/emailValidation.html",
+					url:"/member/validateEmail.html",
 					type:"POST",
 					data:{
-						"inputEmail":inputEmail
+						"email":email
 					},
 					success:function(result){
 						switch(result){

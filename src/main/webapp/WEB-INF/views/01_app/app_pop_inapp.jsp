@@ -1,4 +1,4 @@
-<%@page import="com.clbee.appmaker.model.Inapp"%>
+<%@page import="com.clbee.appmaker.model.InApp"%>
 <%@page import="java.util.List"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page import="com.clbee.appmaker.model.InAppList"%>
@@ -8,12 +8,12 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-	var inappCnt = 0;
+	var inAppCnt = 0;
 	if('${availableCnt }'){
-		inappCnt = '${availableCnt}';
+		inAppCnt = '${availableCnt}';
 	}
-	//alert(inappCnt);
-	$(window.opener.document).find('[name=inappCnt]').val(inappCnt);
+	//alert(inAppCnt);
+	$(window.opener.document).find('[name=inAppCnt]').val(inAppCnt);
 		
 	$("#searchValue").keypress(function(e){
 		if(e.keyCode=='13'){
@@ -36,7 +36,7 @@ $(document).ready(function(){
 			$("#isAvailable").val("false");
 		}
 		
-		document.appFrm.action='/app/inapp/list.html';
+		document.appFrm.action='/app/inpp/list.html';
 		document.appFrm.method='GET';
 		document.appFrm.submit();
 	});
@@ -117,7 +117,7 @@ function popup_version(inapp_name, store_bundle_id){
 							<label for="all"><spring:message code='app.inapp.list.text19' /></label>
 						</div>
 						<select name="searchType">
-							<option value="inappName" <c:if test="${'inappName' eq inAppList.searchType }">selected="selected"</c:if>><spring:message code='app.inapp.list.text8' /></option>
+							<option value="inAppName" <c:if test="${'inAppName' eq inAppList.searchType }">selected="selected"</c:if>><spring:message code='app.inapp.list.text8' /></option>
 							<%-- <option value="descriptionText" <c:if test="${'descriptionText' eq inAppList.searchType }">selected="selected"</c:if>><spring:message code='app.inapp.list.text10' /></option> --%>
 						</select>
 						<input name="searchValue" type="text" style="width:250px;" value="${inAppList.searchValue }">

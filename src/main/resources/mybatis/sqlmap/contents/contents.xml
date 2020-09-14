@@ -186,7 +186,7 @@
 		;
 	</select>
 	
-	<insert id="insertContentsFromInapp" parameterType="com.clbee.appmaker.model.Content">
+	<insert id="insertContentsFromInApp" parameterType="com.clbee.appmaker.model.Content">
 		INSERT INTO 
 			tb_contents 
 				(app_name, app_type, company_seq, complet_gb, contents_name, 
@@ -206,7 +206,7 @@
 		</selectKey>
 	</insert>
 	
-	<insert id="insertContentsSubFromInapp" parameterType="com.clbee.appmaker.model.ContentsAppSub">
+	<insert id="insertContentsSubFromInApp" parameterType="com.clbee.appmaker.model.ContentsAppSub">
 		INSERT INTO 
 			tb_contentsapp_sub 
 				(contents_seq, app_seq, inapp_seq) 
@@ -236,7 +236,7 @@
 		;
 	</select>
    
-	<update id="updateContentsFromInapp" parameterType="hashmap">
+	<update id="updateContentsFromInApp" parameterType="hashmap">
 		UPDATE
 			tb_contents
 		SET

@@ -28,11 +28,12 @@ public class AppServiceImpl implements AppService {
 	public int insertAppInfo( App app ) {
 		return dao.insertAppInfo( app );
 	}
+
 	@Override
 	public void updateAppInfo(App updated, int appNum)throws Exception {
 		dao.updateAppInfo(updated, appNum);
 	}
-	
+
 	@Override
 	public App selectByStoreId( String storeBundleId ) {
 		return dao.selectByStoreId( storeBundleId );
@@ -226,26 +227,23 @@ public class AppServiceImpl implements AppService {
 
 	@Override
 	public int insertAppHistoryInfo(AppHistory app) {
-		// TODO Auto-generated method stub
 		return dao.insertAppHistoryInfo(app);
 	}
 
 	@Override
 	public List<AppSub> selectAppSubList(int appSeq) {
-		// TODO Auto-generated method stub
 		return dao.selectAppSubList(appSeq);
 	}
 
 	@Override
 	public int insertAppSubInfo(AppSub AppSub) {
-		// TODO Auto-generated method stub
 		return dao.insertAppSubInfo( AppSub );
 	}
 
 	@Override
-	public void deleteAppSubInfo(AppSub AppSub) {
+	public void deleteAppSubInfo(AppSub appSub) {
 		// TODO Auto-generated method stub
-		dao.deleteAppSubInfo(AppSub);
+		dao.deleteAppSubInfo(appSub);
 	}
 
 	@Override

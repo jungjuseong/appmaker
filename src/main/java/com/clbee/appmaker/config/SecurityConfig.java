@@ -45,15 +45,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/favicon.ico").permitAll()
                 .antMatchers( "/index.html").permitAll()
-                .antMatchers("/send_id_mail.html").permitAll()
-                .antMatchers("/userIdValidation.html").permitAll()
-                .antMatchers("/member/userStatusValid.html").permitAll()
-                .antMatchers("/emailValidation.html").permitAll()
-
+                .antMatchers("/member/sendIdMail.html").permitAll()
+                .antMatchers("/member/validateUserId.html").permitAll()
+                .antMatchers("/member/validateUser.html").permitAll()
+                .antMatchers("/member/validateEmail.html").permitAll()
+                .antMatchers( "/member/loginVerify.html").permitAll()
 
                 .antMatchers( "/findid.html").permitAll()
                 .antMatchers( "/findpw.html").permitAll()
-                .antMatchers( "/loginVerify.html").permitAll()
                 .antMatchers( "/inAppJsonSerializer.html").permitAll()
                 .antMatchers( "/printAnswer.html").permitAll()
                 .antMatchers("/viewJsonAnswer.html").permitAll()

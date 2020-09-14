@@ -131,9 +131,9 @@ $(document).ready(function(){
 	}); 
 
 	$("#emailBtn").on("click", function(){
-		var inputEmail = $("#email").val();
+		var email = $("#email").val();
 				
-		if(inputEmail.length == 0){
+		if(email.length == 0){
 			//message : 메일을 입력해 주십시오.
 			alert("<spring:message code='user.write.020' />")
 		}else{
@@ -143,10 +143,10 @@ $(document).ready(function(){
 			}
 			else{
 				$.ajax({
-					url:"member/emailValidation.html",
+					url:"/member/validateEmail.html",
 					type:"POST",
 					data:{
-						"inputEmail":inputEmail
+						"email":email
 					},
 					success:function(result){
 						switch(result){
@@ -168,9 +168,9 @@ $(document).ready(function(){
 	});
 
 	$("#userIdBtn").on("click", function(){
-		var inputUserId = $("#userId").val();
+		var userId = $("#userId").val();
 
-		if(inputUserId.length == 0){
+		if(userId.length == 0){
 			//message : 아이디를 입력해 주십시오.
 			alert("<spring:message code='user.write.025' />")
 		}else{
@@ -179,10 +179,10 @@ $(document).ready(function(){
 				alert("<spring:message code='user.write.026' />")
 			}else{
 				$.ajax({
-					url:"member/userIdValidation.html",
+					url:"/member/validateUserId.html",
 					type:"POST",
 					data:{
-						"inputUserId":inputUserId
+						"userId":userId
 					},
 					success:function(result){
 						switch(result){

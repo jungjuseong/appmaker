@@ -23,7 +23,7 @@ public class InAppHistory implements Serializable {
 	@Id
 	@Column(name="inapp_seq")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer inappSeq;
+	private Integer inAppSeq;
 
 	@Column(name = "store_bundle_id")
 	private String storeBundleId;
@@ -70,19 +70,19 @@ public class InAppHistory implements Serializable {
 	private String iconSaveFile;
 
 	@Column(name="inapp_name")
-	private String inappName;
+	private String inAppName;
 
 	@Column(name="inapp_org_file")
-	private String inappOrgFile;
+	private String inAppOrgFile;
 
 	@Column(name="inapp_save_file")
-	private String inappSaveFile;
+	private String inAppSaveFile;
 
 	@Column(name="inapp_size")
-	private String inappSize;
+	private String inAppSize;
 
 	@Column(name="inapp_url")
-	private String inappUrl;
+	private String inAppUrl;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="limit_dt")
@@ -172,8 +172,6 @@ public class InAppHistory implements Serializable {
 	
 	@Column(name="distribute_request_id")
 	private String distributeRequestId;
-	//20180403 : lsy - add column complet_dt, chg_contents_dt - end
-
 
 	@NotFound(action = NotFoundAction.IGNORE)
 	@ManyToOne(optional = true)
@@ -189,61 +187,61 @@ public class InAppHistory implements Serializable {
 	@OneToMany 
 	@Cascade(CascadeType.DELETE)
 	@JoinColumn(nullable=true, name="inapp_seq", referencedColumnName="inapp_seq", insertable=false, updatable=false )
-	private List<InAppSub> inappSubVO;
+	private List<InAppSub> inAppSub;
 	
 	@NotFound(action=NotFoundAction.IGNORE)
 	@ManyToOne(optional = true)
 	@Cascade(CascadeType.DELETE)
 	@JoinColumn(nullable=true, name="inapp_seq",  referencedColumnName="inapp_seq", insertable=false, updatable=false)
-	private InAppMeta inappMeta;
+	private InAppMeta inAppMeta;
 
-	public void setInappVO(InAppHistory updatedVO) {
+	public void setInApp(InAppHistory updated) {
 
-		this.storeBundleId = updatedVO.getStoreBundleId();
-		this.categoryName = updatedVO.getCategoryName();
-		this.categorySeq = updatedVO.getCategorySeq();
-		this.chgDt = updatedVO.getChgDt();
-		this.chgUserGb = updatedVO.getChgUserGb();
-		this.chgUserId = updatedVO.getChgUserId();
-		this.chgUserSeq = updatedVO.getChgUserSeq();
-		this.completGb = updatedVO.getCompletGb();
-		this.couponGb = updatedVO.getCouponGb();
-		this.couponNum = updatedVO.getCouponNum();
-		this.descriptionText = updatedVO.getDescriptionText();
-		this.distrGb = updatedVO.getDistrGb();
-		this.iconOrgFile = updatedVO.getIconOrgFile();
-		this.iconSaveFile = updatedVO.getIconSaveFile();
-		this.inappName = updatedVO.getInappName();
-		this.inappOrgFile = updatedVO.getIconOrgFile();
-		this.inappSaveFile = updatedVO.getIconSaveFile();
-		this.inappSize = updatedVO.getInappSize();
-		this.inappUrl = updatedVO.getInappUrl();
-		this.limitDt = updatedVO.getLimitDt();
-		this.limitGb = updatedVO.getLimitGb();
-		this.memDownAmt = updatedVO.getMemDownAmt();
-		this.memDownCnt = updatedVO.getMemDownCnt();
-		this.memDownEndDt = updatedVO.getMemDownEndDt();
-		this.memDownGb = updatedVO.getMemDownGb();
-		this.memDownStartDt = updatedVO.getMemDownStartDt();
-		this.nonmemDownAmt = updatedVO.getNonmemDownAmt();
-		this.nonmemDownCnt = updatedVO.getNonmemDownCnt();
-		this.nonmemDownEndDt = updatedVO.getNonmemDownEndDt();
-		this.nonmemDownGb = updatedVO.getNonmemDownGb();
-		this.nonmemDownStarDt = updatedVO.getNonmemDownStarDt();
-		this.regDt = updatedVO.getRegDt();
-		this.regUserGb = updatedVO.getRegUserGb();
-		this.regUserId = updatedVO.getRegUserId();
-		this.regUserSeq = updatedVO.getRegUserSeq();
-		this.useAvailDt = updatedVO.getUseAvailDt();
-		this.useDisableDt = updatedVO.getUseDisableDt();
-		this.useGb = updatedVO.getUseGb();
-		this.verNum = updatedVO.getVerNum();
-		this.useUserGb = updatedVO.getUseUserGb();
-		this.screenType = updatedVO.getScreenType();
+		this.storeBundleId = updated.getStoreBundleId();
+		this.categoryName = updated.getCategoryName();
+		this.categorySeq = updated.getCategorySeq();
+		this.chgDt = updated.getChgDt();
+		this.chgUserGb = updated.getChgUserGb();
+		this.chgUserId = updated.getChgUserId();
+		this.chgUserSeq = updated.getChgUserSeq();
+		this.completGb = updated.getCompletGb();
+		this.couponGb = updated.getCouponGb();
+		this.couponNum = updated.getCouponNum();
+		this.descriptionText = updated.getDescriptionText();
+		this.distrGb = updated.getDistrGb();
+		this.iconOrgFile = updated.getIconOrgFile();
+		this.iconSaveFile = updated.getIconSaveFile();
+		this.inAppName = updated.getInAppName();
+		this.inAppOrgFile = updated.getIconOrgFile();
+		this.inAppSaveFile = updated.getIconSaveFile();
+		this.inAppSize = updated.getInAppSize();
+		this.inAppUrl = updated.getInAppUrl();
+		this.limitDt = updated.getLimitDt();
+		this.limitGb = updated.getLimitGb();
+		this.memDownAmt = updated.getMemDownAmt();
+		this.memDownCnt = updated.getMemDownCnt();
+		this.memDownEndDt = updated.getMemDownEndDt();
+		this.memDownGb = updated.getMemDownGb();
+		this.memDownStartDt = updated.getMemDownStartDt();
+		this.nonmemDownAmt = updated.getNonmemDownAmt();
+		this.nonmemDownCnt = updated.getNonmemDownCnt();
+		this.nonmemDownEndDt = updated.getNonmemDownEndDt();
+		this.nonmemDownGb = updated.getNonmemDownGb();
+		this.nonmemDownStarDt = updated.getNonmemDownStarDt();
+		this.regDt = updated.getRegDt();
+		this.regUserGb = updated.getRegUserGb();
+		this.regUserId = updated.getRegUserId();
+		this.regUserSeq = updated.getRegUserSeq();
+		this.useAvailDt = updated.getUseAvailDt();
+		this.useDisableDt = updated.getUseDisableDt();
+		this.useGb = updated.getUseGb();
+		this.verNum = updated.getVerNum();
+		this.useUserGb = updated.getUseUserGb();
+		this.screenType = updated.getScreenType();
 
-		this.completDt = updatedVO.getCompletDt();
-		this.chgContentsDt = updatedVO.getChgContentsDt();
-		this.distributeAcceptId = updatedVO.getDistributeAcceptId();
-		this.distributeRequestId = updatedVO.getDistributeRequestId();
+		this.completDt = updated.getCompletDt();
+		this.chgContentsDt = updated.getChgContentsDt();
+		this.distributeAcceptId = updated.getDistributeAcceptId();
+		this.distributeRequestId = updated.getDistributeRequestId();
 	}
 }

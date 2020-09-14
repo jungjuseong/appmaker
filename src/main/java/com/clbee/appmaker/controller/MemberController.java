@@ -25,8 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @Controller
@@ -35,10 +33,8 @@ public class MemberController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private final MemberService memberService;
+	private final CompanyService companyService;
 
-	@Autowired
-	CompanyService companyService;
-	
 	@Autowired
 	JavaMailSender mailSender;
 	
@@ -57,13 +53,14 @@ public class MemberController {
 	@Autowired
 	LicenseService licenseService;
 
-	MemberController(MemberService memberService) {
+	MemberController(MemberService memberService, CompanyService companyService) {
 
 		this.memberService = memberService;
+		this.companyService = companyService;
 	}
 
 	@GetMapping("member/join/ok.html")
-	public ModelAndView memberJoinOk(HttpServletRequest request ) {
+	public ModelAndView memberJoinOk(HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
 		Random random = new Random();
 		
@@ -135,7 +132,7 @@ public class MemberController {
 	}
 
 	@PostMapping("member/join.html")
-	public String join(Member member, Company company, HttpServletRequest request ) {
+	public String join(Member member, Company company, HttpServletRequest request) {
 		
 		member.setEmailChkSession(ShaPassword.changeSHA256(member.getUserId()));
 		member.setUserPw(ShaPassword.changeSHA256(member.getUserPw()));
@@ -146,10 +143,10 @@ public class MemberController {
 		}
 		member.setRegDt(new Date());
 		memberService.addMember(member);
-		System.out.println("sending Email@@@@@@@@@@@@@@@@@@");
+
+		logger.info("sending Email");
 		
-		String from=messageSource.getMessage("send.email.ID", null, localeResolver.resolveLocale(request));
-		//message : PageCreator ���� �����Դϴ�.
+		String from = messageSource.getMessage("send.email.ID", null, localeResolver.resolveLocale(request));
 		String subject = messageSource.getMessage("member.control.007", null, localeResolver.resolveLocale(request));
 			try {
 				MimeMessage message = mailSender.createMimeMessage();
@@ -166,25 +163,26 @@ public class MemberController {
 		return "redirect:/index.html";
 	}
 	
-	@PostMapping("/member/userIdValidation.html")
-	public @ResponseBody int userIdValidation(String userId ){
+	@PostMapping("/member/validateUserId.html")
+	public @ResponseBody int validateUserId(@RequestParam(name="userId", required = true)String userId){
 		return memberService.verifyIfExists("userId", userId);
 	}
 	
-	@PostMapping("/member/emailValidation.html")
-	public @ResponseBody int emailValidation(String inputEmail ){
-		return memberService.verifyIfExists("email", inputEmail);
+	@PostMapping("/member/validateEmail.html")
+	public @ResponseBody int validateEmail(@RequestParam(name="email", required = true) String email){
+		return memberService.verifyIfExists("email", email);
 	}
 	
-	@PostMapping("/member/userStatusValid.html")
-	public @ResponseBody int userStatusValid(String userId, String userPw ){
+	@PostMapping("/member/validateUser.html")
+	public @ResponseBody int userStatusValid(@RequestParam(name="userId", required = true)String userId,
+											 @RequestParam(name="userPw", required = true)String userPw ){
 		
 		Member member = memberService.findByUserName(userId);
 		if(member == null) {
 			return 6;
 		}
 		else if (!"".equals(userId) && !"".equals(userPw)) {
-			int loginResult = memberService.logInVerify(userId, ShaPassword.changeSHA256(userPw));
+			int loginResult = memberService.verifyLogin(userId, ShaPassword.changeSHA256(userPw));
 			if (loginResult < 0) return 6;
 			else if (loginResult == 1){
 				if ("4".equals(member.getUserStatus())) {
@@ -300,11 +298,6 @@ public class MemberController {
 		return activeUser.getMember().getEmail();
 	}
 
-//	@PostMapping("/mypage/modify.html")
-//	public String mypagePOST(String userPw ){
-//		throw new ResourceNotFoundException();
-//	}
-
 	@GetMapping("/mypage/withDrawal.html")
 	public String mypageWithDrawal(String userPw ){
 		return "06_mypage/mypage_withdrawal";
@@ -396,9 +389,8 @@ public class MemberController {
 		member.setUserPw(ranStr);
 		
 		Member memberRow = null;
-		Integer memCnt = 0;
-		
-		memCnt = memberService.selectMemberCount_(member);	
+
+		var memCnt = memberService.selectMemberCount_(member);
 		memberRow = memberService.selectMemberSuccessYn_(member);
 		
 		if(memCnt == 1){

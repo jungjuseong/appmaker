@@ -175,14 +175,14 @@ public class InAppServiceImpl implements InAppService {
 	}
 
 	@Override
-	public String getSameInAppSeq ( String inAppName, String store_bundle_id ) {
+	public String getSameInAppSeq ( String inAppName, String storeBundleId ) {
 		// TODO Auto-generated method stub
-		return inAppDao.getSameInAppSeq("getSameInappSeq", inAppName, store_bundle_id);
+		return inAppDao.getSameInAppSeq("getSameInAppSeq", inAppName, storeBundleId);
 	}
 
 	@Override
 	public void insertInAppHistory( String inAppSeq ){
-		inAppDao.insertInAppHistory("insertInappHistory", inAppSeq);
+		inAppDao.insertInAppHistory("insertInAppHistory", inAppSeq);
 	}
 
 	@Override
@@ -192,30 +192,30 @@ public class InAppServiceImpl implements InAppService {
 	
 	@Override
 	public List<InApp> selectForHistory( String inAppName, String storeBundleId ) {
-		return inAppDao.selectForHistory( "selectInappForHistory", inAppName, storeBundleId );
+		return inAppDao.selectForHistory( "selectInAppForHistory", inAppName, storeBundleId );
 	}
 	
 	@Override
 	public int infoUpdateCheck(InApp inAppForm, int inAppSeq) {
 		// TODO Auto-generated method stub
 		int infoUpdate = 0;
-		InApp inappVO = inAppDao.selectInAppBySeq( "selectInappBySeq", inAppSeq );
+		InApp inApp = inAppDao.selectInAppBySeq( "selectInAppBySeq", inAppSeq );
 		
-		if(inappVO.getCompletGb().equals("2") || inappVO.getCompletGb().equals("4")) {
-			if( inAppForm.getInAppName() != null && !"".equals(inAppForm.getInAppName()) && !(inAppForm.getInAppName().equals(inappVO.getInAppName())) ) {	infoUpdate += 1;	}
-			if( inAppForm.getVerNum() != null && !"".equals(inAppForm.getVerNum()) && !(inAppForm.getVerNum().equals(inappVO.getVerNum())) ) {	infoUpdate += 1;	}
-			if( inAppForm.getCategorySeq() != null && !"".equals(inAppForm.getCategorySeq()) && !(inAppForm.getCategorySeq().equals(inappVO.getCategorySeq())) ) {	infoUpdate += 1;	}
-			if( inAppForm.getCategoryName() != null && !"".equals(inAppForm.getCategoryName()) && !(inAppForm.getCategoryName().equals(inappVO.getCategoryName())) ) {	infoUpdate += 1;	}
-			if( inAppForm.getDescriptionText() != null && !"".equals(inAppForm.getDescriptionText()) && !(inAppForm.getDescriptionText().equals(inappVO.getDescriptionText())) ) {	infoUpdate += 1;	}
+		if(inApp.getCompletGb().equals("2") || inApp.getCompletGb().equals("4")) {
+			if( inAppForm.getInAppName() != null && !"".equals(inAppForm.getInAppName()) && !(inAppForm.getInAppName().equals(inApp.getInAppName())) ) {	infoUpdate += 1;	}
+			if( inAppForm.getVerNum() != null && !"".equals(inAppForm.getVerNum()) && !(inAppForm.getVerNum().equals(inApp.getVerNum())) ) {	infoUpdate += 1;	}
+			if( inAppForm.getCategorySeq() != null && !"".equals(inAppForm.getCategorySeq()) && !(inAppForm.getCategorySeq().equals(inApp.getCategorySeq())) ) {	infoUpdate += 1;	}
+			if( inAppForm.getCategoryName() != null && !"".equals(inAppForm.getCategoryName()) && !(inAppForm.getCategoryName().equals(inApp.getCategoryName())) ) {	infoUpdate += 1;	}
+			if( inAppForm.getDescriptionText() != null && !"".equals(inAppForm.getDescriptionText()) && !(inAppForm.getDescriptionText().equals(inApp.getDescriptionText())) ) {	infoUpdate += 1;	}
 			
-			if(inAppForm.getIconOrgFile() != null && !"".equals(inAppForm.getIconOrgFile()) && !(inAppForm.getIconOrgFile().equals(inappVO.getIconOrgFile())) ) {	infoUpdate += 1;	}
-			if(inAppForm.getIconSaveFile() != null && !"".equals(inAppForm.getIconSaveFile()) && !(inAppForm.getIconSaveFile().equals(inappVO.getIconSaveFile())) ) {	infoUpdate += 1;	}
+			if(inAppForm.getIconOrgFile() != null && !"".equals(inAppForm.getIconOrgFile()) && !(inAppForm.getIconOrgFile().equals(inApp.getIconOrgFile())) ) {	infoUpdate += 1;	}
+			if(inAppForm.getIconSaveFile() != null && !"".equals(inAppForm.getIconSaveFile()) && !(inAppForm.getIconSaveFile().equals(inApp.getIconSaveFile())) ) {	infoUpdate += 1;	}
 			
 		}
 		
-		if( inAppForm.getUseGb() != null && !"".equals(inAppForm.getUseGb()) && !(inAppForm.getUseGb().equals(inappVO.getUseGb())) ) {	infoUpdate += 1;	}
-		if( inAppForm.getUseUserGb() != null && !"".equals(inAppForm.getUseUserGb()) && !(inAppForm.getUseUserGb().equals(inappVO.getUseUserGb())) ) {	infoUpdate += 1;	}
-		if( inAppForm.getScreenType() != null && !"".equals(inAppForm.getScreenType()) && !(inAppForm.getScreenType().equals(inappVO.getScreenType())) ) {	infoUpdate += 1;	}
+		if( inAppForm.getUseGb() != null && !"".equals(inAppForm.getUseGb()) && !(inAppForm.getUseGb().equals(inApp.getUseGb())) ) {	infoUpdate += 1;	}
+		if( inAppForm.getUseUserGb() != null && !"".equals(inAppForm.getUseUserGb()) && !(inAppForm.getUseUserGb().equals(inApp.getUseUserGb())) ) {	infoUpdate += 1;	}
+		if( inAppForm.getScreenType() != null && !"".equals(inAppForm.getScreenType()) && !(inAppForm.getScreenType().equals(inApp.getScreenType())) ) {	infoUpdate += 1;	}
 		
 		return infoUpdate;
 	}

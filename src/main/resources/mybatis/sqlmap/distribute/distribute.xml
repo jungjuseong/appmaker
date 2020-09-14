@@ -43,7 +43,7 @@
 		;
 	</select>
 
-	<select id="selectInappList" parameterType="hashmap" resultType="com.clbee.appmaker.model.InApp">
+	<select id="selectInAppList" parameterType="hashmap" resultType="com.clbee.appmaker.model.InApp">
 		SELECT 
 			inapp_seq as inappSeq, inapp_name as inappName, ver_num as verNum, category_name as categoryName, inapp_size as inappSize, reg_dt as regDt, 
 			distribute_req_dt as distributeReqDt, store_bundle_id as storeBundleId, distribute_request_id as distributeRequestId

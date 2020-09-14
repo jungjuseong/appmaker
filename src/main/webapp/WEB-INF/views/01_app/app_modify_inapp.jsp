@@ -249,7 +249,7 @@ $(document).ready(function(){
 			var winHeight = 400;
 			var winPosLeft = (screen.width - winWidth)/2;
 			var winPosTop = (screen.height - winHeight)/2;
-			var url = "/app/category/category_write.html?storeBundleId=${ivo.storeBundleId}&isInapp=Y";		
+			var url = "/app/category/category_write.html?storeBundleId=${ivo.storeBundleId}&isInApp=Y";
 			var opt = "width=" + winWidth + ", height=" + winHeight + ", top=" + winPosTop + ", left=" + winPosLeft + ", scrollbars=No, resizeable=No, status=No, toolbar=No";
 			
 			categoryPopup = window.open(url, "categoryPopup", opt);
@@ -369,7 +369,7 @@ $(document).ready(function(){
 				var inappName = $("#inappName").val();
 				var appSeq = $("[name=appSeq]").val();
 				$.ajax({
-                    url: "/app/inapp/checkIfInappName.html" ,
+                    url: "/app/inapp/checkIfInAppName.html" ,
                     type: "POST" ,
                     async: false,
                     data:{

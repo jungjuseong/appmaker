@@ -13,12 +13,14 @@ import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Repository
+@Transactional
 public class InAppDaoImpl implements InAppDao {
 	
 	private final SessionFactory sessionFactory;
@@ -913,7 +915,7 @@ public class InAppDaoImpl implements InAppDao {
 		// TODO Auto-generated method stub
 		ArrayList<Map<String, String>> list = new ArrayList<Map<String,String>>();
 		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("inapp_name", inAppName);
+		paramMap.put("inApp_name", inAppName);
 		paramMap.put("store_bundle_id", storeBundleId);
 		list.add(paramMap);
 		

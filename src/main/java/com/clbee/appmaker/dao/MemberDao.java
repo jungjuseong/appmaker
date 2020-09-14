@@ -7,17 +7,17 @@ public interface MemberDao {
 
 	Member addMember(Member member);
 	int updateMemberInfo(Member updatedVO, int userNum );
-	int selectItselfForExisting(String DBName, String itSelf );
+	int verfyIfExists(String fieldName, String itSelf);
 	List<Member> getListMember(int startNo, int companySeq, int MaxResult, String searchType, String searchValue, String isAvailable, boolean isMember);
 	int getListMemberCount(int companySeq, String searchType, String searchValue, String isAvailable, boolean isMember );
-	List<Member> logInVerify(String username, String password );
+	List<Member> verifyLogin(String username, String userpw );
 	Member findByUserName(String username);
 	Member findByCustomInfo(String DBName, String value);
 	Member findByCustomInfo(String DBName, int value);
 	Member selectMemberSuccessYn(Member Member);
-	Integer selectMemberCount(Member Member);
+	int selectMemberCount(Member Member);
 	Member selectMemberSuccessYn_(Member Member);
-	Integer selectMemberCount_(Member Member);
+	int selectMemberCount_(Member Member);
 	void updateMemberPw(Member Member);
 	int selectCountWithPermisionUserByCompanySeq(int companySeq);
 	int selectCountByCompanySeq(int companySeq);
@@ -26,7 +26,7 @@ public interface MemberDao {
 	List<Member> getPermitList (int companySeq, String[] useS);
 
 	int deleteMemberInfo(int userNum);
-	int getCompanySeqForInappContentCopy(String DBName, int userSeq);
+	int getCompanySeqForInAppContentCopy(String DBName, int userSeq);
 
 	String selectCompanyName(String DBName, int company_seq);
 }

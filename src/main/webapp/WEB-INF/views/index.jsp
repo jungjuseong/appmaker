@@ -61,7 +61,7 @@ $(document).ready(function(){
 
 function userStatusValidate(userId, userPw){
 	$.ajax({
-		url:"/member/userStatusValid.html",
+		url:"/member/validateUser.html",
 		type:"POST",
 		data:{
 			"userId":userId,

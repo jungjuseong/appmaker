@@ -1,5 +1,6 @@
 package com.clbee.appmaker.config;
 
+import com.clbee.appmaker.mybatis.DsgRefreshableSqlSessionFactoryBean;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -54,12 +55,13 @@ public class DatabaseConfig {
     }
 
     @Bean
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
-        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+    public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) throws Exception {
+        SqlSessionFactoryBean sqlSessionFactoryBean = new DsgRefreshableSqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         sqlSessionFactoryBean.setConfigLocation(applicationContext.getResource("classpath:mybatis/sqlmap-config.xml"));
         sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:mybatis/sqlmap/**/*.xml"));
-        return sqlSessionFactoryBean.getObject();
+
+        return sqlSessionFactoryBean; //.getObject();
     }
 
     @Bean

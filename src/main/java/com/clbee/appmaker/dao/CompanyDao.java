@@ -12,6 +12,6 @@ public interface CompanyDao {
 	String send_pw_mail(String myId, String myMail);
 	Company getComInfo(String companyID);
 	int updateCompanyInfo(Company company, int companySeq);
-	String changePwChk(Member m, String userID, String inputPW);
+	String changePwChk(Member m, String userId, String userPw);
 	Company selectByCompanyId(String companyId );
 }

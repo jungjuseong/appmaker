@@ -61,7 +61,7 @@ public class InAppCategory implements Serializable {
 	@Column(name="reg_user_seq")
 	private Integer regUserSeq;
 
-	public void setInappcategoryVO(InAppCategory updatedVO) {
+	public void setInAppcategoryVO(InAppCategory updatedVO) {
 		this.storeBundleId = updatedVO.getStoreBundleId();
 		this.categoryName = updatedVO.getCategoryName();
 		this.depth = updatedVO.getDepth();

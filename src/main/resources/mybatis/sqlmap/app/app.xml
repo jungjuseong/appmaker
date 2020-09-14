@@ -185,7 +185,7 @@
 		;
 	</select>
 	
-	<select id="getSameInappSeq" parameterType="java.util.List" resultType="java.lang.String">
+	<select id="getSameInAppSeq" parameterType="java.util.List" resultType="java.lang.String">
 		SELECT 
 			inapp_seq
 		FROM
@@ -201,7 +201,7 @@
 		;
 	</select>
 	
-	<select id="insertInappHistory" >
+	<select id="insertInAppHistory" >
 		INSERT INTO tb_inapphistory(store_bundle_id,inapp_name,ver_num,category_seq,category_name,description_text,inapp_org_file,inapp_save_file,inapp_url,icon_org_file,icon_save_file,use_gb,use_avail_dt,use_disable_dt,complet_gb,distr_gb,limit_gb,limit_dt,mem_down_gb,mem_down_cnt,mem_down_amt,mem_down_start_dt,mem_down_end_dt,coupon_gb,coupon_num,nonmem_down_gb,nonmem_down_cnt,nonmem_down_amt,nonmem_down_star_dt,nonmem_down_end_dt,reg_user_seq,reg_user_id,reg_user_gb,reg_dt,chg_user_seq,chg_user_id,chg_user_gb,chg_dt,inapp_size,use_user_gb,screen_type, distribute_req_dt, chg_contents_dt, distribute_complet_dt)
 			SELECT 
 				store_bundle_id,inapp_name,ver_num,category_seq,category_name,description_text,inapp_org_file,inapp_save_file,inapp_url,icon_org_file,icon_save_file,use_gb,use_avail_dt,use_disable_dt,complet_gb,distr_gb,limit_gb,limit_dt,mem_down_gb,mem_down_cnt,mem_down_amt,mem_down_start_dt,mem_down_end_dt,coupon_gb,coupon_num,nonmem_down_gb,nonmem_down_cnt,nonmem_down_amt,nonmem_down_star_dt,nonmem_down_end_dt,reg_user_seq,reg_user_id,reg_user_gb,reg_dt,chg_user_seq,chg_user_id,chg_user_gb,chg_dt,inapp_size,use_user_gb,screen_type, distribute_req_dt, chg_contents_dt, distribute_complet_dt
@@ -241,7 +241,7 @@
 		;
 	</select>
 	
-	<select id="selectInappForHistory" parameterType="java.util.List" resultType="com.clbee.appmaker.model.InApp">
+	<select id="selectInAppForHistory" parameterType="java.util.List" resultType="com.clbee.appmaker.model.InApp">
 		SELECT 
 			inapp_name as inappName, ver_num as verNum, reg_user_id as regUserId, distribute_complet_dt as distributeCompletDt, inapp_size as inappSize, description_text as descriptionText, limit_gb as limitGb, use_gb as useGb, complet_gb as completGb, distribute_complet_dt as distributeCompletDt
 		FROM 
@@ -271,7 +271,7 @@
 		;
 	</select>
 	
-	<select id="selectInappBySeq" resultType="com.clbee.appmaker.model.InApp">
+	<select id="selectInAppBySeq" resultType="com.clbee.appmaker.model.InApp">
 		SELECT 
 			inapp_name as inappName, ver_num as verNum, category_seq as categorySeq, category_name as categoryName, description_text as descriptionText, inapp_org_file as inappOrgFile, inapp_save_file as inappSaveFile, icon_org_file as iconOrgFile, icon_save_file as iconSaveFile, use_gb as useGb, use_user_gb as useUserGb, screen_type as screenType, complet_gb as completGb 
 		FROM 

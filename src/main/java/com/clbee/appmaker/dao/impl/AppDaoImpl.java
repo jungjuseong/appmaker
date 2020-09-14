@@ -31,7 +31,10 @@ import com.clbee.appmaker.model.App;
 import com.clbee.appmaker.model.list.DownloadList;
 import com.clbee.appmaker.model.Member;
 
+import javax.transaction.Transactional;
+
 @Repository
+@Transactional
 public class AppDaoImpl implements AppDao {
 	@Autowired
 	private SqlSession sqlSession;
@@ -1028,12 +1031,9 @@ public class AppDaoImpl implements AppDao {
 	public List<App> getPermitList(int companySeq, Integer[] useA) {
 		Session session = getSession();
 
-		Transaction tx = null;
 		List list = null;
-		
 		try {
-			tx = session.beginTransaction();
-	
+
 			Criteria cr = session.createCriteria(App.class);
 			Criteria alias = cr.createAlias("regMember", "Member");
 	
@@ -1052,10 +1052,8 @@ public class AppDaoImpl implements AppDao {
 			cr.addOrder(Order.desc("regDt"));
 	
 			list = cr.list();
-			tx.commit();
 		}catch (Exception e) {
-			if(tx != null) tx.rollback();
-			e.printStackTrace();	
+			e.printStackTrace();
 		}finally {
 			session.close();
 		}

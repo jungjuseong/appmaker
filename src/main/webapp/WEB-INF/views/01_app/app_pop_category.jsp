@@ -287,7 +287,7 @@ function selectCategory(){
 							</div>
 						</div>
 					</div>
-					<c:if test="${not empty isInapp && 'Y' eq isInapp}">
+					<c:if test="${not empty isInApp && 'Y' eq isInApp}">
 				<div class="btn_area_bottom tCenter">
 					<a href="javascript:selectCategory();" class="btn btnL btn_red"><spring:message code='app.category.list.text17' /></a>
 				</div>

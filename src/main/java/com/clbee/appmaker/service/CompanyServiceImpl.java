@@ -53,8 +53,8 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public String changePwChk(Member m, String userID, String inputPW) {
-		return companyDao.changePwChk(m, userID, inputPW);
+	public String changePwChk(Member m, String userID, String userPw) {
+		return companyDao.changePwChk(m, userID, userPw);
 	}
 	
 	@Override

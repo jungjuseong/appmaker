@@ -55,5 +55,4 @@ public class License implements Serializable {
 	private String userId;	
 	private int remainDt;	
 	private int licenseUser;
-
 }

@@ -155,7 +155,7 @@ $(document).ready(function(){
 					var inappMetaTitle = $("#inappMetaTitle").val();
 					var storeBundleId = $("[name=appSeq]").val();
 					$.ajax({
-	                    url: "/book/inapp/checkIfInappName.html" ,
+	                    url: "/book/inapp/checkIfInAppName.html" ,
 	                    type: "POST" ,
 	                    async: false,
 	                    data:{
@@ -195,7 +195,7 @@ $(document).ready(function(){
 		var winHeight = 400;
 		var winPosLeft = (screen.width - winWidth)/2;
 		var winPosTop = (screen.height - winHeight)/2;
-		var url = "/app/category/category_write.html?storeBundleId=${vo.storeBundleId}&isInapp=Y";		
+		var url = "/app/category/category_write.html?storeBundleId=${vo.storeBundleId}&isInApp=Y";
 		var opt = "width=" + winWidth + ", height=" + winHeight + ", top=" + winPosTop + ", left=" + winPosLeft + ", scrollbars=No, resizeable=No, status=No, toolbar=No";
 		//if(!templatePopup){
 			categoryPopup = window.open(url, "categoryPopup", opt);			

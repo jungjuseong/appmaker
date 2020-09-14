@@ -154,7 +154,7 @@ public class HomeController {
 	}
 	
 	@PostMapping("/categoryIsDuplicated.html")
-	public @ResponseBody int categoryIsDuplicatedPOST( String storeBundleId, String categoryName, HttpSession session ) throws JsonParseException, IOException  {
+	public @ResponseBody int categoryIsDuplicated( String storeBundleId, String categoryName, HttpSession session ) throws JsonParseException, IOException  {
 
 		MyUserDetails activeUser = null;
 		
@@ -166,36 +166,5 @@ public class HomeController {
 		
 		int count = inAppCategoryService.categoryIsDuplicated(storeBundleId, categoryName);
 		return count;
-	}
-	@PostMapping("userStatusValid.html")
-	public @ResponseBody int userStatusValid(String userId, String userPw ){
-
-		Member member = memberService.findByUserName(userId);
-		if(member == null) {
-			return 6;
-		}
-		else if(!"".equals(userId) && !"".equals(userPw)) {
-			int loginResult = memberService.logInVerify(userId, ShaPassword.changeSHA256(userPw));
-			if(loginResult < 0) return 6;
-			else if(loginResult == 1){
-				if("4".equals(member.getUserStatus())) {
-					Member updated = new Member();
-					updated.setLoginDt(new Date());
-					updated.setUserStartDt(member.getUserStartDt());
-					updated.setUserEndDt(member.getUserEndDt());
-					memberService.updateMemberInfo(updated, member.getUserSeq());
-					return 4;
-				}
-				else {
-					return Integer.parseInt(member.getUserStatus());
-				}
-			}else if(loginResult == 2) {
-				return 7;
-			}else {
-				return Integer.parseInt(member.getUserStatus());
-			}
-		}else {
-			return 6;
-		}
 	}
 }

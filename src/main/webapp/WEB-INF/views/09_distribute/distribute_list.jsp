@@ -18,7 +18,7 @@ $(document).ready(function(){
 	if("${objectGb}" == "app"){
 		$("#totalCountApp").addClass("result");
 	}else if("${objectGb}" == "inapp"){
-		$("#totalCountInapp").addClass("result");
+		$("#totalCountInApp").addClass("result");
 	}else if("${objectGb}" == "contents"){
 		$("#totalCountContents").addClass("result");
 	}
@@ -81,7 +81,7 @@ function goToDistribute(objectSeq, type, storeBundleId){
 							<span id="totalCountApp"><spring:message code='distribute.list.006' /><spring:message code='app.inapp.list.text15' /> ${totalCountApp } <spring:message code='app.inapp.list.text16' /></span>
 						</a>&nbsp;&nbsp;&nbsp;
 						<a href="/distribute/list.html?page=1&objectGb=inapp&myListGb=${myListGb}">
-							<span id="totalCountInapp"><spring:message code='distribute.list.007' /><spring:message code='app.inapp.list.text15' /> ${totalCountInapp } <spring:message code='app.inapp.list.text16' /></span>
+							<span id="totalCountInApp"><spring:message code='distribute.list.007' /><spring:message code='app.inapp.list.text15' /> ${totalCountInapp } <spring:message code='app.inapp.list.text16' /></span>
 						</a>&nbsp;&nbsp;&nbsp;
 						<a href="/distribute/list.html?page=1&objectGb=contents&myListGb=${myListGb}">
 							<span id="totalCountContents"><spring:message code='distribute.list.008' /><spring:message code='app.inapp.list.text15' /> ${totalCountContents } <spring:message code='app.inapp.list.text16' /></span>

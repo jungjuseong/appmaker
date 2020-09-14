@@ -4,9 +4,7 @@
 <script src="/js/jquery.validate.js"></script>
 <script>
 
-	 
-$(document).ready(function() {/* 페이지 로딩이 다 된다음에 이 Function을 실행하겠다 라는 의미 */
-	
+$(document).ready(function() {
 	$("#lastName").keyup(function(){
 		if($(this).val() == "DEMO"){
 			$(".rowtable").find("tr").eq(4).find("em").html("")
@@ -43,7 +41,7 @@ $(document).ready(function() {/* 페이지 로딩이 다 된다음에 이 Functi
 			$(".second_section").hide();	
 		}
 	});
-*/	
+
 	$("#groupSelect").ready(function(){
 		groupSetting();
 	});
@@ -63,8 +61,8 @@ $(document).ready(function() {/* 페이지 로딩이 다 된다음에 이 Functi
 	}
 
 	$("#emailBtn").on("click", function(){
-		var inputEmail = $("#email").val();
-		if(inputEmail.length == 0){
+		var email = $("#email").val();
+		if(email.length == 0){
 			//message : 메일을 입력해 주십시오
 			alert("<spring:message code='member.join.022' />")
 		}
@@ -75,10 +73,10 @@ $(document).ready(function() {/* 페이지 로딩이 다 된다음에 이 Functi
 			}
 			else{
 				$.ajax({
-					url:"emailValidation.html",
+					url:"/member/validateEmail.html",
 					type:"POST",
 					data:{
-						"inputEmail":inputEmail
+						"email":email
 					},
 					success:function(result){
 						switch(result){
@@ -101,9 +99,9 @@ $(document).ready(function() {/* 페이지 로딩이 다 된다음에 이 Functi
 
 	
 	$("#userIdBtn").on("click", function(){
-		var inputUserId = $("#userId").val();
+		var userId = $("#userId").val();
 
-		if(inputUserId.length == 0){
+		if(userId.length == 0){
 			//message : 아이디를 입력해 주십시오
 			alert("<spring:message code='member.join.027' />")
 		}
@@ -113,10 +111,10 @@ $(document).ready(function() {/* 페이지 로딩이 다 된다음에 이 Functi
 				alert("<spring:message code='member.join.028' />")
 			}else{
 				$.ajax({
-					url:"userIdValidation.html",
+					url:"/member/validateUserId.html",
 					type:"POST",
 					data:{
-						"inputUserId":inputUserId
+						"userId":userId
 					},
 					success:function(result){
 						switch(result){
@@ -521,7 +519,6 @@ function cancelResist(){
 		</div>
 	</div>
 	<!-- //conteiner --->
-
 	
 	<!-- footer -->
 	<%@ include file="../inc/footer.jsp" %>

@@ -14,7 +14,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7" />
 <meta name="format-detection" content="telephone=no">
-<meta name="viewport" content="width=device-width, user-scalable=yes, target-densitydpi=device-dpi">
+<meta name="viewport" content="width=device-width, user-scalable=yes">
 <link rel="stylesheet" type="text/css" href="/css/common.css" />
 <link rel="stylesheet" type="text/css" href="/css/contents.css" />
 <link rel="stylesheet" type="text/css" href="/css/jquery-ui-1.10.3.css">

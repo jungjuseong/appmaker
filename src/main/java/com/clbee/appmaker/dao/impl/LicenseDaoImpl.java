@@ -9,10 +9,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 
 @Repository
+@Transactional
 public class LicenseDaoImpl implements LicenseDao {
 
 	@Autowired

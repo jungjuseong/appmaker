@@ -12,6 +12,6 @@ public interface CompanyService {
 	String sendEmailForId(String lastName, String firstName, String email);
 	String send_pw_mail_service(String myId, String myMail);
 	Company getCompanyInfo(String companyId);
-	String changePwChk(Member m, String userID, String inputPW);
+	String changePwChk(Member m, String userId, String userPw);
 	Company selectByCompanyId(String companyId );
 }
