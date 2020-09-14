@@ -1,4 +1,4 @@
-package com.clbee.appmaker.configuration;
+package com.clbee.appmaker.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -11,46 +11,45 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
-import static org.hibernate.cfg.AvailableSettings.*;
-import static org.hibernate.cfg.AvailableSettings.DIALECT;
-
+@EnableTransactionManagement
 @Configuration
 public class DatabaseConfig {
     @Autowired
     private ApplicationContext applicationContext;
 
     @Value("${spring.datasource.driver-class-name}")
-    private String DRIVER;
+    private String DRIVER_CLASS;
 
     @Value("${spring.datasource.username}")
-    private String USERNAME;
+    private String DB_USERNAME;
 
     @Value("${spring.datasource.password}")
-    private String PASSWORD;
+    private String DB_PASSWORD;
 
     @Value("${spring.datasource.url}")
-    private String URL;
+    private String JDBC_URL;
 
-    @Value("${hibernate.dialect}")
+    @Value("${spring.jpa.properties.hibernate.dialect}")
     private String DIALECT;
 
-    @Value("${hibernate.show_sql}")
+    @Value("${spring.jpa.properties.hibernate.show_sql}")
     private String SHOW_SQL;
 
-    @Value("${hibernate.entity_manager.packagesToScan}")
+    @Value("${spring.jpa.properties.hibernate.entity_manager.packagesToScan}")
     private String PACKAGES_TO_SCAN;
 
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(DRIVER);
-        dataSource.setUrl(URL);
-        dataSource.setUsername(USERNAME);
-        dataSource.setPassword(PASSWORD);
+        dataSource.setDriverClassName(DRIVER_CLASS);
+        dataSource.setUrl(JDBC_URL);
+        dataSource.setUsername(DB_USERNAME);
+        dataSource.setPassword(DB_PASSWORD);
         return dataSource;
     }
 
@@ -78,6 +77,7 @@ public class DatabaseConfig {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource());
         sessionFactoryBean.setPackagesToScan(PACKAGES_TO_SCAN);
+        sessionFactoryBean.setConfigLocation(applicationContext.getResource("classpath:hibernate.cfg.xml"));
         sessionFactoryBean.setHibernateProperties(hibernateProperties);
 
         return sessionFactoryBean;

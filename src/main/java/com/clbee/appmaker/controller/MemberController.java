@@ -6,6 +6,9 @@ import com.clbee.appmaker.service.*;
 import com.clbee.appmaker.util.ResourceNotFoundException;
 import com.clbee.appmaker.security.MyUserDetails;
 
+import com.clbee.appmaker.util.ShaPassword;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -28,10 +31,11 @@ import java.util.*;
 
 @Controller
 public class MemberController {
-	
-	@Autowired
-	MemberService memberService;
-	
+
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+
+	private final MemberService memberService;
+
 	@Autowired
 	CompanyService companyService;
 	
@@ -52,6 +56,11 @@ public class MemberController {
 
 	@Autowired
 	LicenseService licenseService;
+
+	MemberController(MemberService memberService) {
+
+		this.memberService = memberService;
+	}
 
 	@GetMapping("member/join/ok.html")
 	public ModelAndView memberJoinOk(HttpServletRequest request ) {
@@ -89,7 +98,7 @@ public class MemberController {
 					company.setCompanyStatus("4");
 					member.setEmailChkDt(new Date());
 					member.setEmailChkGb("Y");
-					member.setEmailChkSession(changeSHA256(String.valueOf(System.currentTimeMillis()+random.nextInt())));
+					member.setEmailChkSession(ShaPassword.changeSHA256(String.valueOf(System.currentTimeMillis()+random.nextInt())));
 					memberService.updateMemberInfo(member, member.getUserSeq());
 					companyService.updateCompanyInfo(company, companySeq);
 				}else {
@@ -97,7 +106,7 @@ public class MemberController {
 					member.setEmailChkDt(new Date());
 					member.setEmailChkGb("Y");
 					
-					member.setEmailChkSession(changeSHA256(String.valueOf(System.currentTimeMillis()+random.nextInt())));
+					member.setEmailChkSession(ShaPassword.changeSHA256(String.valueOf(System.currentTimeMillis()+random.nextInt())));
 					memberService.updateMemberInfo(member, member.getUserSeq());
 				}
 				modelAndView.setViewName("07_member/member_join_ok");
@@ -128,8 +137,8 @@ public class MemberController {
 	@PostMapping("member/join.html")
 	public String join(Member member, Company company, HttpServletRequest request ) {
 		
-		member.setEmailChkSession(changeSHA256(member.getUserId()));
-		member.setUserPw(changeSHA256(member.getUserPw()));
+		member.setEmailChkSession(ShaPassword.changeSHA256(member.getUserId()));
+		member.setUserPw(ShaPassword.changeSHA256(member.getUserPw()));
 		member.setRegIp(request.getRemoteAddr());
 		if("1".equals(member.getCompanyGb())){
 			int companySeq = companyService.insertCompanyInfoWithProcedure(company);
@@ -147,7 +156,7 @@ public class MemberController {
 				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 				messageHelper.setTo(member.getEmail());
 
-				messageHelper.setText(messageSource.getMessage("member.control.008", null, localeResolver.resolveLocale(request)) +"\n"+ "http://" + messageSource.getMessage("basic.Info.IP", null, localeResolver.resolveLocale(request))+"/member/join/ok.html?validId="+changeSHA256(member.getUserId()));
+				messageHelper.setText(messageSource.getMessage("member.control.008", null, localeResolver.resolveLocale(request)) +"\n"+ "http://" + messageSource.getMessage("basic.Info.IP", null, localeResolver.resolveLocale(request))+"/member/join/ok.html?validId="+ShaPassword.changeSHA256(member.getUserId()));
 				messageHelper.setFrom(from);
 				messageHelper.setSubject(subject); 
 				mailSender.send(message);
@@ -157,27 +166,28 @@ public class MemberController {
 		return "redirect:/index.html";
 	}
 	
-	@PostMapping("member/userIdValidation.html")
+	@PostMapping("/member/userIdValidation.html")
 	public @ResponseBody int userIdValidation(String userId ){
 		return memberService.verifyIfExists("userId", userId);
 	}
 	
-	@PostMapping("member/emailValidation.html")
+	@PostMapping("/member/emailValidation.html")
 	public @ResponseBody int emailValidation(String inputEmail ){
 		return memberService.verifyIfExists("email", inputEmail);
 	}
 	
-	@PostMapping("userStatusValid.html")
+	@PostMapping("/member/userStatusValid.html")
 	public @ResponseBody int userStatusValid(String userId, String userPw ){
 		
 		Member member = memberService.findByUserName(userId);
 		if(member == null) {
 			return 6;
-		}else if(!"".equals(userId) && !"".equals(userPw)) {
-			int loginResult = memberService.logInVerify(userId, changeSHA256(userPw));
-			if(loginResult < 0) return 6;
-			else if(loginResult == 1){
-				if("4".equals(member.getUserStatus())) {
+		}
+		else if (!"".equals(userId) && !"".equals(userPw)) {
+			int loginResult = memberService.logInVerify(userId, ShaPassword.changeSHA256(userPw));
+			if (loginResult < 0) return 6;
+			else if (loginResult == 1){
+				if ("4".equals(member.getUserStatus())) {
 					Member updated = new Member();
 					updated.setLoginDt(new Date());
 					updated.setUserStartDt(member.getUserStartDt());
@@ -188,12 +198,13 @@ public class MemberController {
 				else {
 					return Integer.parseInt(member.getUserStatus());
 				}
-			}else if(loginResult == 2) {
+			} else if(loginResult == 2) {
 				return 7;
-			}else {
+			} else {
 				return Integer.parseInt(member.getUserStatus());
 			}
-		}else {
+		}
+		else {
 			return 6;
 		}
 	}
@@ -224,7 +235,7 @@ public class MemberController {
 		MyUserDetails activeUser = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		if("modify_password".equals(modify_gb)){	
-			if(activeUser.getPassword().equals(changeSHA256(form.getUserPw()))){
+			if(activeUser.getPassword().equals(ShaPassword.changeSHA256(form.getUserPw()))){
 				Member dbPassword  = memberService.findByCustomInfo("userId", activeUser.getUsername() );
 				Company company = companyService.findByCustomInfo("companySeq", activeUser.getMember().getCompanySeq());
 				modelAndView.addObject("company", company);
@@ -237,10 +248,10 @@ public class MemberController {
 			}
 		}
 		else {
-			form.setUserPw(changeSHA256(form.getUserPw()));
+			form.setUserPw(ShaPassword.changeSHA256(form.getUserPw()));
 			
 			if ("5".equals(form.getUserStatus())) {
-				form.setEmailChkSession(changeSHA256(form.getUserId()));
+				form.setEmailChkSession(ShaPassword.changeSHA256(form.getUserId()));
 				String from = messageSource.getMessage("send.email.ID", null, localeResolver.resolveLocale(request));
 				String subject = messageSource.getMessage("member.control.007", null, localeResolver.resolveLocale(request));
 				try {
@@ -248,7 +259,7 @@ public class MemberController {
 					MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 					messageHelper.setTo(form.getEmail());
 
-					messageHelper.setText(messageSource.getMessage("member.control.008", null, localeResolver.resolveLocale(request)) + "\n"+ "http://"+messageSource.getMessage("basic.Info.IP", null, localeResolver.resolveLocale(request)) + "/member/join/ok.html?validId="+changeSHA256(form.getUserId()));
+					messageHelper.setText(messageSource.getMessage("member.control.008", null, localeResolver.resolveLocale(request)) + "\n"+ "http://"+messageSource.getMessage("basic.Info.IP", null, localeResolver.resolveLocale(request)) + "/member/join/ok.html?validId="+ShaPassword.changeSHA256(form.getUserId()));
 					messageHelper.setFrom(from);
 					messageHelper.setSubject(subject);
 					mailSender.send(message);
@@ -325,25 +336,6 @@ public class MemberController {
 			return 0;
 		}
 	}
-	
-	public String changeSHA256(String str){
-		String SHA = ""; 
-		try{
-			MessageDigest sh = MessageDigest.getInstance("SHA-256"); 
-			sh.update(str.getBytes()); 
-			byte byteData[] = sh.digest();
-			StringBuffer sb = new StringBuffer(); 
-			for(int i = 0 ; i < byteData.length ; i++){
-				sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
-			}
-			SHA = sb.toString();
-			
-		}catch(NoSuchAlgorithmException e){
-			e.printStackTrace(); 
-			SHA = null; 
-		}
-		return SHA;
-	}	
 	
 	@PostMapping("/findid.html")
 	public @ResponseBody String findId(Member member, HttpServletRequest request ) {

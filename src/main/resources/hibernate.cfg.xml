@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- 이 프로퍼티는 Hibernate로 하여금 선택된 데이터베이스에 적절한 SQL을 생성하게한다. -->
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="show_sql">true</property>
+	<!--생성 된 모든 SQL 문의 로깅을 콘솔에 사용 가능하게하십시오.
+		<property name="format_sql">true</property>
+		<property name="use_sql_comments">true</property> -->
+
+		<mapping class="com.clbee.appmaker.model.Member" />
+		<mapping class="com.clbee.appmaker.model.Company" />
+		<mapping class="com.clbee.appmaker.model.Content" />
+		<mapping class="com.clbee.appmaker.model.ContentsappSub" />
+		<mapping class="com.clbee.appmaker.model.Inapp"/>
+		<mapping class="com.clbee.appmaker.model.Template" />
+		<mapping class="com.clbee.appmaker.model.TemplateSub" />
+		<mapping class="com.clbee.appmaker.model.Appcategory"/>
+		<mapping class="com.clbee.appmaker.model.Inappcategory" />
+		<mapping class="com.clbee.appmaker.model.App"/>
+		<mapping class="com.clbee.appmaker.model.Bundle"/>
+		<mapping class="com.clbee.appmaker.model.DownloadLog" />
+		<mapping class="com.clbee.appmaker.model.Changelist" />
+		<mapping class="com.clbee.appmaker.model.Provision" />
+		<mapping class="com.clbee.appmaker.model.Capture" />
+		<mapping class="com.clbee.appmaker.model.Market" />
+		<mapping class="com.clbee.appmaker.model.AppSub" />
+		<mapping class="com.clbee.appmaker.model.Device" />
+		<mapping class="com.clbee.appmaker.model.Department" />
+		<mapping class="com.clbee.appmaker.model.Log" />
+		<mapping class="com.clbee.appmaker.model.InappSub" />
+		<mapping class="com.clbee.appmaker.model.NoticeSub" />
+		<mapping class="com.clbee.appmaker.model.NoticeappSub" />
+		<mapping class="com.clbee.appmaker.model.Notice" />
+	</session-factory>
+</hibernate-configuration>

@@ -6,13 +6,8 @@
 <script>
 	// 모달 팝업
     // Semicolon (;) to ensure closing of earlier scripting
-    // $ is assigned to jQuery
     ;(function($) {
-
-         // DOM Ready
         $(function() {
-
-            // Binding a click event
             // From jQuery v.1.7.0 use .on() instead of .bind()
             $('#my-button').bind('click', function(e) {
 
@@ -20,7 +15,6 @@
                 e.preventDefault();
                 // Triggering bPopup when click event is fired
                 $('.pop_wrap').bPopup();
-
             });
         });
     })(jQuery);
@@ -67,7 +61,7 @@ $(document).ready(function(){
 
 function userStatusValidate(userId, userPw){
 	$.ajax({
-		url:"userStatusValid.html",
+		url:"/member/userStatusValid.html",
 		type:"POST",
 		data:{
 			"userId":userId,
@@ -179,7 +173,6 @@ function submit2(){
  
 function moveToDownList(){
 	var isMobile = "";
-
 	
 	if(/Android/i.test(navigator.userAgent)){
 		isMobile = "ADD";
@@ -239,7 +232,6 @@ function moveToDownList(){
 		</div>
 	</div>
 	<!-- //modal pop up : 아이디/비밀번호 찾기 -->
-
 
 
 <!-- wrap -->

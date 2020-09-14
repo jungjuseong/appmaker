@@ -1,4 +1,4 @@
-package com.clbee.appmaker.configuration;
+package com.clbee.appmaker.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

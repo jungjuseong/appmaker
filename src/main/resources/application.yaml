@@ -2,6 +2,8 @@ server:
   address: localhost
   port: 8080
 
+spring.flyway:
+  locations: classpath:db/migration
 spring:
   datasource:
     schema-username: root
@@ -15,12 +17,16 @@ spring:
       maximum-pool-size: 5
       minimum-idle: 2
       leak-detection-threshold: 20000
-
   data:
     jpa.repositories.enabled: true
-
   jpa.properties:
     hibernate:
+      database: mysql
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      show_sql: true
+      generate-ddl: true
+      format_sql: true
+      entity_manager.packagesToScan: com.clbee.appmaker.model
       enable_lazy_load_no_trans: true
 
   mvc.view:
@@ -41,15 +47,4 @@ spring:
     properties.mail.smtp:
       auth: true
       starttls.enable: true
-
-hibernate:
-  database: mysql
-  dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-  show_sql: true
-  generate-ddl: true
-  format_sql: true
-  entity_manager.packagesToScan: com.clbee.appmaker.model
-
-spring.flyway:
-    locations: classpath:db/migration
 
