@@ -39,12 +39,19 @@ spring:
     cache: false
     view-names: thymeleaf/*
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: jungjuseong@gmail.com
-    password: jsjung!@3
-    properties.mail.smtp:
-      auth: true
-      starttls.enable: true
+spring.mail:
+  host: smtp.gmail.com
+  port: 587
+  username: jungjuseong@gmail.com
+  password: jsjung!@3 #zzxtufkqvxgjrswc
+  properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
 
+
+#  send.email.ID=clbee.manager@gmail.com
+#  send.email.PW=clbeegood5678
+#  send.email.domain=smtp.gmail.com

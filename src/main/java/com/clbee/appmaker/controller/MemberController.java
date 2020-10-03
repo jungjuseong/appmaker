@@ -7,10 +7,13 @@ import com.clbee.appmaker.util.ResourceNotFoundException;
 import com.clbee.appmaker.security.MyUserDetails;
 
 import com.clbee.appmaker.util.ShaPassword;
+import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
@@ -144,9 +147,8 @@ public class MemberController {
 		member.setRegDt(new Date());
 		memberService.addMember(member);
 
-		logger.info("sending Email");
+		logger.info("Sending Email");
 		
-		String from = messageSource.getMessage("send.email.ID", null, localeResolver.resolveLocale(request));
 		String subject = messageSource.getMessage("member.control.007", null, localeResolver.resolveLocale(request));
 			try {
 				MimeMessage message = mailSender.createMimeMessage();
@@ -154,8 +156,8 @@ public class MemberController {
 				messageHelper.setTo(member.getEmail());
 
 				messageHelper.setText(messageSource.getMessage("member.control.008", null, localeResolver.resolveLocale(request)) +"\n"+ "http://" + messageSource.getMessage("basic.Info.IP", null, localeResolver.resolveLocale(request))+"/member/join/ok.html?validId="+ShaPassword.changeSHA256(member.getUserId()));
-				messageHelper.setFrom(from);
-				messageHelper.setSubject(subject); 
+				messageHelper.setFrom("clbee.manager@gmail.com");
+				messageHelper.setSubject(subject);
 				mailSender.send(message);
 			} catch(Exception e){
 				System.out.println(e);
@@ -250,7 +252,7 @@ public class MemberController {
 			
 			if ("5".equals(form.getUserStatus())) {
 				form.setEmailChkSession(ShaPassword.changeSHA256(form.getUserId()));
-				String from = messageSource.getMessage("send.email.ID", null, localeResolver.resolveLocale(request));
+				//String from = messageSource.getMessage("send.email.ID", null, localeResolver.resolveLocale(request));
 				String subject = messageSource.getMessage("member.control.007", null, localeResolver.resolveLocale(request));
 				try {
 					MimeMessage message = mailSender.createMimeMessage();
@@ -258,7 +260,7 @@ public class MemberController {
 					messageHelper.setTo(form.getEmail());
 
 					messageHelper.setText(messageSource.getMessage("member.control.008", null, localeResolver.resolveLocale(request)) + "\n"+ "http://"+messageSource.getMessage("basic.Info.IP", null, localeResolver.resolveLocale(request)) + "/member/join/ok.html?validId="+ShaPassword.changeSHA256(form.getUserId()));
-					messageHelper.setFrom(from);
+					messageHelper.setFrom("clbee.manager@gmail.com");
 					messageHelper.setSubject(subject);
 					mailSender.send(message);
 				} catch(Exception e) {
@@ -348,7 +350,7 @@ public class MemberController {
 		memberRow = memberService.selectMemberSuccessYn(member);		
 		
 		if(memCnt == 1){			
-			String from=messageSource.getMessage("send.email.ID", null, localeResolver.resolveLocale(request));
+			//String from=messageSource.getMessage("send.email.ID", null, localeResolver.resolveLocale(request));
 			String subject=messageSource.getMessage("member.control.001", null, localeResolver.resolveLocale(request));
 
 			try {
@@ -358,7 +360,7 @@ public class MemberController {
 				//message : ���� ��û�Ͻ� ���̵��
 				//message : �Դϴ�. �����մϴ�.
 				messageHelper.setText(memberRow.getLastName()+memberRow.getFirstName()+messageSource.getMessage("member.control.002", null, localeResolver.resolveLocale(request))+memberRow.getUserId()+messageSource.getMessage("member.control.003", null, localeResolver.resolveLocale(request)) );
-				messageHelper.setFrom(from);
+				messageHelper.setFrom("clbee.manager@gmail.com");
 				messageHelper.setSubject(subject); 
 				mailSender.send(message);
 			} catch(Exception e){
@@ -394,8 +396,6 @@ public class MemberController {
 		memberRow = memberService.selectMemberSuccessYn_(member);
 		
 		if(memCnt == 1){
-			String from=messageSource.getMessage("send.email.ID", null, localeResolver.resolveLocale(request));
-			//message : ��û�Ͻ� ��й�ȣ �Դϴ�.
 			String subject=messageSource.getMessage("member.control.004", null, localeResolver.resolveLocale(request));
 			
 			try {
@@ -403,7 +403,7 @@ public class MemberController {
 				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 				messageHelper.setTo(memberRow.getEmail());
 				messageHelper.setText(memberRow.getLastName()+memberRow.getFirstName()+messageSource.getMessage("member.control.005", null, localeResolver.resolveLocale(request))+ranStr+messageSource.getMessage("member.control.006", null, localeResolver.resolveLocale(request)) );
-				messageHelper.setFrom(from);
+				messageHelper.setFrom("clbee.manager@gmail.com");
 				messageHelper.setSubject(subject); 
 				mailSender.send(message);
 				memberService.updateMemberPw(member);
