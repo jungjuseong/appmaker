@@ -28,7 +28,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Transactional
 	public int verifyIfExists(String fieldName, String itSelf){
-		return memberDao.verfyIfExists(fieldName, itSelf);
+		return memberDao.verifyIfExists(fieldName, itSelf);
 	}
 	
 	@Transactional

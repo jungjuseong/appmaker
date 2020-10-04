@@ -104,7 +104,6 @@ public class MemberDaoImpl implements MemberDao {
 			if(updated.getLoginDeviceuuid() != null && !"".equals(member.getLoginDeviceuuid()))
 				member.setLoginDeviceuuid(updated.getLoginDeviceuuid());
 
-			//20180511 : lsy - group add
 			if(member.getGroupName() != null && !"".equals(member.getGroupName()))
 				member.setGroupName(member.getGroupName());
 
@@ -119,47 +118,41 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public int verfyIfExists(String fieldName, String itSelf){
+	public int verifyIfExists(String fieldName, String value){
 
 		Session session = this.sessionFactory.getCurrentSession();
 
-		var queryString = String.format("FROM Member M WHERE M.%s=:itSelf", fieldName);
+		var queryString = String.format("FROM Member M WHERE M.%s=:value", fieldName);
 		var memberList = session.createQuery(queryString).
-				setParameter("itSelf", itSelf)
+				setParameter("value", value)
 				.list();
 
-		return (memberList.size() != 0) ? 1 : 0;
+		return (memberList.size() > 0) ? 1 : 0;
 	}
 
 	@Override
 	public List<Member> verifyLogin(String username, String userpw ) {
 
 		Session session = this.sessionFactory.getCurrentSession();
+
 		List<Member> memberList = session.createQuery("FROM Member M WHERE M.userId = :userId and M.userPw = :userPw")
-						.setParameter("userId", username)
-						.setParameter("userPw", userpw).list();
+				.setParameter("userId", username)
+				.setParameter("userPw", userpw).list();
+
 		return memberList;
 	}
 
 	@Override
-	public Member findByCustomInfo(String DBName, String value) {
+	public Member findByCustomInfo(String filed, String value) {
 		Session session = this.sessionFactory.getCurrentSession();
-		Member Member = null;
 
-		try {
-			Criteria cr = session.createCriteria(Member.class);
-			Criterion user = Restrictions.eq(DBName, value);
+		List<Member> memberList = session.createQuery("FROM Member M WHERE M." + filed + " = :" + filed)
+				.setParameter(filed, value).list();
 
-			cr.add(user);
-			Member = (Member) cr.uniqueResult();
+		if (memberList.size() == 1)
+			return memberList.get(0);
 
-		}catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			session.close();
-		}
-
-		return Member;
+		return null;
 	}
 
 	@Override
@@ -176,7 +169,7 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public Member findCompanyMemberIdByCompanySeqAndUserGb(int companySeq ){
+	public Member findCompanyMemberIdByCompanySeqAndUserGb(int companySeq){
 
 		Session session = this.sessionFactory.getCurrentSession();
 		Member Member = null;
@@ -240,7 +233,7 @@ public class MemberDaoImpl implements MemberDao {
 	public int selectMemberCount_(Member member) {
 		Session session = this.sessionFactory.getCurrentSession();
 
-		Query query = session.createQuery(
+		var query = session.createQuery(
 				"select count(*) from Member m where m.userId=:userId and m.email=:email")
 				.setParameter("userId", member.getUserId())
 				.setParameter("email",member.getEmail());
@@ -255,11 +248,11 @@ public class MemberDaoImpl implements MemberDao {
 
 		member.setUserPw(ShaPassword.changeSHA256(member.getUserPw()));
 
-		Query query1 = session.createQuery("UPDATE Member set user_pw=:userPw WHERE user_Id=:userId")
+		Query query = session.createQuery("UPDATE Member set user_pw=:userPw WHERE user_Id=:userId")
 				.setParameter("userPw", member.getUserPw())
 				.setParameter("userId", member.getUserId());
 
-		query1.executeUpdate();
+		query.executeUpdate();
 	}
 
 	@Override
@@ -311,7 +304,8 @@ public class MemberDaoImpl implements MemberDao {
 							.setParameter("companySeq", companySeq)
 							.setParameter("fullName", "%"+searchValue+"%");
 				}
-			}else if("onedepartmentName".equals(searchType)){
+			}
+			else if("onedepartmentName".equals(searchType)){
 				if(isAvailable != null && "false".equals(isAvailable)){
 					query = session.createQuery("FROM Member E "
 							+ "WHERE (E.companySeq = :companySeq AND E.onedepartmentName like :onedepartmentName ) AND (E.userStatus = :userStatus1 OR E.userStatus = :userStatus2)"
@@ -331,7 +325,8 @@ public class MemberDaoImpl implements MemberDao {
 							.setParameter("companySeq", companySeq)
 							.setParameter("onedepartmentName", "%"+searchValue+"%");
 				}
-			}else if("twodepartmentName".equals(searchType)){
+			}
+			else if("twodepartmentName".equals(searchType)){
 				if(isAvailable != null && "false".equals(isAvailable)){
 					query = session.createQuery("FROM Member E "
 							+ "WHERE (E.companySeq = :companySeq AND E.twodepartmentName like :twodepartmentName ) AND (E.userStatus = :userStatus1 OR E.userStatus = :userStatus2)"
@@ -351,7 +346,8 @@ public class MemberDaoImpl implements MemberDao {
 							.setParameter("companySeq", companySeq)
 							.setParameter("twodepartmentName", "%"+searchValue+"%");
 				}
-			}else if("userGroup".equals(searchType)) {//20180525 : lsy - searchtype group add
+			}
+			else if("userGroup".equals(searchType)) {//20180525 : lsy - searchtype group add
 				if(isAvailable != null && "false".equals(isAvailable)){
 					query = session.createQuery("FROM Member E "
 							+ "WHERE (E.companySeq = :companySeq AND E.userGroup like :userGroup ) AND (E.userStatus = :userStatus1 OR E.userStatus = :userStatus2)"
@@ -371,7 +367,8 @@ public class MemberDaoImpl implements MemberDao {
 							.setParameter("companySeq", companySeq)
 							.setParameter("userGroup", "%"+searchValue+"%");
 				}
-			}else{
+			}
+			else{
 				System.out.println("searchType Is Anonymous");
 				if(isAvailable != null && "false".equals(isAvailable)){
 					query = session.createQuery("FROM Member E "
@@ -391,7 +388,8 @@ public class MemberDaoImpl implements MemberDao {
 							.setParameter("companySeq", companySeq);
 				}
 			}
-		}else{//service인 경우
+		}
+		else {//service인 경우
 			if("userId".equals(searchType)) {
 				System.out.println("searchType Is userId");
 				if(isAvailable != null && "false".equals(isAvailable)){
@@ -411,7 +409,8 @@ public class MemberDaoImpl implements MemberDao {
 							.setParameter("userGb", "127")
 							.setParameter("userId", "%"+searchValue+"%");
 				}
-			}else if("userName".equals(searchType)) {
+			}
+			else if("userName".equals(searchType)) {
 				System.out.println("searchType Is userName");
 				if(isAvailable != null && "false".equals(isAvailable)){
 					query = session.createQuery("FROM Member E "
@@ -430,7 +429,8 @@ public class MemberDaoImpl implements MemberDao {
 							.setParameter("userGb", "127")
 							.setParameter("fullName", "%"+searchValue+"%");
 				}
-			}else if("userGroup".equals(searchType)) {//20180525 : lsy - searchtype group add
+			}
+			else if("userGroup".equals(searchType)) {//20180525 : lsy - searchtype group add
 				System.out.println("searchType Is userGroup");
 				if(isAvailable != null && "false".equals(isAvailable)){
 					query = session.createQuery("FROM Member E "
@@ -449,7 +449,8 @@ public class MemberDaoImpl implements MemberDao {
 							.setParameter("userGb", "127")
 							.setParameter("userGroup", "%"+searchValue+"%");
 				}
-			}else {
+			}
+			else {
 				System.out.println("searchType Is Anonymous");
 				if(isAvailable != null && "false".equals(isAvailable)){
 					query = session.createQuery("FROM Member E "
@@ -663,7 +664,7 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public Member findByCustomInfo(String fieldName, int value) {
+	public Member findByCustomInfo(String field, int value) {
 		Session session = this.sessionFactory.getCurrentSession();
 		Transaction tx = null;
 		Member Member = null;
@@ -672,14 +673,11 @@ public class MemberDaoImpl implements MemberDao {
 			tx = session.beginTransaction();
 
 			Criteria cr = session.createCriteria(Member.class);
-			Criterion user = Restrictions.eq(fieldName, value);
+			Criterion user = Restrictions.eq(field, value);
 
 			cr.add(user);
 			Member = (Member) cr.uniqueResult();
-				
-			/*	�� ������ username�� �ش��ϴ� �κ��� id�ϰ�쿡 ����
-				Member Member = (Member) session.load(Member.class, username); 
-			*/
+
 			tx.commit();
 		}catch (Exception e) {
 			if(tx != null) tx.rollback();
@@ -694,70 +692,23 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public int selectCountWithPermisionUserByCompanySeq(int companySeq){
 		Session session = this.sessionFactory.getCurrentSession();
-		Transaction tx = null;
-		Number Count = null;
 
-		try{
-			tx = session.beginTransaction();
+		var query = session.createQuery(
+				"select count(*) from Member m where m.companySeq=:companySeq and m.userGb in (1,5,21,29,127)")
+				.setParameter("companySeq", companySeq);
 
-			Criteria criteria = session.createCriteria(Member.class);
-
-			Count = ((Number) session.createCriteria(Member.class)
-					.add(Restrictions.eq("companySeq", companySeq))
-					.add(
-							Restrictions.and(
-									Restrictions.or(
-											Restrictions.eq("userGb", "1"),
-											Restrictions.eq("userGb", "5"),
-											Restrictions.eq("userGb", "21"),
-											Restrictions.eq("userGb", "29"),
-											Restrictions.eq("userGb", "127")
-									),
-									Restrictions.eq("userStatus", "4")
-							)
-					)
-					.setProjection(Projections.rowCount()).uniqueResult());
-
-
-			tx.commit();
-		}catch(Exception e){
-			if(tx != null) tx.rollback();
-			e.printStackTrace();
-		}finally {
-			session.close();
-		}
-
-		return  Count.intValue();
+		return (int) query.getSingleResult();
 	}
 
 	@Override
 	public int selectCountByCompanySeq(int companySeq) {
 		Session session = this.sessionFactory.getCurrentSession();
-		Transaction tx = null;
-		Number Count = null;
 
-		try {
-			tx = session.beginTransaction();
+		var query = session.createQuery(
+				"select count(*) from Member m where m.companySeq=:companySeq and m.userGb in (1,5,21,29)")
+				.setParameter("companySeq", companySeq);
 
-			Criteria criteria = session.createCriteria(Member.class);
-
-
-			Count = ((Number) session.createCriteria(Member.class)
-					.add(Restrictions.eq("companySeq", companySeq))
-					.add(Restrictions.eq("userGb", "1"))
-					.add(Restrictions.eq("userGb", "5"))
-					.add(Restrictions.eq("userGb", "21"))
-					.add(Restrictions.eq("userGb", "29"))
-					.setProjection(Projections.rowCount()).uniqueResult());
-
-			tx.commit();
-		}catch (Exception e) {
-			if(tx != null) tx.rollback();
-			e.printStackTrace();
-		}finally {
-			session.close();
-		}
-		return Count.intValue();
+		return (int) query.getSingleResult();
 	}
 
 	@Override
@@ -851,10 +802,6 @@ public class MemberDaoImpl implements MemberDao {
 				return null;
 			}
 
-
-			System.out.println("mysql Sentence = " + clause);
-			System.out.println("mysql CompanySeq = " + companySeq);
-
 			Query query = session.createQuery("FROM Member T "
 					+ " WHERE (T.userGb = '1' OR T.userGb = '5' OR T.userGb = '21' OR T.userGb = '29' OR T.userGb = '127')"
 					+ " AND T.companySeq = :companySeq "
@@ -900,12 +847,12 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public int getCompanySeqForInAppContentCopy(String DBName, int userSeq) {
-		return sqlSession.selectOne(DBName, userSeq);
+	public int getCompanySeqForInAppContentCopy(String field, int userSeq) {
+		return sqlSession.selectOne(field, userSeq);
 	}
 
 	@Override
-	public String selectCompanyName(String DBName, int company_seq) {
-		return sqlSession.selectOne(DBName, company_seq);
+	public String selectCompanyName(String field, int company_seq) {
+		return sqlSession.selectOne(field, company_seq);
 	}
 }

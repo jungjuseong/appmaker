@@ -57,7 +57,6 @@ public class MemberController {
 	LicenseService licenseService;
 
 	MemberController(MemberService memberService, CompanyService companyService) {
-
 		this.memberService = memberService;
 		this.companyService = companyService;
 	}
@@ -70,7 +69,7 @@ public class MemberController {
 		String validId = request.getParameter("validId");
 		Member member = memberService.findByCustomInfo("emailChkSession", validId);
 
-		int limitUser =  Integer.parseInt(messageSource.getMessage("limit.user.count", null, localeResolver.resolveLocale(request)));
+		final int limitUser =  5; //Integer.parseInt(messageSource.getMessage("limit.user.count", null, localeResolver.resolveLocale(request)));
 
 		if (member == null) {
 			modelAndView.addObject("msg", messageSource.getMessage("app.control.006", null, localeResolver.resolveLocale(request)));
@@ -156,7 +155,7 @@ public class MemberController {
 				messageHelper.setTo(member.getEmail());
 
 				messageHelper.setText(messageSource.getMessage("member.control.008", null, localeResolver.resolveLocale(request)) +"\n"+ "http://" + messageSource.getMessage("basic.Info.IP", null, localeResolver.resolveLocale(request))+"/member/join/ok.html?validId="+ShaPassword.changeSHA256(member.getUserId()));
-				messageHelper.setFrom("clbee.manager@gmail.com");
+				messageHelper.setFrom("noreply.clbee@gmail.com");
 				messageHelper.setSubject(subject);
 				mailSender.send(message);
 			} catch(Exception e){
@@ -260,7 +259,7 @@ public class MemberController {
 					messageHelper.setTo(form.getEmail());
 
 					messageHelper.setText(messageSource.getMessage("member.control.008", null, localeResolver.resolveLocale(request)) + "\n"+ "http://"+messageSource.getMessage("basic.Info.IP", null, localeResolver.resolveLocale(request)) + "/member/join/ok.html?validId="+ShaPassword.changeSHA256(form.getUserId()));
-					messageHelper.setFrom("clbee.manager@gmail.com");
+					messageHelper.setFrom("noreply.clbee@gmail.com");
 					messageHelper.setSubject(subject);
 					mailSender.send(message);
 				} catch(Exception e) {
@@ -360,7 +359,7 @@ public class MemberController {
 				//message : ���� ��û�Ͻ� ���̵��
 				//message : �Դϴ�. �����մϴ�.
 				messageHelper.setText(memberRow.getLastName()+memberRow.getFirstName()+messageSource.getMessage("member.control.002", null, localeResolver.resolveLocale(request))+memberRow.getUserId()+messageSource.getMessage("member.control.003", null, localeResolver.resolveLocale(request)) );
-				messageHelper.setFrom("clbee.manager@gmail.com");
+				messageHelper.setFrom("noreply.clbee@gmail.com");
 				messageHelper.setSubject(subject); 
 				mailSender.send(message);
 			} catch(Exception e){
@@ -403,7 +402,7 @@ public class MemberController {
 				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 				messageHelper.setTo(memberRow.getEmail());
 				messageHelper.setText(memberRow.getLastName()+memberRow.getFirstName()+messageSource.getMessage("member.control.005", null, localeResolver.resolveLocale(request))+ranStr+messageSource.getMessage("member.control.006", null, localeResolver.resolveLocale(request)) );
-				messageHelper.setFrom("clbee.manager@gmail.com");
+				messageHelper.setFrom("noreply.clbee@gmail.com");
 				messageHelper.setSubject(subject); 
 				mailSender.send(message);
 				memberService.updateMemberPw(member);

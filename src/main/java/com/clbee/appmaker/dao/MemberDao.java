@@ -7,7 +7,7 @@ public interface MemberDao {
 
 	Member addMember(Member member);
 	int updateMemberInfo(Member updatedVO, int userNum );
-	int verfyIfExists(String fieldName, String itSelf);
+	int verifyIfExists(String fieldName, String itSelf);
 	List<Member> getListMember(int startNo, int companySeq, int MaxResult, String searchType, String searchValue, String isAvailable, boolean isMember);
 	int getListMemberCount(int companySeq, String searchType, String searchValue, String isAvailable, boolean isMember );
 	List<Member> verifyLogin(String username, String userpw );
