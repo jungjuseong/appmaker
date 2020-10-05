@@ -78,8 +78,8 @@ public class MemberController {
 			modelAndView.setViewName("inc/dummy");
 			return modelAndView;
 		}
-		int permitUser = memberService.selectCountWithPermisionUserByCompanySeq(member.getCompanySeq());
-		if(permitUser >= limitUser ){
+		int permittedUser = memberService.selectCountWithPermittedUserByCompanySeq(member.getCompanySeq());
+		if(permittedUser >= limitUser ){
 			modelAndView.setViewName("07_member/member_join_ok");
 			modelAndView.addObject("emailChk", false);
 			return modelAndView;
@@ -93,12 +93,13 @@ public class MemberController {
 				if("1".equals(member.getCompanyGb())){ 
 					int companySeq = member.getCompanySeq();
 					Company company = companyService.findByCustomInfo("companySeq", companySeq);
-					member.setUserStatus("4");
 					company.setCompanyStatus("4");
+
+					member.setUserStatus("4");
 					member.setEmailChkDt(new Date());
 					member.setEmailChkGb("Y");
 					member.setEmailChkSession(ShaPassword.changeSHA256(String.valueOf(System.currentTimeMillis()+random.nextInt())));
-					memberService.updateMemberInfo(member, member.getUserSeq());
+					memberService.updateMemberEmailCheckInfo(member, member.getUserSeq());
 					companyService.updateCompanyInfo(company, companySeq);
 				}else {
 					member.setUserStatus("4");
@@ -106,7 +107,7 @@ public class MemberController {
 					member.setEmailChkGb("Y");
 					
 					member.setEmailChkSession(ShaPassword.changeSHA256(String.valueOf(System.currentTimeMillis()+random.nextInt())));
-					memberService.updateMemberInfo(member, member.getUserSeq());
+					memberService.updateMemberEmailCheckInfo(member, member.getUserSeq());
 				}
 				modelAndView.setViewName("07_member/member_join_ok");
 				modelAndView.addObject("emailChk", true);
@@ -187,11 +188,12 @@ public class MemberController {
 			if (loginResult < 0) return 6;
 			else if (loginResult == 1){
 				if ("4".equals(member.getUserStatus())) {
-					Member updated = new Member();
-					updated.setLoginDt(new Date());
-					updated.setUserStartDt(member.getUserStartDt());
-					updated.setUserEndDt(member.getUserEndDt());
-					memberService.updateMemberInfo(updated, member.getUserSeq());
+					//Member updated = new Member();
+					var loginDt = new Date();
+					var userStartDt = member.getUserStartDt();
+					var userEndDt = member.getUserEndDt();
+//					// memberService.updateMemberInfo(updated, member.getUserSeq());
+					memberService.updateMemberUserPeriod(loginDt, userStartDt, userEndDt, member.getUserSeq());
 					return 4;
 				}	
 				else {
@@ -318,17 +320,17 @@ public class MemberController {
 			companyResult = companyService.updateCompanyInfo(updateCom, intCompanySeq);
 		}
 		
-		Member updateMem = new Member();
-		updateMem.setUserStatus("1");	// Ż���
-		updateMem.setWithdrawalDt(new Date());
-		int memberResult = memberService.updateMemberInfo(updateMem, intUserSeq);
+//		Member updateMember = new Member();
+//		updateMember.setUserStatus("1");	// Ż���
+//		updateMember.setWithdrawalDt(new Date());
+		//int memberResult = memberService.updateMemberInfo(updateMember, intUserSeq);
+		memberService.updateMemberUserWithdrawal("1", new Date(), intUserSeq);
 
 		/* 탈퇴처리 -> 삭제되는것 아님 */
-		if(companyResult == 1 && memberResult == 1) {
+		if (companyResult == 1) {
 			return 1;
-		}else {
-			return 0;
 		}
+		return 0;
 	}
 	
 	@PostMapping("/findid.html")
@@ -375,11 +377,11 @@ public class MemberController {
 
 	@PostMapping("/findpwd.html")
 	public @ResponseBody String findPwd(Member member, HttpServletRequest request ) {
-		String ranStr   = null;
-		String userId  = request.getParameter("fm_user_id");
-		String email    = request.getParameter("fm_email2");
-		
-		ranStr =  new RandomStringBuilder()
+		String randomPw   = null;
+		String userId = request.getParameter("fm_user_id");
+		String email = request.getParameter("fm_email2");
+
+		randomPw =  new RandomStringBuilder()
 					.putLimitedChar(RandomStringBuilder.ALPHABET)
 					.putLimitedChar(RandomStringBuilder.NUMBER)
 					.putExcludedChar(RandomStringBuilder.SPECIAL)
@@ -387,25 +389,25 @@ public class MemberController {
 		
 		member.setUserId(userId);
 		member.setEmail(email);
-		member.setUserPw(ranStr);
+		member.setUserPw(randomPw);
 		
 		Member memberRow = null;
 
-		var memCnt = memberService.selectMemberCount_(member);
+		var memberCount = memberService.selectMemberCount_(member);
 		memberRow = memberService.selectMemberSuccessYn_(member);
 		
-		if(memCnt == 1){
-			String subject=messageSource.getMessage("member.control.004", null, localeResolver.resolveLocale(request));
+		if (memberCount == 1) {
+			String subject = messageSource.getMessage("member.control.004", null, localeResolver.resolveLocale(request));
 			
 			try {
 				MimeMessage message = mailSender.createMimeMessage();
 				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 				messageHelper.setTo(memberRow.getEmail());
-				messageHelper.setText(memberRow.getLastName()+memberRow.getFirstName()+messageSource.getMessage("member.control.005", null, localeResolver.resolveLocale(request))+ranStr+messageSource.getMessage("member.control.006", null, localeResolver.resolveLocale(request)) );
+				messageHelper.setText(memberRow.getLastName() + memberRow.getFirstName() + messageSource.getMessage("member.control.005", null, localeResolver.resolveLocale(request)) + randomPw+messageSource.getMessage("member.control.006", null, localeResolver.resolveLocale(request)) );
 				messageHelper.setFrom("noreply.clbee@gmail.com");
 				messageHelper.setSubject(subject); 
 				mailSender.send(message);
-				memberService.updateMemberPw(member);
+				memberService.updateMemberPw(userId, randomPw);
 			} catch(Exception e){
 				System.out.println(e);
 			}

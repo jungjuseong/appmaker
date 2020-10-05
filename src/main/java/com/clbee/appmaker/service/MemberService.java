@@ -23,7 +23,13 @@ public interface MemberService {
 	public Member findByUserName(String username);
 
 	public Member findByCustomInfo(String DBName, String value);
-	public int updateMemberInfo(Member m, int userNum);
+	public int updateMemberInfo(Member member, int userSeq);
+
+	public void updateMemberEmailCheckInfo(Member member, int userSeq);
+	public void updateMemberLoginStatus(String loginStatus, int userSeq);
+	public void updateMemberUserPeriod(Date loginDt, Date userStartDt, Date userEndDt, int userSeq);
+	public void updateMemberUserWithdrawal(String userStatus, Date withdrawalDt, int userSeq);
+
 	public Member selectMemberSuccessYn(Member member);
 	@Transactional
 	public int selectMemberCount(Member member);
@@ -34,7 +40,7 @@ public interface MemberService {
 	@Transactional
 	public int selectMemberCount_(Member member) ;
 	@Transactional
-	public void updateMemberPw(Member member);
+	public void updateMemberPw(String userId, String userPw);
 
 	@Transactional
 	public MemberList getListMember(int currentPage, int companySeq, int maxResult, String searchType, String searchValue, String isAvailable, boolean isMember ) ;
@@ -44,7 +50,7 @@ public interface MemberService {
 	@Transactional
 	public String findCompanyMemberIdByCompanySeqAndUserGb(int companySeq) ;
 	@Transactional
-	public int selectCountWithPermisionUserByCompanySeq(int companySeq);
+	public int selectCountWithPermittedUserByCompanySeq(int companySeq);
 	
 	@Transactional
 	public List<Member> getUserList(int companySeq, String[] useS, String searchValue, String searchType  );

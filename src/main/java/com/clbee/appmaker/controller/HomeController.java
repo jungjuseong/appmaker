@@ -120,19 +120,16 @@ public class HomeController {
 
 	@PostMapping("/logoutFlagOff.html")
 	public @ResponseBody int logoutFlagOffPOST( HttpSession session, String userSeq ) throws JsonParseException, IOException  {
-		int result = 0;
-		System.out.println("Helo IN logOff Flag");
-		Member memberVO = new Member();
-		memberVO.setLoginStatus("2");
-		result = memberService.updateMemberInfo(memberVO, Integer.parseInt(userSeq));
+
+		memberService.updateMemberLoginStatus("2", Integer.parseInt(userSeq));
 		
-		return result;
+		return 1;
 	}
 	
 	@PostMapping("/userLimitIsOver.html")
 	public @ResponseBody int userLimitIsOverPOST( HttpSession session, String companySeq ) throws JsonParseException, IOException  {
 		int limitUser =  Integer.parseInt(messageSource.getMessage("limit.user.count", null, Locale.getDefault()));
-		int permitUser = memberService.selectCountWithPermisionUserByCompanySeq(Integer.parseInt(companySeq));
+		int permitUser = memberService.selectCountWithPermittedUserByCompanySeq(Integer.parseInt(companySeq));
 		
 		if(permitUser >= limitUser) return 0;
 		else return 1;

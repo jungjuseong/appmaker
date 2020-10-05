@@ -126,13 +126,33 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Transactional
-	public Member findByCustomInfo(String DBName, String value){
-		return memberDao.findByCustomInfo(DBName, value);
+	public Member findByCustomInfo(String field, String value){
+		return memberDao.findByCustomInfo(field, value);
 	}
 
 	@Transactional
-	public int updateMemberInfo(Member m, int userNum){
-		return memberDao.updateMemberInfo(m, userNum);
+	public int updateMemberInfo(Member member, int userSeq){
+		return memberDao.updateMemberInfo(member, userSeq);
+	}
+
+	@Transactional
+	public void updateMemberUserWithdrawal(String userStatus, Date withdrawalDt, int userSeq){
+		memberDao.updateMemberUserWithdrawal(userStatus, withdrawalDt, userSeq);
+	}
+
+	@Transactional
+	public void updateMemberEmailCheckInfo(Member member, int userSeq){
+		memberDao.updateMemberEmailCheckInfo(member, userSeq);
+	}
+
+	@Transactional
+	public void updateMemberLoginStatus(String loginStatus, int userSeq){
+		memberDao.updateMemberLoginStatus(loginStatus, userSeq);
+	}
+
+	@Transactional
+	public void updateMemberUserPeriod(Date loginDt, Date userStartDt, Date userEndDt, int userSeq){
+		memberDao.updateMemberUserPeriod(loginDt, userStartDt, userEndDt, userSeq);
 	}
 
 	@Transactional
@@ -156,8 +176,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Transactional
-	public void updateMemberPw(Member member) {
-		memberDao.updateMemberPw(member);
+	public void updateMemberPw(String userId, String userPw) {
+		memberDao.updateMemberPw(userId, userPw);
 	}
 
 	@Transactional
@@ -195,8 +215,8 @@ public class MemberServiceImpl implements MemberService {
 		else return "";
 	}
 	@Transactional
-	public int selectCountWithPermisionUserByCompanySeq(int companySeq){
-		return memberDao.selectCountWithPermisionUserByCompanySeq(companySeq);
+	public int selectCountWithPermittedUserByCompanySeq(int companySeq){
+		return memberDao.selectCountWithPermittedUserByCompanySeq(companySeq);
 	}
 	
 	@Transactional

@@ -16,6 +16,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
 
@@ -41,12 +42,65 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public int updateMemberInfo(Member updated, int userNum) {
+	public void updateMemberEmailCheckInfo(Member updated, int userSeq) {
+		Session session = this.sessionFactory.getCurrentSession();
+
+		Query query = session.createQuery("UPDATE Member SET userStatus=:status,emailChkDt=:date, emailChkGb=:check,emailChkSession=:session WHERE userSeq=:userSeq")
+				.setParameter("status", updated.getUserStatus())
+				.setParameter("date", updated.getEmailChkDt())
+				.setParameter("check", updated.getEmailChkGb())
+				.setParameter("session", updated.getEmailChkSession())
+				.setParameter("userSeq", userSeq);
+
+		query.executeUpdate();
+	}
+
+	@Override
+	public void updateMemberLoginStatus(String loginStatus, int userSeq) {
+		Session session = this.sessionFactory.getCurrentSession();
+
+		Query query = session.createQuery("UPDATE Member SET loginStatus=:loginStatus WHERE userSeq=:userSeq")
+				.setParameter("loginStatus", loginStatus)
+				.setParameter("userSeq", userSeq);
+
+		query.executeUpdate();
+	}
+
+	@Override
+	public void updateMemberUserPeriod(Date loginDt, Date userStartDt, Date userEndDt, int userSeq) {
+		Session session = this.sessionFactory.getCurrentSession();
+
+		Query query = session.createQuery("UPDATE Member SET loginDt=:loginDt,userStartDt=:userStartDt, userEndDt=:userEndDt WHERE userSeq=:userSeq")
+				.setParameter("loginDt", loginDt)
+				.setParameter("userStartDt", userStartDt)
+				.setParameter("userEndDt", userEndDt)
+				.setParameter("userSeq", userSeq);
+
+		query.executeUpdate();
+	}
+
+	@Override
+	public void updateMemberUserWithdrawal(String userStatus, Date withdrawalDt, int userSeq) {
+		Session session = this.sessionFactory.getCurrentSession();
+
+		Query query = session.createQuery("UPDATE Member SET userStatus=:userStatus,withdrawalDt=:withdrawalDt WHERE userSeq=:userSeq")
+				.setParameter("userStatus", userStatus)
+				.setParameter("withdrawalDt", withdrawalDt)
+				.setParameter("userSeq", userSeq);
+
+		query.executeUpdate();
+	}
+
+	@Override
+	public int updateMemberInfo(Member updated, int userSeq) {
 
 		Session session = this.sessionFactory.getCurrentSession();
 
+		Query query = session.createQuery("UPDATE Member SET userPw=:userPw WHERE userSeq=:userSeq")
+				.setParameter("userSeq", userSeq);
+
 		try {
-			Member member = session.get(Member.class, userNum);
+			Member member = session.get(Member.class, userSeq);
 
 			if(updated.getChgDt() != null)
 				member.setChgDt(updated.getChgDt());
@@ -143,11 +197,11 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public Member findByCustomInfo(String filed, String value) {
+	public Member findByCustomInfo(String field, String value) {
 		Session session = this.sessionFactory.getCurrentSession();
 
-		List<Member> memberList = session.createQuery("FROM Member M WHERE M." + filed + " = :" + filed)
-				.setParameter(filed, value).list();
+		List<Member> memberList = session.createQuery("FROM Member M WHERE M." + field + " = :" + field)
+				.setParameter(field, value).list();
 
 		if (memberList.size() == 1)
 			return memberList.get(0);
@@ -172,7 +226,6 @@ public class MemberDaoImpl implements MemberDao {
 	public Member findCompanyMemberIdByCompanySeqAndUserGb(int companySeq){
 
 		Session session = this.sessionFactory.getCurrentSession();
-		Member Member = null;
 
 		List<Member> memberList = session.createQuery("FROM Member M WHERE M.companySeq = :companySeq and M.userGb = \"127\"")
 				.setParameter("companySeq", companySeq).list();
@@ -242,15 +295,13 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public void updateMemberPw(Member member) {
+	public void updateMemberPw(String userId, String userPw) {
 
 		Session session = this.sessionFactory.getCurrentSession();
 
-		member.setUserPw(ShaPassword.changeSHA256(member.getUserPw()));
-
-		Query query = session.createQuery("UPDATE Member set user_pw=:userPw WHERE user_Id=:userId")
-				.setParameter("userPw", member.getUserPw())
-				.setParameter("userId", member.getUserId());
+		Query query = session.createQuery("UPDATE Member SET userPw=:userPw WHERE userId=:userId")
+				.setParameter("userPw", ShaPassword.changeSHA256(userPw))
+				.setParameter("userId", userId);
 
 		query.executeUpdate();
 	}
@@ -690,14 +741,15 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public int selectCountWithPermisionUserByCompanySeq(int companySeq){
+	public int selectCountWithPermittedUserByCompanySeq(int companySeq){
 		Session session = this.sessionFactory.getCurrentSession();
 
 		var query = session.createQuery(
 				"select count(*) from Member m where m.companySeq=:companySeq and m.userGb in (1,5,21,29,127)")
 				.setParameter("companySeq", companySeq);
 
-		return (int) query.getSingleResult();
+		Long count = (Long) query.getSingleResult();
+		return count.intValue();
 	}
 
 	@Override
@@ -707,13 +759,12 @@ public class MemberDaoImpl implements MemberDao {
 		var query = session.createQuery(
 				"select count(*) from Member m where m.companySeq=:companySeq and m.userGb in (1,5,21,29)")
 				.setParameter("companySeq", companySeq);
-
-		return (int) query.getSingleResult();
+		Long count = (Long) query.getSingleResult();
+		return (int) count.intValue();
 	}
 
 	@Override
 	public List<Member> getUserList(int companySeq, String[] useS, String searchValue, String searchType) {
-		// TODO Auto-generated method stub
 		Session session = this.sessionFactory.getCurrentSession();
 		Transaction tx = null;
 		List list = null;

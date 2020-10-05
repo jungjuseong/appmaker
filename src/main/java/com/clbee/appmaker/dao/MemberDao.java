@@ -1,12 +1,19 @@
 package com.clbee.appmaker.dao;
 
 import com.clbee.appmaker.model.Member;
+
+import java.util.Date;
 import java.util.List;
 
 public interface MemberDao {
 
 	Member addMember(Member member);
-	int updateMemberInfo(Member updatedVO, int userNum );
+	int updateMemberInfo(Member updated, int userSeq);
+	void updateMemberEmailCheckInfo(Member member, int userSeq);
+	void updateMemberLoginStatus(String loginStatus, int userSeq);
+	void updateMemberUserPeriod(Date loginDt, Date userStartDt, Date userEndDt, int userSeq);
+	void updateMemberUserWithdrawal(String userStatus, Date withdrawalDt, int userSeq);
+
 	int verifyIfExists(String fieldName, String itSelf);
 	List<Member> getListMember(int startNo, int companySeq, int MaxResult, String searchType, String searchValue, String isAvailable, boolean isMember);
 	int getListMemberCount(int companySeq, String searchType, String searchValue, String isAvailable, boolean isMember );
@@ -18,8 +25,8 @@ public interface MemberDao {
 	int selectMemberCount(Member Member);
 	Member selectMemberSuccessYn_(Member Member);
 	int selectMemberCount_(Member Member);
-	void updateMemberPw(Member Member);
-	int selectCountWithPermisionUserByCompanySeq(int companySeq);
+	void updateMemberPw(String userId, String userPw);
+	int selectCountWithPermittedUserByCompanySeq(int companySeq);
 	int selectCountByCompanySeq(int companySeq);
 	Member findCompanyMemberIdByCompanySeqAndUserGb(int companySeq );
 	List<Member> getUserList(int companySeq, String[] useS, String searchValue, String searchType );
