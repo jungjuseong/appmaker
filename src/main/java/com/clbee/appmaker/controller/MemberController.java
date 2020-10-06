@@ -95,19 +95,19 @@ public class MemberController {
 					Company company = companyService.findByCustomInfo("companySeq", companySeq);
 					company.setCompanyStatus("4");
 
-					member.setUserStatus("4");
-					member.setEmailChkDt(new Date());
-					member.setEmailChkGb("Y");
-					member.setEmailChkSession(ShaPassword.changeSHA256(String.valueOf(System.currentTimeMillis()+random.nextInt())));
-					memberService.updateMemberEmailCheckInfo(member, member.getUserSeq());
+//					member.setUserStatus("4");
+//					member.setEmailChkDt(new Date());
+//					member.setEmailChkGb("Y");
+					var session = ShaPassword.changeSHA256(String.valueOf(System.currentTimeMillis()+random.nextInt()));
+					memberService.updateMemberEmailCheckInfo("4", new Date(), "Y", session, member.getUserSeq());
 					companyService.updateCompanyInfo(company, companySeq);
-				}else {
-					member.setUserStatus("4");
-					member.setEmailChkDt(new Date());
-					member.setEmailChkGb("Y");
-					
-					member.setEmailChkSession(ShaPassword.changeSHA256(String.valueOf(System.currentTimeMillis()+random.nextInt())));
-					memberService.updateMemberEmailCheckInfo(member, member.getUserSeq());
+				}
+				else {
+//					member.setUserStatus("4");
+//					member.setEmailChkDt(new Date());
+//					member.setEmailChkGb("Y");
+					var session = ShaPassword.changeSHA256(String.valueOf(System.currentTimeMillis()+random.nextInt()));
+					memberService.updateMemberEmailCheckInfo("4", new Date(), "Y", session, member.getUserSeq());
 				}
 				modelAndView.setViewName("07_member/member_join_ok");
 				modelAndView.addObject("emailChk", true);
@@ -185,23 +185,24 @@ public class MemberController {
 		}
 		else if (!"".equals(userId) && !"".equals(userPw)) {
 			int loginResult = memberService.verifyLogin(userId, ShaPassword.changeSHA256(userPw));
-			if (loginResult < 0) return 6;
+			if (loginResult < 0)
+				return 6;
 			else if (loginResult == 1){
 				if ("4".equals(member.getUserStatus())) {
-					//Member updated = new Member();
 					var loginDt = new Date();
 					var userStartDt = member.getUserStartDt();
 					var userEndDt = member.getUserEndDt();
-//					// memberService.updateMemberInfo(updated, member.getUserSeq());
 					memberService.updateMemberUserPeriod(loginDt, userStartDt, userEndDt, member.getUserSeq());
 					return 4;
 				}	
 				else {
 					return Integer.parseInt(member.getUserStatus());
 				}
-			} else if(loginResult == 2) {
+			}
+			else if(loginResult == 2) {
 				return 7;
-			} else {
+			}
+			else {
 				return Integer.parseInt(member.getUserStatus());
 			}
 		}
@@ -214,7 +215,7 @@ public class MemberController {
 	public ModelAndView mypagePasswordGET(String userId ){
 		ModelAndView modelAndView = new ModelAndView();
 		
-		MyUserDetails activeUser = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		MyUserDetails activeUser = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication authentication = context.getAuthentication();
 		
@@ -320,10 +321,8 @@ public class MemberController {
 			companyResult = companyService.updateCompanyInfo(updateCom, intCompanySeq);
 		}
 		
-//		Member updateMember = new Member();
 //		updateMember.setUserStatus("1");	// Ż���
 //		updateMember.setWithdrawalDt(new Date());
-		//int memberResult = memberService.updateMemberInfo(updateMember, intUserSeq);
 		memberService.updateMemberUserWithdrawal("1", new Date(), intUserSeq);
 
 		/* 탈퇴처리 -> 삭제되는것 아님 */

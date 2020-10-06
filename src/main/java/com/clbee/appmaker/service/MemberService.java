@@ -25,7 +25,7 @@ public interface MemberService {
 	public Member findByCustomInfo(String DBName, String value);
 	public int updateMemberInfo(Member member, int userSeq);
 
-	public void updateMemberEmailCheckInfo(Member member, int userSeq);
+	public void updateMemberEmailCheckInfo(String userStatus, Date emailChkDt,String emailChkSession, String checkSession, int userSeq);
 	public void updateMemberLoginStatus(String loginStatus, int userSeq);
 	public void updateMemberUserPeriod(Date loginDt, Date userStartDt, Date userEndDt, int userSeq);
 	public void updateMemberUserWithdrawal(String userStatus, Date withdrawalDt, int userSeq);

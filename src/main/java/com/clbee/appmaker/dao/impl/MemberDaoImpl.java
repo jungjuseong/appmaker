@@ -42,14 +42,14 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public void updateMemberEmailCheckInfo(Member updated, int userSeq) {
+	public void updateMemberEmailCheckInfo(String userStatus, Date emailChkDt,String emailChkGb, String emailChkSession, int userSeq) {
 		Session session = this.sessionFactory.getCurrentSession();
 
-		Query query = session.createQuery("UPDATE Member SET userStatus=:status,emailChkDt=:date, emailChkGb=:check,emailChkSession=:session WHERE userSeq=:userSeq")
-				.setParameter("status", updated.getUserStatus())
-				.setParameter("date", updated.getEmailChkDt())
-				.setParameter("check", updated.getEmailChkGb())
-				.setParameter("session", updated.getEmailChkSession())
+		Query query = session.createQuery("UPDATE Member SET userStatus=:userStatus,emailChkDt=:emailChkDt, emailChkGb=:emailChkGb,emailChkSession=:emailChkSession WHERE userSeq=:userSeq")
+				.setParameter("userStatus", userStatus)
+				.setParameter("emailChkDt", emailChkDt)
+				.setParameter("emailChkGb", emailChkGb)
+				.setParameter("emailChkSession", emailChkSession)
 				.setParameter("userSeq", userSeq);
 
 		query.executeUpdate();

@@ -141,8 +141,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Transactional
-	public void updateMemberEmailCheckInfo(Member member, int userSeq){
-		memberDao.updateMemberEmailCheckInfo(member, userSeq);
+	public void updateMemberEmailCheckInfo(String userStatus, Date emailChkDt,String emailChkGb, String emailChkSession, int userSeq) {
+		memberDao.updateMemberEmailCheckInfo(userStatus,emailChkDt,emailChkGb,emailChkSession, userSeq);
 	}
 
 	@Transactional

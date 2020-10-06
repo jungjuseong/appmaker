@@ -9,7 +9,7 @@ public interface MemberDao {
 
 	Member addMember(Member member);
 	int updateMemberInfo(Member updated, int userSeq);
-	void updateMemberEmailCheckInfo(Member member, int userSeq);
+	void updateMemberEmailCheckInfo(String userStatus, Date emailChkDt,String emailChkGb, String checkSession, int userSeq);
 	void updateMemberLoginStatus(String loginStatus, int userSeq);
 	void updateMemberUserPeriod(Date loginDt, Date userStartDt, Date userEndDt, int userSeq);
 	void updateMemberUserWithdrawal(String userStatus, Date withdrawalDt, int userSeq);
