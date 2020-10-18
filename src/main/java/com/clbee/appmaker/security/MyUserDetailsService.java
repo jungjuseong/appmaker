@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -44,10 +43,10 @@ public class MyUserDetailsService implements UserDetailsService {
 		}
 
 		if("5".equals(member.getUserStatus())){
-			return new MyUserDetails(username, member.getUserPw(),authorities, member, false, false );
+			return new MyUserDetails(username, member.getUserPw(),authorities,false);
 		}
 		else if("4".equals(member.getUserStatus())){
-			return new MyUserDetails(username, member.getUserPw(),authorities, member, true, false );
+			return new MyUserDetails(username, member.getUserPw(),authorities,true);
 		}
 
 		return null;

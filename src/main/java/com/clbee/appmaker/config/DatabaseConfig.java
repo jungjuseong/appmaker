@@ -35,13 +35,13 @@ public class DatabaseConfig {
     @Value("${spring.datasource.url}")
     private String JDBC_URL;
 
-    @Value("${spring.jpa.properties.hibernate.dialect}")
+    @Value("${spring.jpa.hibernate.dialect}")
     private String DIALECT;
 
-    @Value("${spring.jpa.properties.hibernate.show_sql}")
+    @Value("${spring.jpa.hibernate.show_sql}")
     private String SHOW_SQL;
 
-    @Value("${spring.jpa.properties.hibernate.entity_manager.packagesToScan}")
+    @Value("${spring.jpa.hibernate.entity_manager.packagesToScan}")
     private String PACKAGES_TO_SCAN;
 
     @Bean
@@ -53,6 +53,7 @@ public class DatabaseConfig {
         dataSource.setPassword(DB_PASSWORD);
         return dataSource;
     }
+
 
     @Bean
     public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) throws Exception {
@@ -69,7 +70,7 @@ public class DatabaseConfig {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 
-    @Bean
+    @Bean(name="entityManagerFactory")
     public LocalSessionFactoryBean sessionFactory() {
 
         Properties hibernateProperties = new Properties();
@@ -91,4 +92,6 @@ public class DatabaseConfig {
         transactionManager.setSessionFactory(sessionFactory().getObject());
         return transactionManager;
     }
+
+
 }

@@ -80,7 +80,7 @@ public class MemberController {
 		}
 		int permittedUser = memberService.selectCountWithPermittedUserByCompanySeq(member.getCompanySeq());
 		if(permittedUser >= limitUser ){
-			modelAndView.setViewName("07_member/member_join_ok");
+			modelAndView.setViewName("member/member_join_ok");
 			modelAndView.addObject("emailChk", false);
 			return modelAndView;
 		}
@@ -95,28 +95,22 @@ public class MemberController {
 					Company company = companyService.findByCustomInfo("companySeq", companySeq);
 					company.setCompanyStatus("4");
 
-//					member.setUserStatus("4");
-//					member.setEmailChkDt(new Date());
-//					member.setEmailChkGb("Y");
 					var session = ShaPassword.changeSHA256(String.valueOf(System.currentTimeMillis()+random.nextInt()));
 					memberService.updateMemberEmailCheckInfo("4", new Date(), "Y", session, member.getUserSeq());
 					companyService.updateCompanyInfo(company, companySeq);
 				}
 				else {
-//					member.setUserStatus("4");
-//					member.setEmailChkDt(new Date());
-//					member.setEmailChkGb("Y");
 					var session = ShaPassword.changeSHA256(String.valueOf(System.currentTimeMillis()+random.nextInt()));
 					memberService.updateMemberEmailCheckInfo("4", new Date(), "Y", session, member.getUserSeq());
 				}
-				modelAndView.setViewName("07_member/member_join_ok");
+				modelAndView.setViewName("member/member_join_ok");
 				modelAndView.addObject("emailChk", true);
 				return modelAndView;
 			case 2 : 
 				System.out.println("There are two value duplicated with email_chk_session");
 				throw new ResourceNotFoundException();
 		}
-		modelAndView.setViewName("07_member/member_join_ok");
+		modelAndView.setViewName("member/member_join_ok");
 		modelAndView.addObject("emailChk", true);
 
 		return modelAndView;
@@ -129,7 +123,7 @@ public class MemberController {
 		List<GroupUser> groupList = groupService.getSelectListGroup(0);
 
 		modelAndView.addObject("groupList", groupList);
-		modelAndView.setViewName("07_member/member_join");
+		modelAndView.setViewName("member/member_join");
 		
 		return modelAndView;
 	}
@@ -211,8 +205,8 @@ public class MemberController {
 		}
 	}
 
-	@GetMapping("mypage/password.html")
-	public ModelAndView mypagePasswordGET(String userId ){
+	@GetMapping("my_page/password.html")
+	public ModelAndView my_pagePasswordGET(String userId ){
 		ModelAndView modelAndView = new ModelAndView();
 		
 		MyUserDetails activeUser = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -226,12 +220,12 @@ public class MemberController {
 				modelAndView.addObject("menuLarge", menuList.get("menuLarge"));
 			}
 		}
-		modelAndView.setViewName("06_mypage/mypage_password");
+		modelAndView.setViewName("my_page/my_page_password");
 		return modelAndView;
 	}
 
-	@PostMapping("mypage/modify.html")
-	public ModelAndView mypageModifyPOST(HttpServletRequest request,  Member form, Company formCom, String modify_gb ){
+	@PostMapping("my_page/modify.html")
+	public ModelAndView my_pageModifyPOST(HttpServletRequest request,  Member form, Company formCom, String modify_gb ){
 		ModelAndView modelAndView = new ModelAndView();
 		
 		MyUserDetails activeUser = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -242,7 +236,7 @@ public class MemberController {
 				Company company = companyService.findByCustomInfo("companySeq", activeUser.getMember().getCompanySeq());
 				modelAndView.addObject("company", company);
 				modelAndView.addObject("member", dbPassword);
-				modelAndView.setViewName("06_mypage/mypage_modify");
+				modelAndView.setViewName("my_page/my_page_modify");
 			}
 			else {
 				modelAndView.addObject("validPassword", false);
@@ -280,7 +274,7 @@ public class MemberController {
 			modelAndView.addObject("modifySuccess", true);
 			modelAndView.addObject("company", dbComModify);
 			modelAndView.addObject("member", dbModify);
-			modelAndView.setViewName("06_mypage/mypage_modify");
+			modelAndView.setViewName("my_page/my_page_modify");
 		}
 		
 		SecurityContext context = SecurityContextHolder.getContext();
@@ -295,20 +289,20 @@ public class MemberController {
 		return modelAndView;
 	}
 	
-	@PostMapping("mypage/modifyCustom.html")
-	public @ResponseBody String mypaOST(String userPw ){
+	@PostMapping("my_page/modify_custom.html")
+	public @ResponseBody String myPageModifyCustom(String userPw ){
 		MyUserDetails activeUser = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		return activeUser.getMember().getEmail();
 	}
 
-	@GetMapping("/mypage/withDrawal.html")
-	public String mypageWithDrawal(String userPw ){
-		return "06_mypage/mypage_withdrawal";
+	@GetMapping("/my_page/withdrawal.html")
+	public String myPageWithdrawal(String userPw ){
+		return "my_page/my_page_withdrawal";
 	}
 
-	@PostMapping("/mypage/withDrawal.html")
-	public @ResponseBody int mypageWithDrawalPOST(String userSeq, String companySeq ){
+	@PostMapping("/my_page/withdrawal.html")
+	public @ResponseBody int myPageWithdrawal(String userSeq, String companySeq ){
 		
 		int intUserSeq = Integer.parseInt(userSeq);
 		int intCompanySeq = Integer.parseInt(companySeq);
@@ -320,9 +314,6 @@ public class MemberController {
 			updateCom.setWithdrawalDt(new Date());
 			companyResult = companyService.updateCompanyInfo(updateCom, intCompanySeq);
 		}
-		
-//		updateMember.setUserStatus("1");	// Ż���
-//		updateMember.setWithdrawalDt(new Date());
 		memberService.updateMemberUserWithdrawal("1", new Date(), intUserSeq);
 
 		/* 탈퇴처리 -> 삭제되는것 아님 */
@@ -332,7 +323,7 @@ public class MemberController {
 		return 0;
 	}
 	
-	@PostMapping("/findid.html")
+	@PostMapping("/find_id.html")
 	public @ResponseBody String findId(Member member, HttpServletRequest request ) {
 		
 		String firstName = request.getParameter("fm_first_name");
@@ -350,31 +341,26 @@ public class MemberController {
 		memberRow = memberService.selectMemberSuccessYn(member);		
 		
 		if(memCnt == 1){			
-			//String from=messageSource.getMessage("send.email.ID", null, localeResolver.resolveLocale(request));
 			String subject=messageSource.getMessage("member.control.001", null, localeResolver.resolveLocale(request));
-
 			try {
 				MimeMessage message = mailSender.createMimeMessage();
 				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 				messageHelper.setTo(memberRow.getEmail());
-				//message : ���� ��û�Ͻ� ���̵��
-				//message : �Դϴ�. �����մϴ�.
 				messageHelper.setText(memberRow.getLastName()+memberRow.getFirstName()+messageSource.getMessage("member.control.002", null, localeResolver.resolveLocale(request))+memberRow.getUserId()+messageSource.getMessage("member.control.003", null, localeResolver.resolveLocale(request)) );
 				messageHelper.setFrom("noreply.clbee@gmail.com");
 				messageHelper.setSubject(subject); 
 				mailSender.send(message);
-			} catch(Exception e){
+			}
+			catch(Exception e){
 				System.out.println(e);
 			}
-			
 			return "successTrue";
 		} else {
-			// ���� ������
 			return "successFalse";
 		}		
 	}
 
-	@PostMapping("/findpwd.html")
+	@PostMapping("/find_password.html")
 	public @ResponseBody String findPwd(Member member, HttpServletRequest request ) {
 		String randomPw   = null;
 		String userId = request.getParameter("fm_user_id");
@@ -417,7 +403,7 @@ public class MemberController {
 	}
 
 	@RequestMapping(value="/my/license.html", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView mypageLicenseManagement(LicenseList listLicense, LicenseSubList licenseUseDevice, HttpServletRequest request, HttpSession session ){
+	public ModelAndView my_pageLicenseManagement(LicenseList listLicense, LicenseSubList licenseUseDevice, HttpServletRequest request, HttpSession session ){
 		ModelAndView modelAndView = new ModelAndView();
 		
 		MyUserDetails activeUser = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -435,7 +421,7 @@ public class MemberController {
 		int useLicense = licenseService.checkUseLicense(activeUser.getMember().getUserSeq());
 		
 		if(useLicense == 0) {
-			modelAndView.setViewName("06_mypage/my_license_regist");
+			modelAndView.setViewName("my_page/my_license_regist");
 		}else if(useLicense == 1) {
 			listLicense = licenseService.selectMyList(listLicense, activeUser.getMember().getUserSeq());
 			modelAndView.addObject("licenseList", listLicense);
@@ -450,24 +436,24 @@ public class MemberController {
 			modelAndView.addObject("currentPage", licenseUseDevice.getCurrentPage());
 			modelAndView.addObject("licenseUseDevice", licenseUseDevice);
 			
-			modelAndView.setViewName("06_mypage/my_license_list");
+			modelAndView.setViewName("my_page/my_license_list");
 		}
 		
 		return modelAndView;
 	}
 	
 	@PostMapping("/my/deleteLicenseUseDevice.html")
-	public @ResponseBody int mypageDeleteLicenseUseDevicePost(HttpServletRequest request, HttpSession session ){
+	public @ResponseBody int my_pageDeleteLicenseUseDevicePost(HttpServletRequest request, HttpSession session ){
 		return licenseService.deleteLicenseUseDevice(Integer.parseInt(request.getParameter("licensesubSeq")));
 	}
 
 	@PostMapping("/my/licenseRegistCheck.html")
-	public @ResponseBody int mypageLicenseRegistCheck(HttpServletRequest request, HttpSession session ){
+	public @ResponseBody int my_pageLicenseRegistCheck(HttpServletRequest request, HttpSession session ){
 		return licenseService.licenseRegistCheck(request.getParameter("licenseNum"));
 	}
 
 	@PostMapping("/my/licenseRegist.html")
-	public ModelAndView mypageLicenseRegist(HttpServletRequest request, HttpSession session ){
+	public ModelAndView my_pageLicenseRegist(HttpServletRequest request, HttpSession session ){
 		ModelAndView modelAndView = new ModelAndView();
 		
 		try {
@@ -497,7 +483,7 @@ public class MemberController {
 	}
 
 	@GetMapping("/my/licenseRenew.html")
-	public ModelAndView mypageLicenseRenewGet(HttpServletRequest request, HttpSession session ){
+	public ModelAndView my_pageLicenseRenewGet(HttpServletRequest request, HttpSession session ){
 		ModelAndView modelAndView = new ModelAndView();
 		
 		try {
@@ -517,7 +503,7 @@ public class MemberController {
 			license = licenseService.selectLicenseForRenew(activeUser.getMember().getUserSeq());
 
 			modelAndView.addObject("licenseSeq", license.get(0).getLicenseSeq());
-			modelAndView.setViewName("06_mypage/my_license_regist");
+			modelAndView.setViewName("my_page/my_license_regist");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

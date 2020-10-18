@@ -19,18 +19,22 @@ spring:
       leak-detection-threshold: 20000
   data:
     jpa.repositories.enabled: true
-  jpa.properties:
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       database: mysql
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
       show_sql: true
+      ddl-auto: create
       generate-ddl: true
       format_sql: true
       entity_manager.packagesToScan: com.clbee.appmaker.model
       enable_lazy_load_no_trans: true
 
   mvc.view:
-    prefix: /WEB-INF/views/
+    prefix: /views/
     suffix: .jsp
 
   thymeleaf:

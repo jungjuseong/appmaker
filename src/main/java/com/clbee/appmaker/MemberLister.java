@@ -20,7 +20,7 @@ class MemberLister implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         //memberRepo.findAll().forEach(member -> logger.info("{}", member.getUserId()));
-        Member member = memberService.findByUserName("devicemanager");
-        logger.info("{}", member);
+        //Member member = memberService.findByUserName("devicemanager");
+        //logger.info("{}", member);
     }
 }

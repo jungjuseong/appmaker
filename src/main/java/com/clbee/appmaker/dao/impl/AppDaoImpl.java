@@ -992,13 +992,13 @@ public class AppDaoImpl implements AppDao {
 				Restrictions.eq("Member.companySeq", companySeq)
 			);
 			
-			if(useArray != null && useArray.length > 0) {
-				cr.add(					
-					Restrictions.not(
-						Restrictions.in("appSeq", useArray)
-					)
-				);
-			}
+//			if(useArray != null && useArray.length > 0) {
+//				cr.add(
+//					Restrictions.not(
+//						Restrictions.in("appSeq", useArray)
+//					)
+//				);
+//			}
 			if(searchValue != null && searchType != null) {
 				switch(Integer.parseInt(searchType)) {
 					case 1:
@@ -1041,14 +1041,14 @@ public class AppDaoImpl implements AppDao {
 				Restrictions.eq("Member.companySeq", companySeq)
 			);
 	
-			if(useA != null && useA.length > 0) {
-				cr.add(					
-					Restrictions.in("appSeq", useA)
-				);
-			}else {
-				return null;
-			}
-	
+//			if(useA != null && useA.length > 0) {
+//				cr.add(
+//					Restrictions.in("appSeq", useA)
+//				);
+//			}else {
+//				return null;
+//			}
+//
 			cr.addOrder(Order.desc("regDt"));
 	
 			list = cr.list();

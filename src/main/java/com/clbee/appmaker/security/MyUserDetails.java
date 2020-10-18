@@ -19,17 +19,13 @@ public class MyUserDetails implements UserDetails {
 	private boolean isEnabled;
 	private boolean isBook;
 
-	public MyUserDetails(String username, String password,
-						 Collection<? extends GrantedAuthority> authorities,
-						 Member member, boolean isEnabled, boolean isBook) {
+	public MyUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities, boolean isEnabled) {
 		super();
 
 		this.username = username;
 		this.password = password;
 		this.authorities = authorities;
-		this.member = member;
 		this.isEnabled = isEnabled;
-		this.isBook = isBook;
 	}
 
 	@Override

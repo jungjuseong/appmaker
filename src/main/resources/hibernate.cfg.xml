@@ -17,7 +17,7 @@
 		<mapping class="com.clbee.appmaker.model.InApp"/>
 		<mapping class="com.clbee.appmaker.model.Template" />
 		<mapping class="com.clbee.appmaker.model.TemplateSub" />
-		<mapping class="com.clbee.appmaker.model.Appcategory"/>
+		<mapping class="com.clbee.appmaker.model.AppCategory"/>
 		<mapping class="com.clbee.appmaker.model.InAppCategory" />
 		<mapping class="com.clbee.appmaker.model.App"/>
 		<mapping class="com.clbee.appmaker.model.Bundle"/>
