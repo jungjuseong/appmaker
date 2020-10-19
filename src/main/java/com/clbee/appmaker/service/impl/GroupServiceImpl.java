@@ -28,7 +28,6 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public void insertGroupUser(GroupUser groupUser) {
-		// TODO Auto-generated method stub
 		groupDao.insertGroupUser("insertGroupUser", groupUser);
 	}
 
@@ -37,7 +36,7 @@ public class GroupServiceImpl implements GroupService {
 		// TODO Auto-generated method stub
 		List<GroupUser> vo = null;
 		
-		if(groupList.getCompanySeq() == 0) {//회원인경우
+		if(groupList.getCompanySeq() == 0) { //회원인경우
 			totalCount = groupDao.totalCount("totalCountMemberGroup", groupList);
 
 			groupList.calc(pageSize, totalCount, groupList.getCurrentPage(), maxResult);
@@ -47,7 +46,7 @@ public class GroupServiceImpl implements GroupService {
 			}
 
 			 vo = groupDao.selectList("selectListMemberGroup", groupList);
-		}else {//사용자인경우
+		}else { //사용자인경우
 			totalCount = groupDao.totalCount("totalCountUserGroup", groupList);
 
 			groupList.calc(pageSize, totalCount, groupList.getCurrentPage(), maxResult);
@@ -55,7 +54,6 @@ public class GroupServiceImpl implements GroupService {
 			if(groupList.getSearchValue() == "") {
 				groupList.setSearchValue(null);
 			}
-
 			vo = groupDao.selectList("selectListUserGroup", groupList);
 		}
 		

@@ -1,7 +1,16 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ include file="../inc/top.jsp" %>
-<script src="/js/jquery.validate.js"></script>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%-- <%@ taglib prefix="form"uri="http://www.springframework.org/tags/form" %> --%>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
+<script src="${contextPath}/resources/js/jquery.validate.js"></script>
 <script>
 
 $(document).ready(function() {
@@ -136,7 +145,6 @@ $(document).ready(function() {
 	});
 	
  	$("#member_join_f").validate({
-		
 	    rules: {
 	    	firstName: {
 	    		required : true,
@@ -192,7 +200,6 @@ $(document).ready(function() {
 				maxlength : 20
 			},
 	    },
-
 	    messages: {
 	    	//messsage : 이름을 입력해 주십시오
 	    	firstName: {
@@ -327,7 +334,6 @@ $(document).ready(function() {
 	}); */
 });
 
-
 function cancelResist(){
 	//message : 지금까지 입력한 자료가 사라집니다. 취소하시겠습니까?
 	if(confirm("<spring:message code='contents.modify.041' />")){
@@ -339,11 +345,8 @@ function cancelResist(){
 </script>
 </head>
 
-
 <body>
-<!-- wrap -->
 <div id="wrap" class="sub_wrap">
-	<!-- conteiner -->
 	<div id="container">
 		<div class="contents join_area">
 			<!-- join_area -->
@@ -518,13 +521,8 @@ function cancelResist(){
 			</form>
 		</div>
 	</div>
-	<!-- //conteiner --->
-	
-	<!-- footer -->
 	<%@ include file="../inc/footer.jsp" %>
-	<!-- //footer -->
-
-</div><!-- //wrap -->
+</div>
 
 </body>
 </html>

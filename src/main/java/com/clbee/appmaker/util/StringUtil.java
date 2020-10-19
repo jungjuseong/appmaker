@@ -1062,7 +1062,6 @@ public class StringUtil {
                 break;
             }
         }
-
         return iPos;
     }
 
@@ -1102,9 +1101,7 @@ public class StringUtil {
      * @return year
      */
     public static String birthYearFromSsn(String jumin) {
-
         String year = "";
-
         if ((jumin.substring(6,7).equals("1"))||(jumin.substring(6,7).equals("2")))
         {
            year = ("19"+jumin.substring(0,2));
@@ -1126,7 +1123,6 @@ public class StringUtil {
      * @return month
      */
     public static String birthMonthFromSssn(String jumin) {
-
         String month = "";
          month=jumin.substring(2,4);
         return month;
@@ -1140,120 +1136,66 @@ public class StringUtil {
      * @return date
      */
     public static String birthDateFromSsn(String jumin) {
-
         String date = "";
          date=jumin.substring(4,6);
         return date;
     }
 
     public static String getDateFormat(String userformat,String language, Date currentdate)
-
     {
-
         SimpleDateFormat convertformat;
-
         String ReturnVal;
-
         ReturnVal = "";
 
-
-
         try
-
         {
+			if(language == "zh")
+				  convertformat = new SimpleDateFormat(userformat,Locale.CHINA);
+			else if(language == "en")
+				  convertformat =  new SimpleDateFormat(userformat,Locale.US);
+			else if(language == "ko")
+				  convertformat =  new SimpleDateFormat(userformat,Locale.KOREA);
+			else
+				  convertformat =  new SimpleDateFormat(userformat,Locale.US);
 
-        if(language == "zh")
-
-              convertformat = new SimpleDateFormat(userformat,Locale.CHINA);
-
-        else if(language == "en")
-
-              convertformat =  new SimpleDateFormat(userformat,Locale.US);
-
-        else if(language == "ko")
-
-              convertformat =  new SimpleDateFormat(userformat,Locale.KOREA);
-
-        else
-
-              convertformat =  new SimpleDateFormat(userformat,Locale.US);
-
-
-
-        ReturnVal = convertformat.format(currentdate);
-
+			ReturnVal = convertformat.format(currentdate);
         }
-
         catch(Exception ex)
-
         {
-
-              ReturnVal = currentdate.toString();
-
+        	ReturnVal = currentdate.toString();
         }
-
         finally
-
         {
-
         }
-
-
-
         return ReturnVal;
-
     }
 
-    public static String getUserDateFormat(String userformat,String language, Date currentdate)
-
+    public static String getUserDateFormat(String userformat,String language, Date current)
     {
-
         SimpleDateFormat convertformat;
-
         String ReturnVal;
-
         ReturnVal = "";
 
-
-
         try
-
         {
+			if(language == "zh")
+				  convertformat = new SimpleDateFormat(userformat,Locale.CHINA);
+			else if(language == "en")
+				  convertformat =  new SimpleDateFormat(userformat,Locale.US);
+			else if(language == "ko")
+				  convertformat =  new SimpleDateFormat(userformat,Locale.KOREA);
+			else
+				  convertformat =  new SimpleDateFormat(userformat,Locale.US);
 
-        if(language == "zh")
-
-              convertformat = new SimpleDateFormat(userformat,Locale.CHINA);
-
-        else if(language == "en")
-
-              convertformat =  new SimpleDateFormat(userformat,Locale.US);
-
-        else if(language == "ko")
-
-              convertformat =  new SimpleDateFormat(userformat,Locale.KOREA);
-
-        else
-
-              convertformat =  new SimpleDateFormat(userformat,Locale.US);
-
-
-
-        ReturnVal = convertformat.format(currentdate);
-
+			ReturnVal = convertformat.format(current);
         }
-
         catch(Exception ex)
-
         {
-
-              ReturnVal = currentdate.toString();
+			ReturnVal = current.toString();
 
         }
-
         finally
-
         {
-
         }
 
 

@@ -61,7 +61,7 @@ public class MemberController {
 		this.companyService = companyService;
 	}
 
-	@GetMapping("member/join/ok.html")
+	@GetMapping("/member/join/ok.html")
 	public ModelAndView memberJoinOk(HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
 		Random random = new Random();
@@ -80,7 +80,7 @@ public class MemberController {
 		}
 		int permittedUser = memberService.selectCountWithPermittedUserByCompanySeq(member.getCompanySeq());
 		if(permittedUser >= limitUser ){
-			modelAndView.setViewName("member/member_join_ok");
+			modelAndView.setViewName("/member/member_join_ok");
 			modelAndView.addObject("emailChk", false);
 			return modelAndView;
 		}
@@ -116,7 +116,7 @@ public class MemberController {
 		return modelAndView;
 	}
 
-	@GetMapping("member/join.html")
+	@GetMapping("/member/join.html")
 	public ModelAndView home(HttpServletRequest request ) {
 		ModelAndView modelAndView = new ModelAndView();
 		
@@ -128,7 +128,7 @@ public class MemberController {
 		return modelAndView;
 	}
 
-	@PostMapping("member/join.html")
+	@PostMapping("/member/join.html")
 	public String join(Member member, Company company, HttpServletRequest request) {
 		
 		member.setEmailChkSession(ShaPassword.changeSHA256(member.getUserId()));
